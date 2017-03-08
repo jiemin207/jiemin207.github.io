@@ -247,6 +247,128 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/03/08/vi学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/08/vi学习笔记/" itemprop="url">
+                  vi学习笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-08T11:27:13+08:00">
+                2017-03-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前段时间自学了Linux系统，vi编辑器常常在学习的过程中有用到。熟练使用<code>vi</code>命令对于我们操作Linux系统有很大的帮助，我在此把我练习过程中用到的<code>vi</code>命令给整理了一下。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/08/vi学习笔记/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/03/07/Nginx反向代理小应用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -323,32 +445,14 @@
 
       
         
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用Hexo搭建个人博客项目启动后，其url地址是<code>localhost:4000</code>，使用域名访问也就是<code>jieminblog.tk:4000</code>。但我们平时访问其他网站是一般是没有显示端口号的，当端口号是80端口时,端口号不显示。所以我想让自己的博客访问地址也不带端口号。我查询资料后发现有2种解决方式，一种是把项目的端口号改为80，还有一种就是使用<strong>Nginx</strong>代理。使用第一种方式的话80端口就不能被其他项目所使用，而使用<strong>Nginx</strong>代理方式80端口还可以被其他服务所使用，理所当然的我选择了第二种方式。</p>
-<h1 id="安装和配置Nginx"><a href="#安装和配置Nginx" class="headerlink" title="安装和配置Nginx"></a>安装和配置Nginx</h1><p>使用yum安装nginx</p>
-<p><code>yum install nginx</code></p>
-<p>启动nginx</p>
-<p><code>systemctl start nginx</code></p>
-<p>配置nginx</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="section">server</span> &#123;</div><div class="line">       <span class="attribute">listen</span>       <span class="number">80</span>;</div><div class="line">       <span class="attribute">server_name</span>  jieminblog.tk www.jieminblog.tk;</div><div class="line"></div><div class="line">       <span class="comment"># Load configuration files for the default server block.</span></div><div class="line"></div><div class="line">       <span class="attribute">location</span> / &#123;</div><div class="line">            <span class="attribute">proxy_pass</span> http://127.0.0.1:4000/;</div><div class="line">       &#125;</div><div class="line"></div><div class="line"></div><div class="line">       <span class="attribute">error_page</span> <span class="number">404</span> /<span class="number">404</span>.html;</div><div class="line">           <span class="attribute">location</span> = /40x.html &#123;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="attribute">error_page</span> <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span> /50x.html;</div><div class="line">           <span class="attribute">location</span> = /50x.html &#123;</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>保存后重启nginx</p>
-<p><code>systemctl restart nginx</code></p>
-<h1 id="配置中遇到的问题"><a href="#配置中遇到的问题" class="headerlink" title="配置中遇到的问题"></a>配置中遇到的问题</h1><p>Nginx启动或重启失败</p>
-<p><strong>原因:</strong> 80端口被占用启动失败</p>
-<p><strong>解决办法:</strong></p>
-<ol>
-<li><p>查看是什么占用了80端口</p>
-<p><code>lsof -i tcp:80</code></p>
-</li>
-<li><p>根据上述查询结果得到占用80端口的PID,强行杀死进程。</p>
-<p><code>kill -9 PID</code> </p>
-</li>
-<li><p>重复第一步，如果没有进程存在就重启nginx服务，如果还存在进程，查看进程详细信息，<code>ps PID</code>，这是会显示进程的启动目录，进入目录使用<code>stop</code>命令即可，如果不存在则命令行有提示怎么关闭进程。</p>
-</li>
-</ol>
-<h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>这个是<strong>Nginx</strong>的简单的配置，虽然简单，但切切实实的解决了一个问题–使域名后面不加端口号。关于<strong>Ngnix</strong>我只是初窥门径，目前也暂时没有项目能和 <strong>Nginx</strong>结合使用，所以能写的也只有这些。将来如果有深入了解 <strong>Nginx</strong>，再来详写！</p>
-
-          
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用Hexo搭建个人博客项目启动后，其url地址是<code>localhost:4000</code>，使用域名访问也就是<code>jieminblog.tk:4000</code>。但我们平时访问其他网站是一般是没有显示端口号的，当端口号是80端口时,端口号不显示。所以我想让自己的博客访问地址也不带端口号。我查询资料后发现有2种解决方式，一种是把项目的端口号改为80，还有一种就是使用<strong>Nginx</strong>代理。使用第一种方式的话80端口就不能被其他项目所使用，而使用<strong>Nginx</strong>代理方式80端口还可以被其他服务所使用，理所当然的我选择了第二种方式。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/07/Nginx反向代理小应用/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -463,94 +567,14 @@
 
       
         
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>自从公司配置了openvpn之后就可以在家里连到公司的内网，能访问部署在公司内网的项目。这让我对openvpn很感兴趣，于是我就开始查找相应的教程，并在寻找便宜的vps主机尝试搭建openvpn。我先后在华为云，腾讯云，搬瓦工上搭建了openvpn，不同的vps上搭建略有不同，但大体的原理是一样的。期间也遇到了不少坑，尝试搭建的过程大概花了一个多星期。在这里我想把搭建的过程以及遇到的问题纪录一下。</p>
-<h1 id="oepnvpn搭建"><a href="#oepnvpn搭建" class="headerlink" title="oepnvpn搭建"></a>oepnvpn搭建</h1><p>我使用过2种方式搭建过openvpn，一种是使用<strong>yum</strong>安装,另一种是通过<strong>docker-compose</strong>安装</p>
-<h2 id="yum方式安装"><a href="#yum方式安装" class="headerlink" title="yum方式安装"></a>yum方式安装</h2><p>OpenVpn在默认的CentOS存储库中不可用。因此，我们需要安装Linux（EPEL）存储库。使用以下命令安装EPEL存储库</p>
-<p><code>yum install epel-release</code></p>
-<h4 id="1-安装openvpn"><a href="#1-安装openvpn" class="headerlink" title="1. 安装openvpn"></a>1. 安装openvpn</h4><p><code>yum install openvpn -y</code></p>
-<h4 id="2-安装Easy-RSA"><a href="#2-安装Easy-RSA" class="headerlink" title="2. 安装Easy RSA"></a>2. 安装Easy RSA</h4><p><code>yum install easy-rsa -y</code></p>
-<h4 id="3-配置openvpn"><a href="#3-配置openvpn" class="headerlink" title="3. 配置openvpn"></a>3. 配置openvpn</h4><p><code>cp /usr/share/doc/openvpn-*/sample/sample-config-files/server.conf  /etc/openvpn</code></p>
-<p><code>vi /etc/openvpn/server.conf</code></p>
-<p>在编辑server.conf文件时要注意以下几个地方</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">dh dh2048.pem</div><div class="line">push <span class="string">"redirect-gateway def1 bypass-dhcp"</span></div><div class="line">push <span class="string">"dhcp-option DNS 8.8.8.8"</span></div><div class="line">push <span class="string">"dhcp-option DNS 8.8.4.4"</span></div><div class="line">user nobody</div><div class="line">group nobody</div><div class="line">log openvpn.log</div><div class="line">;explicit-<span class="keyword">exit</span>-notify <span class="number">1</span></div></pre></td></tr></table></figure>
-<p><code>log openvpn.log</code>这个配置可以看oepnvpn的启动和连接日志。我刚开始配置openvpn时没设置<strong>log</strong>，导致发生错误时不能准确找到错误原因，只能网上查错误的原因一个一个去尝试，效率非常低下。而有了<strong>log</strong>日志后出现问题就能比较准确定位了，比如<code>;explicit-exit-notify 1</code>，原始配置中是没有<code>;</code>的，启动openvpn时会报错,通过查看log日志能很快找到原因。个人觉得这个配置很重要，所以这里特别备注下。</p>
-<h4 id="4-生成证书和秘钥"><a href="#4-生成证书和秘钥" class="headerlink" title="4. 生成证书和秘钥"></a>4. 生成证书和秘钥</h4><p><code>mkdir -p /etc/openvpn/easy-rsa/keys</code></p>
-<p><code>cp -rf /usr/share/easy-rsa/2.0/* /etc/openvpn/easy-rsa</code></p>
-<p><code>vi /etc/openvpn/easy-rsa/vars</code></p>
-<p><code>vars</code>中需要修改以下内容,</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> KEY_COUNTRY=<span class="string">"CH"</span></div><div class="line"><span class="keyword">export</span> KEY_PROVINCE=<span class="string">"ZJ"</span></div><div class="line"><span class="keyword">export</span> KEY_CITY=<span class="string">"HZ"</span></div><div class="line"><span class="keyword">export</span> KEY_ORG=<span class="string">"DC"</span></div><div class="line"><span class="keyword">export</span> KEY_EMAIL=<span class="string">"example@gmail.com"</span></div><div class="line"><span class="keyword">export</span> KEY_OU=<span class="string">"Community"</span></div><div class="line"><span class="keyword">export</span> KEY_NAME=<span class="string">"server"</span></div><div class="line">. . .</div><div class="line"><span class="keyword">export</span> KEY_CN=openvpn.yourname.com</div></pre></td></tr></table></figure>
-<p>由于版本不可检测，OpenSSL配置可能无法加载。为了避免这种情况，从openSSl文件名中删除版本号。</p>
-<p><code>cp /etc/openvpn/easy-rsa/openssl-1.0.0.cnf /etc/openvpn/easy-rsa/openssl.cnf</code></p>
-<p>接下来进行服务端证书生成</p>
-<p><code>cd /etc/openvpn/easy-rsa</code></p>
-<p><code>source ./vars</code></p>
-<p><code>./clean-all</code></p>
-<p><code>./build-ca</code></p>
-<p><code>./build-key-server server</code></p>
-<p><code>./build-dh</code></p>
-<p><code>cd /etc/openvpn/easy-rsa/keys</code></p>
-<p><code>cp dh2048.pem ca.crt server.crt server.key /etc/openvpn</code></p>
-<p>客户端证书生成</p>
-<p><code>cd /etc/openvpn/easy-rsa</code></p>
-<p><code>./build-key client</code></p>
-<h4 id="5-路由配置"><a href="#5-路由配置" class="headerlink" title="5. 路由配置"></a>5. 路由配置</h4><p>安装iptables</p>
-<p><code>yum install iptables-services -y</code></p>
-<p><code>systemctl mask firewalld</code></p>
-<p><code>systemctl enable iptables</code></p>
-<p><code>systemctl stop firewalld</code></p>
-<p><code>systemctl start iptables</code></p>
-<p><code>iptables --flush</code></p>
-<p>配置路由转发</p>
-<p><code>iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE</code></p>
-<p><code>iptables-save &gt; /etc/sysconfig/iptables</code></p>
-<p>开启路由转发</p>
-<p><code>vi /etc/sysctl.conf</code></p>
-<p>在<code>sysctl.conf</code>中增加<br><code>net.ipv4.ip_forward = 1</code></p>
-<p>重启网络服务</p>
-<p><code>systemctl restart network.service</code></p>
-<p>这一步很重要，如果网络服务重启失败，请排查原因。这里报错的话一般和网卡设置有关,在<code>/etc/sysconfig/network-scripts</code>目录下查看网卡设置是否正确。参考<a href="http://blog.csdn.net/felixfeng/article/details/51852621" target="_blank" rel="external">centos7网卡配置</a></p>
-<h4 id="6-启动openvpn"><a href="#6-启动openvpn" class="headerlink" title="6. 启动openvpn"></a>6. 启动openvpn</h4><p>设为开机启动<br><code>systemctl -f enable openvpn@server.service</code></p>
-<p>启动openvpn</p>
-<p><code>systemctl start openvpn@server.service</code></p>
-<p>如果openvpn启动失败，请翻阅日志，日志默认在 <code>/etc/openvpn</code>路径下</p>
-<p>至此服务端配置完毕。</p>
-<h4 id="7-配置客户端"><a href="#7-配置客户端" class="headerlink" title="7. 配置客户端"></a>7. 配置客户端</h4><p>在服务端找到以下文件</p>
-<p><code>/etc/openvpn/easy-rsa/keys/ca.crt</code></p>
-<p><code>/etc/openvpn/easy-rsa/keys/client.crt</code></p>
-<p><code>/etc/openvpn/easy-rsa/keys/client.key</code></p>
-<p>把这些文件拷贝到客户端openvpn的config目录下</p>
-<p>创建一个.ovpn配置文件，配置文件如下。</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">client</div><div class="line">dev tun</div><div class="line">proto udp</div><div class="line">remote your_server_ip <span class="number">1194</span></div><div class="line">resolv-retry infinite</div><div class="line">nobind</div><div class="line">persist-<span class="type">key</span></div><div class="line">persist-tun</div><div class="line">comp-lzo</div><div class="line">verb <span class="number">3</span></div><div class="line">ca ca.crt</div><div class="line">cert client.crt</div><div class="line"><span class="type">key</span> client.<span class="type">key</span></div></pre></td></tr></table></figure>
-<p>要注意的是客户端的.ovpn文件与服务端的server.conf某些配置上需要保持一致，否则会连接失败。.ovpn也放到 openvpn的config目录下。</p>
-<p><strong>ca.crt,client.crt client.key与.opvn文件的集成:</strong></p>
-<p>在openvpn文件中使用<code>&lt;ca&gt;&lt;/ca&gt;</code>,<code>&lt;cert&gt;&lt;/cert&gt;</code>,<code>&lt;key&gt;&lt;/key&gt;</code>标签，把对应的文件内容复制粘贴到标签当中去。</p>
-<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">client</div><div class="line">dev tun</div><div class="line">proto udp</div><div class="line">remote your<span class="emphasis">_server_</span>ip 1194</div><div class="line">resolv-retry infinite</div><div class="line">nobind</div><div class="line">persist-key</div><div class="line">persist-tun</div><div class="line">comp-lzo</div><div class="line">verb 3</div><div class="line">ca ca.crt</div><div class="line">cert client.crt</div><div class="line">key client.key</div><div class="line"></div><div class="line">&lt;ca&gt;</div><div class="line"><span class="code">......</span></div><div class="line">......</div><div class="line">&lt;/ca&gt;</div><div class="line"></div><div class="line">&lt;cert&gt;</div><div class="line">......</div><div class="line"><span class="code">......</span></div><div class="line">&lt;/cert&gt;</div><div class="line"></div><div class="line">&lt;key&gt;</div><div class="line">......</div><div class="line"><span class="code">......</span></div><div class="line">&lt;/key&gt;</div></pre></td></tr></table></figure>
-<h2 id="docker-compose方式安装"><a href="#docker-compose方式安装" class="headerlink" title="docker-compose方式安装"></a>docker-compose方式安装</h2><h4 id="1-创建一个docker-compose-yml文件"><a href="#1-创建一个docker-compose-yml文件" class="headerlink" title="1.创建一个docker-compose.yml文件"></a>1.创建一个docker-compose.yml文件</h4><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">version:</span> <span class="string">'2'</span></div><div class="line"><span class="symbol">services:</span></div><div class="line"><span class="symbol">  openvpn:</span></div><div class="line"><span class="symbol">    cap_add:</span></div><div class="line">     - NET_ADMIN</div><div class="line"><span class="symbol">    image:</span> kylemanna/openvpn</div><div class="line"><span class="symbol">    container_name:</span> openvpn</div><div class="line"><span class="symbol">    ports:</span></div><div class="line">     - <span class="string">"1194:1194/udp"</span></div><div class="line"><span class="symbol">    restart:</span> always</div><div class="line"><span class="symbol">    volumes:</span></div><div class="line">     - .<span class="meta-keyword">/openvpn-data/</span>conf:<span class="meta-keyword">/etc/</span>openvpn</div></pre></td></tr></table></figure>
-<h4 id="2-初始化配置文件和安装证书"><a href="#2-初始化配置文件和安装证书" class="headerlink" title="2.初始化配置文件和安装证书"></a>2.初始化配置文件和安装证书</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker-compose <span class="keyword">run</span><span class="bash"> --rm openvpn ovpn_genconfig -u udp://VPN.SERVERNAME.COM</span></div><div class="line">docker-compose <span class="keyword">run</span><span class="bash"> --rm openvpn ovpn_initpki</span></div></pre></td></tr></table></figure>
-<h4 id="3-启动openvpn"><a href="#3-启动openvpn" class="headerlink" title="3. 启动openvpn"></a>3. 启动openvpn</h4><p><code>docker-compose up -d openvpn</code></p>
-<h4 id="4-查看启动日志"><a href="#4-查看启动日志" class="headerlink" title="4. 查看启动日志"></a>4. 查看启动日志</h4><p><code>docker-compose logs -f</code></p>
-<h4 id="5-生成客户端证书"><a href="#5-生成客户端证书" class="headerlink" title="5.生成客户端证书"></a>5.生成客户端证书</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">export CLIENTNAME=<span class="string">"your_client_name"</span></div><div class="line"></div><div class="line">docker-compose <span class="keyword">run</span><span class="bash"> --rm openvpn easyrsa build-client-full <span class="variable">$CLIENTNAME</span></span></div></pre></td></tr></table></figure>
-<h4 id="6-生成集成客户端-ovpn文件"><a href="#6-生成集成客户端-ovpn文件" class="headerlink" title="6. 生成集成客户端.ovpn文件"></a>6. 生成集成客户端.ovpn文件</h4><p><code>docker-compose run --rm openvpn ovpn_getclient $CLIENTNAME &gt; $CLIENTNAME.ovpn</code></p>
-<h2 id="搭建openvpn过程中遇到的那些坑"><a href="#搭建openvpn过程中遇到的那些坑" class="headerlink" title="搭建openvpn过程中遇到的那些坑"></a>搭建openvpn过程中遇到的那些坑</h2><h4 id="1-华为云上搭建好了openvpn，客户端一直连接不上。"><a href="#1-华为云上搭建好了openvpn，客户端一直连接不上。" class="headerlink" title="1.华为云上搭建好了openvpn，客户端一直连接不上。"></a>1.华为云上搭建好了openvpn，客户端一直连接不上。</h4><p><strong>原因:</strong> 华为云中有个安全策略设置，安全策略中1194端口没有开放，需要开放后才能连接。安全策略设置在华为云后台控制中设置</p>
-<h4 id="2-搬瓦工vps中安装不了docker。"><a href="#2-搬瓦工vps中安装不了docker。" class="headerlink" title="2. 搬瓦工vps中安装不了docker。"></a>2. 搬瓦工vps中安装不了docker。</h4><p><strong>原因:</strong><br>使用docker-compose方式安装openvpn需要先安装docker。搬瓦工采用openvz架构搭建，其linux内核版本为<code>2.6.32-042stab120.18</code>,不可升级，而docker需要linux内核3.1以上，所以搬瓦工上不能安装docker,也不能使用docker-compose的方式安装openvpn。</p>
-<h4 id="3-搬瓦工上openvpn连接上了，但不能上网。"><a href="#3-搬瓦工上openvpn连接上了，但不能上网。" class="headerlink" title="3. 搬瓦工上openvpn连接上了，但不能上网。"></a>3. 搬瓦工上openvpn连接上了，但不能上网。</h4><p><strong>原因:</strong> 转发失败，由于搬瓦工上一个网卡上有两个ip地址所致,默认转发到第一个ip地址上。</p>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/17-3-7/31012857-file_1488863440132_1800e.png" alt=""></p>
-<p><strong>解决办法:</strong> </p>
-<p>编辑转发配置文件</p>
-<p><code>vi /etc/sysconfig/iptables</code></p>
-<p>删除原来的转发规则</p>
-<p><code>-A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE</code></p>
-<p>新增转发规则</p>
-<p><code>-A POSTROUTING -s 10.8.0.0/24 -o venet0 -j SNAT --to-source your ip</code></p>
-<p>保存后重启网络即可</p>
-<p><code>systemctl restart network</code></p>
-<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>openvpn搭建只要弄懂了它的实现原理，按照步骤一步步搭建，还是很容易成功。遇到问题先看日志，准确定位问题发生的环节，就能针对性解决问题。我在搭建过程中一般出现问题就是在转发规则配置的地方，不同的vps在这上面配置可能存在着差异，需要根据vps的实际情况进行配置。搭建openvpn中对于centos7中的网络配置这块内容也了解了不少，算是收获良多，搭建成功以后也是满满的成就感！在此把搭建过程和遇到过的问题纪录了下，方便以后查阅。</p>
-<p><strong>参考资料</strong></p>
-<p> <a href="https://github.com/kylemanna/docker-openvpn/blob/master/docs/docker-compose.md" target="_blank" rel="external">docker-compose方式安装openvpn</a></p>
-<p> <a href="http://www.tuicool.com/articles/V3aIF3v" target="_blank" rel="external">centos7安装openvpn</a></p>
-
-          
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>自从公司配置了openvpn之后就可以在家里连到公司的内网，能访问部署在公司内网的项目。这让我对openvpn很感兴趣，于是我就开始查找相应的教程，并在寻找便宜的vps主机尝试搭建openvpn。我先后在华为云，腾讯云，搬瓦工上搭建了openvpn，不同的vps上搭建略有不同，但大体的原理是一样的。期间也遇到了不少坑，尝试搭建的过程大概花了一个多星期。在这里我想把搭建的过程以及遇到的问题纪录一下。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/07/Centos7下搭建openvpn/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -665,93 +689,14 @@
 
       
         
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本博客采用的是markdown语法书写，所以打算先学习下markdown语法，顺便记录一下，加深一下印象。</p>
-<h1 id="Markdown语法规则"><a href="#Markdown语法规则" class="headerlink" title="Markdown语法规则"></a>Markdown语法规则</h1><h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>在Markdown中,如果一段文字被定义为标题，只要在这段文字前加<code>#</code>号就行。</p>
-<p><code># 一级标题</code></p>
-<p><code># 二级标题</code></p>
-<p><code># 三级标题</code></p>
-<p>以此类推，总共六级标题，需要注意的是在#与文字之间需要有空格。</p>
-<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><p>列表分为有序列表和无序列表。在Markdown中，只要在文字前加<code>-</code>或者<code>*</code>就可变成无序列表。而有序列表则直接在文字前加<code>1.</code> <code>2.</code> <code>3.</code>符号和文字之间加上一个字符的空格</p>
-<p><code>- 第一</code></p>
-<p><code>- 第二</code></p>
-<p><code>- 第三</code></p>
-<p><strong>效果</strong></p>
-<ul>
-<li>第一</li>
-<li>第二</li>
-<li>第三</li>
-</ul>
-<p><code>1. 第一</code></p>
-<p><code>2. 第二</code></p>
-<p><code>3. 第三</code></p>
-<p><strong>效果</strong></p>
-<ol>
-<li>第一</li>
-<li>第二</li>
-<li>第三</li>
-</ol>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p>如果你需要引用一段别处的句子，那么就要用引用格式。引用格式只需要在文本前加入<code>&gt;</code>这种尖括号(大于号)即可</p>
-<p><code>&gt; 这是段引用</code></p>
-<p><strong>效果</strong></p>
-<blockquote>
-<p>这是段引用</p>
-</blockquote>
-<h2 id="图片与链接"><a href="#图片与链接" class="headerlink" title="图片与链接"></a>图片与链接</h2><p>插入链接与插入图片的语法很像，区别在于一个<code>!</code></p>
-<p>图片格式为<code>![](http://omdsjtsd2.bkt.clouddn.com/17-3-6/75122041-file_1488783144726_6716.jpg)</code></p>
-<p><strong>效果</strong></p>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/17-3-6/75122041-file_1488783144726_6716.jpg" alt=""></p>
-<p>链接格式为<code>[百度](www.baidu.com)</code></p>
-<p><strong>效果</strong></p>
-<p><a href="www.baidu.com">百度</a></p>
-<p><strong>注</strong>: 插入图片的地址需要图床，我这里使用的是<a href="http://www.yotuku.cn/" target="_blank" rel="external">极简图床</a>。</p>
-<h2 id="粗体与斜体"><a href="#粗体与斜体" class="headerlink" title="粗体与斜体"></a>粗体与斜体</h2><p>使用两个<code>*</code>包含一段文本就是粗体的语法，用一个<code>*</code>包含一段文本就是斜体的语法。</p>
-<p><code>**这是粗体**</code></p>
-<p><strong>效果</strong></p>
-<p><strong>这是粗体</strong></p>
-<p><code>*这是斜体*</code></p>
-<p><strong>效果</strong></p>
-<p><em>这是斜体</em></p>
-<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><p>例子</p>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">|<span class="string">学号</span>|<span class="string">姓名</span>|<span class="string">性别</span>|</div><div class="line">|<span class="string">---</span>|<span class="string">:---:</span>|<span class="string">:----:</span>|</div><div class="line">|<span class="string">1</span>|<span class="string">张三</span>|<span class="string">男</span>|</div><div class="line">|<span class="string">2</span>|<span class="string">李四</span>|<span class="string">男</span>|</div><div class="line">|<span class="string">3</span>|<span class="string">韩梅</span>|<span class="string">女</span>|</div></pre></td></tr></table></figure>
-<p><strong>效果</strong></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">学号</th>
-<th style="text-align:center">姓名</th>
-<th style="text-align:center">性别</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">张三</td>
-<td style="text-align:center">男</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">李四</td>
-<td style="text-align:center">男</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">韩梅</td>
-<td style="text-align:center">女</td>
-</tr>
-</tbody>
-</table>
-<h2 id="代码框"><a href="#代码框" class="headerlink" title="代码框"></a>代码框</h2><p>使用两个`把中间的代码包裹起来</p>
-<h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><p>分割线使用三个<code>*</code>即可</p>
-<p><strong>效果</strong></p>
-<hr>
-<h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><blockquote>
-<p>到这里，Markdown 的基本语法在日常的使用中基本就没什么大问题了，只要多加练习，配合好用的工具，写起东西来肯定会行云流水。</p>
-</blockquote>
-<p><strong>参考资料</strong></p>
-<p><a href="http://www.jianshu.com/p/1e402922ee32/" target="_blank" rel="external">Markdown——入门指南</a></p>
-
-          
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本博客采用的是markdown语法书写，所以打算先学习下markdown语法，顺便记录一下，加深一下印象。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/06/Markdown语法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -866,22 +811,14 @@
 
       
         
-          
-            <h2 id="成立背景"><a href="#成立背景" class="headerlink" title="成立背景"></a>成立背景</h2><p>由于买了个搬瓦工的vps，我在上面搭建了<code>openvpn</code>和<code>shadowsocks</code>后，发现还有不少剩余空间，于是想在上面再做些什么。在网上查了点资料后决定在vps上搭建一个个人博客。这个个人博客采用<code>Hexo</code>框架搭建，使用了<code>next</code>的主题风格。</p>
-<h2 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h2><ol>
-<li>纪录学习笔记</li>
-<li>收藏技术文档</li>
-<li>发布技术心得</li>
-<li>转载心灵鸡汤</li>
-<li>写写自己感兴趣的事</li>
-</ol>
-<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>每个星期至少写一篇原创的技术文章，可以是自己的学习笔记，也可以是自己在项目中碰到的问题，以及解决办法。</p>
-<h2 id="期望"><a href="#期望" class="headerlink" title="期望"></a>期望</h2><p>我自去年转行成程序员以后，便想把我所学的知识再好好梳理一遍，把今后要学的东西找个地方纪录下来，而博客就是个很好的工具。对于博客之类的东西，我曾有过<code>新浪博客</code>、<code>QQ空间</code>等，但写过几篇文章之后就被我扔在一边了，再也没去打理过，希望这次我可以坚持下去！</p>
-<h2 id="附Hexo搭建参考资料"><a href="#附Hexo搭建参考资料" class="headerlink" title="附Hexo搭建参考资料"></a>附Hexo搭建参考资料</h2><blockquote>
-<p><a href="http://www.jianshu.com/p/0823e387c019" target="_blank" rel="external">CentOS下搭建Hexo + github 博客</a> </p>
-</blockquote>
-
-          
+          <h2 id="成立背景"><a href="#成立背景" class="headerlink" title="成立背景"></a>成立背景</h2><p>由于买了个搬瓦工的vps，我在上面搭建了<code>openvpn</code>和<code>shadowsocks</code>后，发现还有不少剩余空间，于是想在上面再做些什么。在网上查了点资料后决定在vps上搭建一个个人博客。这个个人博客采用<code>Hexo</code>框架搭建，使用了<code>next</code>的主题风格。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/06/个人博客成立啦！/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -956,7 +893,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -969,7 +906,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
