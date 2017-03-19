@@ -93,7 +93,7 @@
 <meta property="og:url" content="http://jieminblog.tk/2017/03/19/Centos7安装Mysql5-7笔记/index.html">
 <meta property="og:site_name" content="jiemin's Blog">
 <meta property="og:description" content="前言公司重装服务器后需要配置环境，我被分配到了安装Mysql。公司服务器是Centos7,要求使用源码方式安装Mysql5.7.17,Mysql需要安装在指定目录下。之前我有在macbook上安装过Mysql，或者使用docker的方式安装Mysql，都没碰到过什么问题。因为路径设置我都是默认的，而这次通过二进制文件的方式安装Mysql需要指定路径，安装过程中碰到些许问题，这里记录一下。">
-<meta property="og:updated_time" content="2017-03-19T11:50:34.097Z">
+<meta property="og:updated_time" content="2017-03-19T11:54:39.559Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Centos7安装Mysql5.7笔记">
 <meta name="twitter:description" content="前言公司重装服务器后需要配置环境，我被分配到了安装Mysql。公司服务器是Centos7,要求使用源码方式安装Mysql5.7.17,Mysql需要安装在指定目录下。之前我有在macbook上安装过Mysql，或者使用docker的方式安装Mysql，都没碰到过什么问题。因为路径设置我都是默认的，而这次通过二进制文件的方式安装Mysql需要指定路径，安装过程中碰到些许问题，这里记录一下。">
@@ -348,7 +348,7 @@
 <h2 id="添加远程访问权限"><a href="#添加远程访问权限" class="headerlink" title="添加远程访问权限"></a>添加远程访问权限</h2><p>本地mysql登录成功后</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">use mysql;</div><div class="line"></div><div class="line">update user set host = <span class="string">'%'</span> where user = <span class="string">'root'</span>;</div><div class="line"></div><div class="line"><span class="keyword">exit</span></div><div class="line"></div><div class="line">systemctl restart mysqld</div></pre></td></tr></table></figure>
 <p>设置防火墙，我这里直接将防火墙关闭了。</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl <span class="built_in">stop</span> firwalld</div></pre></td></tr></table></figure>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl <span class="built_in">stop</span> firewalld</div></pre></td></tr></table></figure>
 <p>做完以上步骤，就可远程连接到mysql了。</p>
 <h1 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h1><h2 id="初始化使用-bin-mysql-install-db报错"><a href="#初始化使用-bin-mysql-install-db报错" class="headerlink" title="初始化使用./bin/mysql_install_db报错"></a>初始化使用<code>./bin/mysql_install_db</code>报错</h2><p>原因: mysql_install_db已经不再推荐使用了。</p>
 <p>解决办法: 使用<code>./bin/mysqld --initial</code>来完成初始化。</p>
