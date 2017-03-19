@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="学习笔记,java," />
+  <meta name="keywords" content="运维," />
 
 
 
@@ -87,22 +87,19 @@
 
 
 
-<meta name="description" content="修改工程属性右键eclipse的工程，选择属性，再选择Project Facets里面中选择Dynamic Web Module ，将2.2修改为3.0，可能会提示如下信息：
-cannot change version web module 3.0
-修改配置文件找到工程项目目录，打开项目下的 .setting文件夹，找到 .setting文件夹内的org.eclipse.wst.common.pr">
+<meta name="description" content="前言公司要把原来的PC机服务器重装，要求使用ESXI来管理服务器，要求的ESXI版本是6.0。安装期间遇到了网卡的问题，使用了多种办法以后均没有解决，最后将版本更换为5.5后解决。这里我将安装过程，遇到的问题，以及尝试过的方法纪录一下。
+ESXI简介我所理解的ESXI，就是把一台计算机给虚拟化了，计算机上安装了一套虚拟机管理系统，可以通过ESXI的客户端连接ESXI进行远程管理，创建新的虚拟机。E">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Eclipse如何修改dynamic web module version">
-<meta property="og:url" content="http://jieminblog.tk/2017/03/08/Eclipse如何修改dynamic-web-module-version/index.html">
+<meta property="og:title" content="在PC机上安装ESXI">
+<meta property="og:url" content="http://jieminblog.tk/2017/03/17/在PC机上安装ESXI/index.html">
 <meta property="og:site_name" content="jiemin's Blog">
-<meta property="og:description" content="修改工程属性右键eclipse的工程，选择属性，再选择Project Facets里面中选择Dynamic Web Module ，将2.2修改为3.0，可能会提示如下信息：
-cannot change version web module 3.0
-修改配置文件找到工程项目目录，打开项目下的 .setting文件夹，找到 .setting文件夹内的org.eclipse.wst.common.pr">
-<meta property="og:updated_time" content="2017-03-08T08:04:32.844Z">
+<meta property="og:description" content="前言公司要把原来的PC机服务器重装，要求使用ESXI来管理服务器，要求的ESXI版本是6.0。安装期间遇到了网卡的问题，使用了多种办法以后均没有解决，最后将版本更换为5.5后解决。这里我将安装过程，遇到的问题，以及尝试过的方法纪录一下。
+ESXI简介我所理解的ESXI，就是把一台计算机给虚拟化了，计算机上安装了一套虚拟机管理系统，可以通过ESXI的客户端连接ESXI进行远程管理，创建新的虚拟机。E">
+<meta property="og:updated_time" content="2017-03-17T08:14:03.480Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eclipse如何修改dynamic web module version">
-<meta name="twitter:description" content="修改工程属性右键eclipse的工程，选择属性，再选择Project Facets里面中选择Dynamic Web Module ，将2.2修改为3.0，可能会提示如下信息：
-cannot change version web module 3.0
-修改配置文件找到工程项目目录，打开项目下的 .setting文件夹，找到 .setting文件夹内的org.eclipse.wst.common.pr">
+<meta name="twitter:title" content="在PC机上安装ESXI">
+<meta name="twitter:description" content="前言公司要把原来的PC机服务器重装，要求使用ESXI来管理服务器，要求的ESXI版本是6.0。安装期间遇到了网卡的问题，使用了多种办法以后均没有解决，最后将版本更换为5.5后解决。这里我将安装过程，遇到的问题，以及尝试过的方法纪录一下。
+ESXI简介我所理解的ESXI，就是把一台计算机给虚拟化了，计算机上安装了一套虚拟机管理系统，可以通过ESXI的客户端连接ESXI进行远程管理，创建新的虚拟机。E">
 
 
 
@@ -130,13 +127,13 @@ cannot change version web module 3.0
 
 
 
-  <link rel="canonical" href="http://jieminblog.tk/2017/03/08/Eclipse如何修改dynamic-web-module-version/"/>
+  <link rel="canonical" href="http://jieminblog.tk/2017/03/17/在PC机上安装ESXI/"/>
 
 
 
 
 
-  <title> Eclipse如何修改dynamic web module version | jiemin's Blog </title>
+  <title> 在PC机上安装ESXI | jiemin's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -255,7 +252,7 @@ cannot change version web module 3.0
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/03/08/Eclipse如何修改dynamic-web-module-version/">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/03/17/在PC机上安装ESXI/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="我爱的乌托邦">
@@ -276,7 +273,7 @@ cannot change version web module 3.0
             
             
               
-                Eclipse如何修改dynamic web module version
+                在PC机上安装ESXI
               
             
           </h1>
@@ -291,8 +288,8 @@ cannot change version web module 3.0
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-08T16:02:40+08:00">
-                2017-03-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-17T16:11:59+08:00">
+                2017-03-17
               </time>
             
 
@@ -327,10 +324,34 @@ cannot change version web module 3.0
       
 
       
-        <h1 id="修改工程属性"><a href="#修改工程属性" class="headerlink" title="修改工程属性"></a>修改工程属性</h1><p>右键eclipse的工程，选择属性，再选择Project Facets里面中选择Dynamic Web Module ，将2.2修改为3.0，可能会提示如下信息：</p>
-<p><strong>cannot change version web module 3.0</strong></p>
-<h1 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h1><p>找到工程项目目录，打开项目下的 .setting文件夹，找到 .setting文件夹内的org.eclipse.wst.common.project.facet.core.xml文件，文件格式大致如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">faceted-project</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">fixed</span> <span class="attr">facet</span>=<span class="string">"wst.jsdt.web"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">installed</span> <span class="attr">facet</span>=<span class="string">"jst.web"</span> <span class="attr">version</span>=<span class="string">"2.2"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">installed</span> <span class="attr">facet</span>=<span class="string">"wst.jsdt.web"</span> <span class="attr">version</span>=<span class="string">"1.0"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">installed</span> <span class="attr">facet</span>=<span class="string">"java"</span> <span class="attr">version</span>=<span class="string">"1.7"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">installed</span> <span class="attr">facet</span>=<span class="string">"jst.jaxrs"</span> <span class="attr">version</span>=<span class="string">"2.0"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">installed</span> <span class="attr">facet</span>=<span class="string">"jst.jsf"</span> <span class="attr">version</span>=<span class="string">"2.2"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">faceted-project</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>手动将<code>&lt;installed facet=&quot;jst.web&quot; version=&quot;2.2&quot;/&gt;</code>的值改为3.0，刷新或重启项目即显示修改成功，错误消失。</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>公司要把原来的PC机服务器重装，要求使用ESXI来管理服务器，要求的ESXI版本是6.0。安装期间遇到了网卡的问题，使用了多种办法以后均没有解决，最后将版本更换为5.5后解决。这里我将安装过程，遇到的问题，以及尝试过的方法纪录一下。</p>
+<h1 id="ESXI"><a href="#ESXI" class="headerlink" title="ESXI"></a>ESXI</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>我所理解的ESXI，就是把一台计算机给虚拟化了，计算机上安装了一套虚拟机管理系统，可以通过ESXI的客户端连接ESXI进行远程管理，创建新的虚拟机。ESXI中可以根据需求创建不同的系统环境，每个系统环境单独运行。</p>
+<a id="more"></a>
+<h2 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h2><p>目前<a href="https://my.vmware.com/cn/web/vmware/info/slug/datacenter_cloud_infrastructure/vmware_vsphere/6_5#product_downloads" target="_blank" rel="external">ESXI官网</a>上注册后能够下载的版本是6.5版本，想要下6.0或者5.5的版本需要自己网上找资源。</p>
+<h3 id="主要步骤"><a href="#主要步骤" class="headerlink" title="主要步骤"></a>主要步骤</h3><ol>
+<li>下载ESXI镜像文件</li>
+<li>使用Ultraiso将ESXI做成U盘安装引导盘</li>
+<li>使用U盘安装ESXI</li>
+<li>安装完成后重启会随机生成一个IP地址</li>
+<li>下载viclient,根据IP连接ESXI</li>
+<li>配置ESXI，使用秘钥激活</li>
+<li>创建虚拟机，安装系统</li>
+</ol>
+<h3 id="碰到的问题"><a href="#碰到的问题" class="headerlink" title="碰到的问题"></a>碰到的问题</h3><h4 id="chipset-initialization-failed"><a href="#chipset-initialization-failed" class="headerlink" title="chipset initialization failed"></a><strong>chipset initialization failed</strong></h4><p>原因:初始化失败</p>
+<p>解决办法:更换EXSI镜像文件</p>
+<h4 id="network-adapter-not-found"><a href="#network-adapter-not-found" class="headerlink" title="network adapter not found"></a><strong>network adapter not found</strong></h4><p>原因：找不到网卡驱动。这是因为5.5之后中去掉了很多驱动，这些驱动对应的硬件一般不会用于专业服务器。</p>
+<p>解决办法：</p>
+<p>第一种：</p>
+<ol>
+<li>下载网卡驱动</li>
+<li>下载驱动打包工具：ESXi-Customizer</li>
+<li>运行ESXi-Customizer，将驱动文件打包到ESXi的镜像文件中</li>
+<li>使用新的镜像文件进行安装</li>
+</ol>
+<p>第二种：</p>
+<p><a href="http://bbs.vmsky.com/thread-57902-1-1.html" target="_blank" rel="external">VMware-ESXi-6.5 集成第三方驱动方法</a></p>
+<p>第一种方法只适合ESXI5.5版本，6.0和6.5版本不适用。第二种经测试瑞昱8168可以集成成功，但集成瑞昱8101的网卡会报错。</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>这篇文章主要目的是记录下ESXI这个以前没有用过的东西，仅此而已。所以ESXI安装写的比较简略，而安装过程也比较简单，基本是傻瓜式操作的流程走下来。由于时间有限，安装EXSI6.0和6.5网卡问题一直解决不了，所以退而求其次使用了ESXI5.5版本，希望以后有机会能解决6.0，6.5版本安装到PC机上这个问题。</p>
 
       
     </div>
@@ -354,9 +375,7 @@ cannot change version web module 3.0
       
         <div class="post-tags">
           
-            <a href="/tags/学习笔记/" rel="tag"># 学习笔记</a>
-          
-            <a href="/tags/java/" rel="tag"># java</a>
+            <a href="/tags/运维/" rel="tag"># 运维</a>
           
         </div>
       
@@ -369,8 +388,8 @@ cannot change version web module 3.0
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/08/vi学习笔记/" rel="next" title="vi学习笔记">
-                <i class="fa fa-chevron-left"></i> vi学习笔记
+              <a href="/2017/03/10/SSM框架搭建学习笔记/" rel="next" title="SSM框架搭建学习笔记">
+                <i class="fa fa-chevron-left"></i> SSM框架搭建学习笔记
               </a>
             
           </div>
@@ -379,8 +398,8 @@ cannot change version web module 3.0
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/09/使用MyBatis-Generator自动创建代码/" rel="prev" title="使用MyBatis Generator自动创建代码">
-                使用MyBatis Generator自动创建代码 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/19/Centos7安装Mysql5-7笔记/" rel="prev" title="Centos7安装Mysql5.7笔记">
+                Centos7安装Mysql5.7笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -501,7 +520,7 @@ cannot change version web module 3.0
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#修改工程属性"><span class="nav-number">1.</span> <span class="nav-text">修改工程属性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改配置文件"><span class="nav-number">2.</span> <span class="nav-text">修改配置文件</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ESXI"><span class="nav-number">2.</span> <span class="nav-text">ESXI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">2.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装过程"><span class="nav-number">2.2.</span> <span class="nav-text">安装过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主要步骤"><span class="nav-number">2.2.1.</span> <span class="nav-text">主要步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#碰到的问题"><span class="nav-number">2.2.2.</span> <span class="nav-text">碰到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#chipset-initialization-failed"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">chipset initialization failed</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#network-adapter-not-found"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">network adapter not found</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">3.</span> <span class="nav-text">后记</span></a></li></ol></div>
             
 
           </div>

@@ -1,0 +1,704 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="学习笔记,mysql," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言公司重装服务器后需要配置环境，我被分配到了安装Mysql。公司服务器是Centos7,要求使用源码方式安装Mysql5.7.17,Mysql需要安装在指定目录下。之前我有在macbook上安装过Mysql，或者使用docker的方式安装Mysql，都没碰到过什么问题。因为路径设置我都是默认的，而这次通过二进制文件的方式安装Mysql需要指定路径，安装过程中碰到些许问题，这里记录一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Centos7安装Mysql5.7笔记">
+<meta property="og:url" content="http://jieminblog.tk/2017/03/19/Centos7安装Mysql5-7笔记/index.html">
+<meta property="og:site_name" content="jiemin's Blog">
+<meta property="og:description" content="前言公司重装服务器后需要配置环境，我被分配到了安装Mysql。公司服务器是Centos7,要求使用源码方式安装Mysql5.7.17,Mysql需要安装在指定目录下。之前我有在macbook上安装过Mysql，或者使用docker的方式安装Mysql，都没碰到过什么问题。因为路径设置我都是默认的，而这次通过二进制文件的方式安装Mysql需要指定路径，安装过程中碰到些许问题，这里记录一下。">
+<meta property="og:updated_time" content="2017-03-19T11:50:34.097Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Centos7安装Mysql5.7笔记">
+<meta name="twitter:description" content="前言公司重装服务器后需要配置环境，我被分配到了安装Mysql。公司服务器是Centos7,要求使用源码方式安装Mysql5.7.17,Mysql需要安装在指定目录下。之前我有在macbook上安装过Mysql，或者使用docker的方式安装Mysql，都没碰到过什么问题。因为路径设置我都是默认的，而这次通过二进制文件的方式安装Mysql需要指定路径，安装过程中碰到些许问题，这里记录一下。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jieminblog.tk/2017/03/19/Centos7安装Mysql5-7笔记/"/>
+
+
+
+
+
+  <title> Centos7安装Mysql5.7笔记 | jiemin's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">jiemin's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">本来无一物，何处惹尘埃</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/03/19/Centos7安装Mysql5-7笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Centos7安装Mysql5.7笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-19T19:46:05+08:00">
+                2017-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>公司重装服务器后需要配置环境，我被分配到了安装<code>Mysql</code>。公司服务器是<code>Centos7</code>,要求使用源码方式安装<code>Mysql5.7.17</code>,<code>Mysql</code>需要安装在指定目录下。之前我有在macbook上安装过<code>Mysql</code>，或者使用docker的方式安装<code>Mysql</code>，都没碰到过什么问题。因为路径设置我都是默认的，而这次通过二进制文件的方式安装<code>Mysql</code>需要指定路径，安装过程中碰到些许问题，这里记录一下。<br><a id="more"></a></p>
+<h1 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h1><h2 id="解压Mysql安装包"><a href="#解压Mysql安装包" class="headerlink" title="解压Mysql安装包"></a>解压Mysql安装包</h2><p>我本次安装的二进制文件安装包已经在服务器上了，就不需要下载了。二进制文件存放目录为<code>/zndata/server</code>，Mysql数据存放目录为<code>/zndata/data/mysql</code></p>
+<p><code>cd /zndata/server</code></p>
+<p>在<code>/zndata/server</code>下新建目录<code>mysql</code>，把二进制文件移动到<code>mysql</code>目录，解压</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">mkdir</span> <span class="selector-tag">mysql</span></div><div class="line"></div><div class="line"><span class="selector-tag">mv</span> <span class="selector-tag">mysql-5</span><span class="selector-class">.7</span><span class="selector-class">.17-linux-glibc2</span><span class="selector-class">.5-x86_64</span><span class="selector-class">.tar</span> <span class="selector-tag">mysql</span></div><div class="line"></div><div class="line"><span class="selector-tag">tar</span> <span class="selector-tag">xvf</span> <span class="selector-tag">mysql-5</span><span class="selector-class">.7</span><span class="selector-class">.17-linux-glibc2</span><span class="selector-class">.5-x86_64</span><span class="selector-class">.tar</span> </div><div class="line"></div><div class="line">`</div></pre></td></tr></table></figure>
+<p>解压后<br>会出现3个新文件，继续解压</p>
+<p><code>tar -zxvf  mysql-5.7.17-linux-glibc2.5-x86_64.tar.gz</code></p>
+<p>重命名文件夹</p>
+<p><code>mv mysql-5.7.17-linux-glibc2.5-x86_64 mysql-5.7.17</code></p>
+<h2 id="创建mysql组和用户"><a href="#创建mysql组和用户" class="headerlink" title="创建mysql组和用户"></a>创建mysql组和用户</h2><p>创建mysql组，账户，设置mysql不能登录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">groupadd mysql</div><div class="line">useradd -g mysql mysql</div><div class="line">usermod <span class="_">-s</span> /bin/<span class="literal">false</span> mysql</div></pre></td></tr></table></figure>
+<p>将<code>/zndata/server/mysql</code>和<code>/zndata/data/mysql</code>的所有权更变为mysql用户和用户组</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd <span class="regexp">/zndata/</span>server</div><div class="line">chown -R <span class="string">mysql:</span>mysql mysql</div><div class="line">cd <span class="regexp">/zndata/</span>data</div><div class="line">chown -R <span class="string">mysql:</span>mysql mysql</div></pre></td></tr></table></figure>
+<h2 id="安装和初始化数据库"><a href="#安装和初始化数据库" class="headerlink" title="安装和初始化数据库"></a>安装和初始化数据库</h2><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">cd <span class="regexp">/zndata/</span>server<span class="regexp">/mysql/</span>mysql<span class="number">-5.7</span><span class="number">.17</span></div><div class="line"></div><div class="line">.<span class="regexp">/bin/</span>mysqld --initial --user=mysql --basedir=<span class="regexp">/zndata/</span>server<span class="regexp">/mysql/</span>mysql<span class="number">-5.7</span><span class="number">.17</span> --datadir=<span class="regexp">/zndata/</span>data/mysql</div><div class="line"></div><div class="line">rm -f <span class="regexp">/etc/</span>my.cnf</div><div class="line"></div><div class="line">cp -a .<span class="regexp">/support-files/</span>my-<span class="keyword">default</span>.cnf <span class="regexp">/etc/</span>my.cnf</div><div class="line"></div><div class="line">cp -a .<span class="regexp">/support-files/</span>mysql.server <span class="regexp">/etc/</span>init.d/mysqld</div><div class="line"> </div><div class="line">.<span class="regexp">/bin/</span>mysqld_safe --user=mysql --basedir=<span class="regexp">/zndata/</span>server<span class="regexp">/mysql/</span>mysql<span class="number">-5.7</span><span class="number">.17</span> --datadir=<span class="regexp">/zndata/</span>data/mysql</div></pre></td></tr></table></figure>
+<p>配置my.cnf，编辑以下内容</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">vi /etc/my.cnf</div><div class="line"></div><div class="line">basedir=<span class="regexp">/zndata/server</span><span class="regexp">/mysql/mysql</span>-<span class="number">5.7</span>.<span class="number">17</span></div><div class="line">datadir=<span class="regexp">/zndata/data</span><span class="regexp">/mysql</span></div><div class="line">port = 3306 </div><div class="line">socket=/zndata<span class="regexp">/server/mysql</span><span class="regexp">/mysql-5.7.17/mysql</span>.sock</div></pre></td></tr></table></figure>
+<p>配置环境变量 添加如下内容 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">vi /etc/profile</div><div class="line"></div><div class="line"><span class="built_in">export</span> MYSQL_HOME=<span class="string">"/zndata/server/mysql/mysql-5.7.17"</span> </div><div class="line"><span class="built_in">export</span> PATH=<span class="string">"<span class="variable">$PATH</span>:<span class="variable">$MYSQL_HOME</span>/bin"</span></div></pre></td></tr></table></figure>
+<p>使配置即时生效</p>
+<p><code>./etc/profile</code></p>
+<p>设置开机启动并启动mysql</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">chkconfig mysqld <span class="keyword">on</span></div><div class="line"></div><div class="line">systemctl <span class="built_in">start</span> mysqld</div></pre></td></tr></table></figure>
+<h2 id="登录Mysql"><a href="#登录Mysql" class="headerlink" title="登录Mysql"></a>登录Mysql</h2><p>mysql5.7在安装时会生成一个密码，可以在error.log中查看到，我这里error.log路径是在<code>/zndata/data/mysql</code>下。</p>
+<p>输入<code>mysql -uroot -p</code>,输入error.log中查到的密码就登录成功。</p>
+<h2 id="添加远程访问权限"><a href="#添加远程访问权限" class="headerlink" title="添加远程访问权限"></a>添加远程访问权限</h2><p>本地mysql登录成功后</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">use mysql;</div><div class="line"></div><div class="line">update user set host = <span class="string">'%'</span> where user = <span class="string">'root'</span>;</div><div class="line"></div><div class="line"><span class="keyword">exit</span></div><div class="line"></div><div class="line">systemctl restart mysqld</div></pre></td></tr></table></figure>
+<p>设置防火墙，我这里直接将防火墙关闭了。</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl <span class="built_in">stop</span> firwalld</div></pre></td></tr></table></figure>
+<p>做完以上步骤，就可远程连接到mysql了。</p>
+<h1 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h1><h2 id="初始化使用-bin-mysql-install-db报错"><a href="#初始化使用-bin-mysql-install-db报错" class="headerlink" title="初始化使用./bin/mysql_install_db报错"></a>初始化使用<code>./bin/mysql_install_db</code>报错</h2><p>原因: mysql_install_db已经不再推荐使用了。</p>
+<p>解决办法: 使用<code>./bin/mysqld --initial</code>来完成初始化。</p>
+<h2 id="Mysql启动报错The-server-quit-without-updating-PID-file-usr-local-var-mysql-xxx-local-pid-，需要进入bin目录运行-mysqld-safe后才能成功启动"><a href="#Mysql启动报错The-server-quit-without-updating-PID-file-usr-local-var-mysql-xxx-local-pid-，需要进入bin目录运行-mysqld-safe后才能成功启动" class="headerlink" title="Mysql启动报错The server quit without updating PID file (/usr/local/var/mysql/xxx.local.pid).，需要进入bin目录运行./mysqld_safe后才能成功启动"></a>Mysql启动报错<code>The server quit without updating PID file (/usr/local/var/mysql/xxx.local.pid).</code>，需要进入bin目录运行<code>./mysqld_safe</code>后才能成功启动</h2><p>原因: mysqld_safe没有配置正确，查看error.log日志会显示<code>mysqld_safe Starting mysqld daemon with databases from /usr/local/mysql</code>。</p>
+<p>解决办法: 建立软链接</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s <span class="regexp">/zndata/</span>data<span class="regexp">/mysql/my</span>sql-<span class="number">5.7</span>.<span class="number">17</span><span class="regexp">/bin/my</span>sqld_safe <span class="regexp">/usr/</span>local<span class="regexp">/mysql</span></div></pre></td></tr></table></figure>
+<h2 id="登录Mysql报Can-39-t-connect-to-local-MySQL-server-through-socket-39-tmp-mysql-sock-39"><a href="#登录Mysql报Can-39-t-connect-to-local-MySQL-server-through-socket-39-tmp-mysql-sock-39" class="headerlink" title="登录Mysql报Can&#39;t connect to local MySQL server through socket &#39;/tmp/mysql.sock&#39;"></a>登录Mysql报<code>Can&#39;t connect to local MySQL server through socket &#39;/tmp/mysql.sock&#39;</code></h2><p>原因：初始化mysql时my.cnf中mysql.sock默认在<code>/tmp</code>下。</p>
+<p>解决办法：建立软链接</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s <span class="regexp">/zndata/</span>data<span class="regexp">/mysql/my</span>sql-<span class="number">5.7</span>.<span class="number">17</span><span class="regexp">/mysql.sock /</span>tmp<span class="regexp">/mysql.sock</span></div></pre></td></tr></table></figure>
+<h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>这次安装Mysql中又温习了下Linux的命令，比如创建用户和组，切换用户，解压等命令，还新学习到了软链接，并用软链接的方式解决了安装Mysql过程中的两处问题，收获还是蛮大的，继续努力！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/学习笔记/" rel="tag"># 学习笔记</a>
+          
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/17/在PC机上安装ESXI/" rel="next" title="在PC机上安装ESXI">
+                <i class="fa fa-chevron-left"></i> 在PC机上安装ESXI
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/touxiang.jpeg"
+               alt="我爱的乌托邦" />
+          <p class="site-author-name" itemprop="name">我爱的乌托邦</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装过程"><span class="nav-number">2.</span> <span class="nav-text">安装过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#解压Mysql安装包"><span class="nav-number">2.1.</span> <span class="nav-text">解压Mysql安装包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建mysql组和用户"><span class="nav-number">2.2.</span> <span class="nav-text">创建mysql组和用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装和初始化数据库"><span class="nav-number">2.3.</span> <span class="nav-text">安装和初始化数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#登录Mysql"><span class="nav-number">2.4.</span> <span class="nav-text">登录Mysql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加远程访问权限"><span class="nav-number">2.5.</span> <span class="nav-text">添加远程访问权限</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#遇到的问题"><span class="nav-number">3.</span> <span class="nav-text">遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化使用-bin-mysql-install-db报错"><span class="nav-number">3.1.</span> <span class="nav-text">初始化使用./bin/mysql_install_db报错</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mysql启动报错The-server-quit-without-updating-PID-file-usr-local-var-mysql-xxx-local-pid-，需要进入bin目录运行-mysqld-safe后才能成功启动"><span class="nav-number">3.2.</span> <span class="nav-text">Mysql启动报错The server quit without updating PID file (/usr/local/var/mysql/xxx.local.pid).，需要进入bin目录运行./mysqld_safe后才能成功启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#登录Mysql报Can-39-t-connect-to-local-MySQL-server-through-socket-39-tmp-mysql-sock-39"><span class="nav-number">3.3.</span> <span class="nav-text">登录Mysql报Can't connect to local MySQL server through socket '/tmp/mysql.sock'</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结束语"><span class="nav-number">4.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">我爱的乌托邦</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
