@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="其他," />
+  <meta name="keywords" content="-- 学习笔记 -- docker -- jenkins," />
 
 
 
@@ -87,16 +87,29 @@
 
 
 
-<meta name="description" content="成立背景由于买了个搬瓦工的vps，我在上面搭建了openvpn和shadowsocks后，发现还有不少剩余空间，于是想在上面再做些什么。在网上查了点资料后决定在vps上搭建一个个人博客。这个个人博客采用Hexo框架搭建，使用了next的主题风格。">
+<meta name="description" content="前言公司之前的项目发布是通过jenkins自动发布的，只要在jenkins上选择项目，点击构建项目，项目就自动部署好了。对于开发人员来说这非常方便，只要修改好源码，提交到github中后，登录jenkins的Web界面，选择项目点击构建就行了。几经摸索后，我终于在自己的Mac上搭建成功了，期间碰到的问题大多是关于docker方面的，其中有个问题还没有从根本上解决，只是通过变通的方式使得部署成功，在">
 <meta property="og:type" content="article">
-<meta property="og:title" content="个人博客成立啦！">
-<meta property="og:url" content="http://jieminblog.tk/2017/03/06/个人博客成立啦！/index.html">
+<meta property="og:title" content="Mac上搭建jenkins+docker+maven+git自动部署">
+<meta property="og:url" content="http://jieminblog.tk/2017/04/13/Mac上搭建jenkins-docker-maven-git自动部署/index.html">
 <meta property="og:site_name" content="jiemin's Blog">
-<meta property="og:description" content="成立背景由于买了个搬瓦工的vps，我在上面搭建了openvpn和shadowsocks后，发现还有不少剩余空间，于是想在上面再做些什么。在网上查了点资料后决定在vps上搭建一个个人博客。这个个人博客采用Hexo框架搭建，使用了next的主题风格。">
-<meta property="og:updated_time" content="2017-03-07T08:56:41.004Z">
+<meta property="og:description" content="前言公司之前的项目发布是通过jenkins自动发布的，只要在jenkins上选择项目，点击构建项目，项目就自动部署好了。对于开发人员来说这非常方便，只要修改好源码，提交到github中后，登录jenkins的Web界面，选择项目点击构建就行了。几经摸索后，我终于在自己的Mac上搭建成功了，期间碰到的问题大多是关于docker方面的，其中有个问题还没有从根本上解决，只是通过变通的方式使得部署成功，在">
+<meta property="og:image" content="http://i4.buimg.com/567571/a7113335be68609d.png">
+<meta property="og:image" content="http://i4.buimg.com/567571/c840a1c653d89e63.png">
+<meta property="og:image" content="http://i2.muimg.com/567571/dc029c5d89602fd0.png">
+<meta property="og:image" content="http://i4.buimg.com/567571/a62abcbe6a8c5bc0.png">
+<meta property="og:image" content="http://i1.piimg.com/567571/fdb1104f47b60136.png">
+<meta property="og:image" content="http://i4.buimg.com/567571/f3cb0d4ce0fe46b9.png">
+<meta property="og:image" content="http://i1.piimg.com/567571/5589a02b3a4d9d66.png">
+<meta property="og:image" content="http://i1.piimg.com/567571/9ca2d175cc847cc4.png">
+<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/17-4-13/22437020-file_1492050771270_7ea.png">
+<meta property="og:image" content="http://i1.piimg.com/567571/7c480aed24b44b84.png">
+<meta property="og:image" content="http://i1.piimg.com/567571/561d033c068d5d78.png">
+<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/17-4-13/67981561-file_1492050907930_12f64.png">
+<meta property="og:updated_time" content="2017-04-13T02:58:29.057Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="个人博客成立啦！">
-<meta name="twitter:description" content="成立背景由于买了个搬瓦工的vps，我在上面搭建了openvpn和shadowsocks后，发现还有不少剩余空间，于是想在上面再做些什么。在网上查了点资料后决定在vps上搭建一个个人博客。这个个人博客采用Hexo框架搭建，使用了next的主题风格。">
+<meta name="twitter:title" content="Mac上搭建jenkins+docker+maven+git自动部署">
+<meta name="twitter:description" content="前言公司之前的项目发布是通过jenkins自动发布的，只要在jenkins上选择项目，点击构建项目，项目就自动部署好了。对于开发人员来说这非常方便，只要修改好源码，提交到github中后，登录jenkins的Web界面，选择项目点击构建就行了。几经摸索后，我终于在自己的Mac上搭建成功了，期间碰到的问题大多是关于docker方面的，其中有个问题还没有从根本上解决，只是通过变通的方式使得部署成功，在">
+<meta name="twitter:image" content="http://i4.buimg.com/567571/a7113335be68609d.png">
 
 
 
@@ -124,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="http://jieminblog.tk/2017/03/06/个人博客成立啦！/"/>
+  <link rel="canonical" href="http://jieminblog.tk/2017/04/13/Mac上搭建jenkins-docker-maven-git自动部署/"/>
 
 
 
 
 
-  <title> 个人博客成立啦！ | jiemin's Blog </title>
+  <title> Mac上搭建jenkins+docker+maven+git自动部署 | jiemin's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -249,7 +262,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/03/06/个人博客成立啦！/">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/04/13/Mac上搭建jenkins-docker-maven-git自动部署/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="我爱的乌托邦">
@@ -270,7 +283,7 @@
             
             
               
-                个人博客成立啦！
+                Mac上搭建jenkins+docker+maven+git自动部署
               
             
           </h1>
@@ -285,8 +298,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-06T03:10:27+08:00">
-                2017-03-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-13T10:56:34+08:00">
+                2017-04-13
               </time>
             
 
@@ -321,20 +334,45 @@
       
 
       
-        <h2 id="成立背景"><a href="#成立背景" class="headerlink" title="成立背景"></a>成立背景</h2><p>由于买了个搬瓦工的vps，我在上面搭建了<code>openvpn</code>和<code>shadowsocks</code>后，发现还有不少剩余空间，于是想在上面再做些什么。在网上查了点资料后决定在vps上搭建一个个人博客。这个个人博客采用<code>Hexo</code>框架搭建，使用了<code>next</code>的主题风格。</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>公司之前的项目发布是通过jenkins自动发布的，只要在jenkins上选择项目，点击构建项目，项目就自动部署好了。对于开发人员来说这非常方便，只要修改好源码，提交到github中后，登录jenkins的Web界面，选择项目点击构建就行了。几经摸索后，我终于在自己的Mac上搭建成功了，期间碰到的问题大多是关于docker方面的，其中有个问题还没有从根本上解决，只是通过变通的方式使得部署成功，在后文中将会提到。</p>
 <a id="more"></a>
-<h2 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h2><ol>
-<li>纪录学习笔记</li>
-<li>收藏技术文档</li>
-<li>发布技术心得</li>
-<li>转载心灵鸡汤</li>
-<li>写写自己感兴趣的事</li>
+<h1 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h1><ol>
+<li>已经安装好jenkins</li>
+<li>已经安装好git</li>
+<li>已经安装好docker,我这里使用的是docker for mac版本</li>
+<li>有一个测试的项目，我这里使用的是springboot搭建的一个项目。</li>
 </ol>
-<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>每个星期至少写一篇原创的技术文章，可以是自己的学习笔记，也可以是自己在项目中碰到的问题，以及解决办法。</p>
-<h2 id="期望"><a href="#期望" class="headerlink" title="期望"></a>期望</h2><p>我自去年转行成程序员以后，便想把我所学的知识再好好梳理一遍，把今后要学的东西找个地方纪录下来，而博客就是个很好的工具。对于博客之类的东西，我曾有过<code>新浪博客</code>、<code>QQ空间</code>等，但写过几篇文章之后就被我扔在一边了，再也没去打理过，希望这次我可以坚持下去！</p>
-<h2 id="附Hexo搭建参考资料"><a href="#附Hexo搭建参考资料" class="headerlink" title="附Hexo搭建参考资料"></a>附Hexo搭建参考资料</h2><blockquote>
-<p><a href="http://www.jianshu.com/p/0823e387c019" target="_blank" rel="external">CentOS下搭建Hexo + github 博客</a> </p>
-</blockquote>
+<h1 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h1><h2 id="jenkins上新建项目"><a href="#jenkins上新建项目" class="headerlink" title="jenkins上新建项目"></a>jenkins上新建项目</h2><p>登录jenkins后点击新建项目</p>
+<p><img src="http://i4.buimg.com/567571/a7113335be68609d.png" alt=""></p>
+<p>输入项目名称，选择构建项目类型，我这里选择了构建一个自由风格的软件项目</p>
+<p><img src="http://i4.buimg.com/567571/c840a1c653d89e63.png" alt=""></p>
+<p>源码管理选择git，输入git仓库地址，选择分支</p>
+<p><img src="http://i2.muimg.com/567571/dc029c5d89602fd0.png" alt=""></p>
+<p>构建选择shell构建，输入要执行的脚本</p>
+<p><img src="http://i4.buimg.com/567571/a62abcbe6a8c5bc0.png" alt=""></p>
+<p>完成上述步骤后点击保存</p>
+<h1 id="为项目添加Dockerfile文件"><a href="#为项目添加Dockerfile文件" class="headerlink" title="为项目添加Dockerfile文件"></a>为项目添加Dockerfile文件</h1><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">FROM</span> index.alauda.cn/library/java:<span class="number">7</span>u91</div><div class="line"><span class="keyword">COPY</span><span class="bash"> ./target/gx.jar /gx.jar</span></div><div class="line"><span class="keyword">ENV</span> TZ Asia/Shanghai</div><div class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"java"</span>, <span class="string">"-jar"</span>, <span class="string">"-Djava.security.egd=file:/dev/./urandom"</span>, <span class="string">"/gx.jar"</span>,<span class="string">"--logging.path=/var/log"</span>]</span></div></pre></td></tr></table></figure>
+<p>添加后的目录结构如下</p>
+<p><img src="http://i1.piimg.com/567571/fdb1104f47b60136.png" alt=""></p>
+<h1 id="自动部署"><a href="#自动部署" class="headerlink" title="自动部署"></a>自动部署</h1><p>返回到主页面，点击构建按钮</p>
+<p><img src="http://i4.buimg.com/567571/f3cb0d4ce0fe46b9.png" alt=""></p>
+<p>进入控制台可以查看构建情况</p>
+<p><img src="http://i1.piimg.com/567571/5589a02b3a4d9d66.png" alt=""></p>
+<p>控制台最后，看到finished：success则表示构建成功</p>
+<p><img src="http://i1.piimg.com/567571/9ca2d175cc847cc4.png" alt=""></p>
+<h1 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h1><ol>
+<li>docker registry不能push成功</li>
+</ol>
+<p><img src="http://omdsjtsd2.bkt.clouddn.com/17-4-13/22437020-file_1492050771270_7ea.png" alt=""></p>
+<p>解决办法: advance中添加docker私服地址</p>
+<p><img src="http://i1.piimg.com/567571/7c480aed24b44b84.png" alt=""></p>
+<p><img src="http://i1.piimg.com/567571/561d033c068d5d78.png" alt=""></p>
+<ol>
+<li>docker远程管理失败</li>
+</ol>
+<p><img src="http://omdsjtsd2.bkt.clouddn.com/17-4-13/67981561-file_1492050907930_12f64.png" alt=""></p>
+<p>解决办法:由于我的docker版本是docker for mac，我查了很多资料，基本都是linux的docker版本远程管理解决方案，没有mac版本的方案。所以就退而求其次，把<code>-H 192.168.1.207</code>给删除了，相当于访问服务器本机的资源，如果有多台服务器，那就必须通过<code>-H ip</code>来管理了。</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>这次的搭建中新学到了不少的东西，比如docker的私服，docker的远程管理，dockerfile文件等等，其中mac上的远程管理我暂时还未能实现。我打算去centos服务器中再去从头搭建一次jenkins+docker+git+maven自动部署，巩固所学知识的同时看看mac和centos上搭建的区别，并在centos上实现docker的远程管理。</p>
 
       
     </div>
@@ -358,7 +396,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/其他/" rel="tag"># 其他</a>
+            <a href="/tags/学习笔记-docker-jenkins/" rel="tag"># -- 学习笔记 -- docker -- jenkins</a>
           
         </div>
       
@@ -371,15 +409,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/04/06/git学习笔记/" rel="next" title="git学习笔记">
+                <i class="fa fa-chevron-left"></i> git学习笔记
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/06/Markdown语法/" rel="prev" title="Markdown语法">
-                Markdown语法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -499,7 +537,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#成立背景"><span class="nav-number">1.</span> <span class="nav-text">成立背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用途"><span class="nav-number">2.</span> <span class="nav-text">用途</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目标"><span class="nav-number">3.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期望"><span class="nav-number">4.</span> <span class="nav-text">期望</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附Hexo搭建参考资料"><span class="nav-number">5.</span> <span class="nav-text">附Hexo搭建参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前置条件"><span class="nav-number">2.</span> <span class="nav-text">前置条件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#搭建步骤"><span class="nav-number">3.</span> <span class="nav-text">搭建步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jenkins上新建项目"><span class="nav-number">3.1.</span> <span class="nav-text">jenkins上新建项目</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为项目添加Dockerfile文件"><span class="nav-number">4.</span> <span class="nav-text">为项目添加Dockerfile文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自动部署"><span class="nav-number">5.</span> <span class="nav-text">自动部署</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#遇到的问题"><span class="nav-number">6.</span> <span class="nav-text">遇到的问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">7.</span> <span class="nav-text">后记</span></a></li></ol></div>
             
 
           </div>
