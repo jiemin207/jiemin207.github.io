@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Mac," />
+  <meta name="keywords" content="nginx," />
 
 
 
@@ -87,25 +87,45 @@
 
 
 
-<meta name="description" content="在mac中开启了shadowsocks代理只有通过浏览器访问才生效，默认命令行模式中代理不生效，想要使得命令行模式下生效需要设置一下，我命令行窗口使用的是item2
-在item2中输入以下代码行：
-12export http_proxy=socks5://127.0.0.1:1080export https_proxy=$http_proxy
-注意: 只在当前的命令行窗口有效，关闭后需要重新输入以">
+<meta name="description" content="nx缓存一般会有以下几个问题：
+
+缓存文件存放的路径
+缓存空间大小的设置
+设置缓存的有效期
+如何指定哪些请求被缓存
+对于某些请求，是否可以不走缓存
+
+配置文件示例文件：
+1234567891011121314151617181920proxy_cache_path /zndata/server/nginx/cache levels=1:2 keys_zone=one:10m loader_thre">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mac中item2使用代理">
-<meta property="og:url" content="http://jieminblog.tk/2017/05/02/Mac中item2使用代理/index.html">
+<meta property="og:title" content="nginx缓存">
+<meta property="og:url" content="http://jieminblog.tk/2017/08/09/nginx缓存/index.html">
 <meta property="og:site_name" content="jiemin's Blog">
-<meta property="og:description" content="在mac中开启了shadowsocks代理只有通过浏览器访问才生效，默认命令行模式中代理不生效，想要使得命令行模式下生效需要设置一下，我命令行窗口使用的是item2
-在item2中输入以下代码行：
-12export http_proxy=socks5://127.0.0.1:1080export https_proxy=$http_proxy
-注意: 只在当前的命令行窗口有效，关闭后需要重新输入以">
-<meta property="og:updated_time" content="2017-05-02T05:58:14.353Z">
+<meta property="og:description" content="nx缓存一般会有以下几个问题：
+
+缓存文件存放的路径
+缓存空间大小的设置
+设置缓存的有效期
+如何指定哪些请求被缓存
+对于某些请求，是否可以不走缓存
+
+配置文件示例文件：
+1234567891011121314151617181920proxy_cache_path /zndata/server/nginx/cache levels=1:2 keys_zone=one:10m loader_thre">
+<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/17-8-9/57479986.jpg">
+<meta property="og:updated_time" content="2017-08-09T02:06:15.147Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mac中item2使用代理">
-<meta name="twitter:description" content="在mac中开启了shadowsocks代理只有通过浏览器访问才生效，默认命令行模式中代理不生效，想要使得命令行模式下生效需要设置一下，我命令行窗口使用的是item2
-在item2中输入以下代码行：
-12export http_proxy=socks5://127.0.0.1:1080export https_proxy=$http_proxy
-注意: 只在当前的命令行窗口有效，关闭后需要重新输入以">
+<meta name="twitter:title" content="nginx缓存">
+<meta name="twitter:description" content="nx缓存一般会有以下几个问题：
+
+缓存文件存放的路径
+缓存空间大小的设置
+设置缓存的有效期
+如何指定哪些请求被缓存
+对于某些请求，是否可以不走缓存
+
+配置文件示例文件：
+1234567891011121314151617181920proxy_cache_path /zndata/server/nginx/cache levels=1:2 keys_zone=one:10m loader_thre">
+<meta name="twitter:image" content="http://omdsjtsd2.bkt.clouddn.com/17-8-9/57479986.jpg">
 
 
 
@@ -133,13 +153,13 @@
 
 
 
-  <link rel="canonical" href="http://jieminblog.tk/2017/05/02/Mac中item2使用代理/"/>
+  <link rel="canonical" href="http://jieminblog.tk/2017/08/09/nginx缓存/"/>
 
 
 
 
 
-  <title> Mac中item2使用代理 | jiemin's Blog </title>
+  <title> nginx缓存 | jiemin's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -258,7 +278,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/05/02/Mac中item2使用代理/">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/08/09/nginx缓存/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="我爱的乌托邦">
@@ -279,7 +299,7 @@
             
             
               
-                Mac中item2使用代理
+                nginx缓存
               
             
           </h1>
@@ -294,8 +314,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-02T13:57:02+08:00">
-                2017-05-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-09T10:04:57+08:00">
+                2017-08-09
               </time>
             
 
@@ -330,10 +350,46 @@
       
 
       
-        <p>在mac中开启了shadowsocks代理只有通过浏览器访问才生效，默认命令行模式中代理不生效，想要使得命令行模式下生效需要设置一下，我命令行窗口使用的是item2</p>
-<p>在item2中输入以下代码行：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> http_proxy=socks5:<span class="comment">//127.0.0.1:1080</span></div><div class="line"><span class="keyword">export</span> https_proxy=$http_proxy</div></pre></td></tr></table></figure>
-<p><strong>注意:</strong> 只在当前的命令行窗口有效，关闭后需要重新输入以上代码，代理生效。</p>
+        <p>nx缓存一般会有以下几个问题：</p>
+<ol>
+<li>缓存文件存放的路径</li>
+<li>缓存空间大小的设置</li>
+<li>设置缓存的有效期</li>
+<li>如何指定哪些请求被缓存</li>
+<li>对于某些请求，是否可以不走缓存</li>
+</ol>
+<h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><p>示例文件：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">proxy_cache_path</span> /zndata/server/nginx/cache levels=<span class="number">1</span>:<span class="number">2</span> keys_zone=one:<span class="number">10m</span> loader_threshold=<span class="number">300</span> loader_files=<span class="number">200</span> max_size=<span class="number">800m</span>;</div><div class="line"></div><div class="line"><span class="attribute">upstream</span> tomcats &#123;</div><div class="line">        <span class="attribute">server</span>  <span class="number">192.168.1.241:8080</span> weight=<span class="number">5</span>;</div><div class="line">        <span class="attribute">server</span>  <span class="number">192.168.1.241:9090</span> weight=<span class="number">5</span>;</div><div class="line">        <span class="attribute">server</span>  <span class="number">192.168.1.242:8080</span> weight=<span class="number">5</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="section">server</span> &#123;</div><div class="line">        <span class="attribute">listen</span>       <span class="number">80</span>;</div><div class="line">        <span class="attribute">server_name</span>  <span class="number">192.168.1.242</span>;</div><div class="line"></div><div class="line">        <span class="attribute">location</span> / &#123;</div><div class="line">            <span class="attribute">proxy_set_header</span>  Host            <span class="variable">$host</span>;</div><div class="line">            <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</div><div class="line">            <span class="attribute">proxy_pass</span>  http://tomcats;</div><div class="line">            <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</div><div class="line">            <span class="attribute">proxy_cache</span> one;</div><div class="line">            <span class="attribute">proxy_cache_valid</span> <span class="number">200</span> <span class="number">10m</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>参数说明：</p>
+<p><strong>proxy_cache_path</strong></p>
+<p><strong>语法</strong>：proxy_cache_path path [levels=number] keys_zone=zone_name: zone_size [inactive=time] [max_size=size]; </p>
+<ol>
+<li>proxy_cache_path指定缓存的目录</li>
+<li>level指定缓存的目录结构，如上配置文件所示，生成的缓存文件如下图所示</li>
+</ol>
+<p><img src="http://omdsjtsd2.bkt.clouddn.com/17-8-9/57479986.jpg" alt=""></p>
+<p>缓存文件名为6f7e21bb2c6246ba259832c682bdfdd0,配置文件中的level是1:2，那么他在缓存目录下生成<code>/0/dd</code>子目录，如果level是1:3，那么会生成<code>/0/fdd</code>子目录</p>
+<ol>
+<li>keys_zone=zone_name: zone_size指定缓存空间的名称和缓存空间的大小，如上配置文件所示表示缓存空间的名称是one，缓存空间的大小是10m。</li>
+<li>inactive=time表示在inactive参数指定的时间内缓存的数据没有被请求则被删除，默认inactive为10分钟。</li>
+<li>max_size指定缓存空间的大小，当目前缓存的值超出max_size指定的值之后，超过其大小后最少使用数据将被删除。</li>
+</ol>
+<p><strong>proxy_cache</strong></p>
+<p><strong>语法</strong>: proxy_cache zone_name</p>
+<p>启用缓存空间，可以在http, server, location这些字段中使用，如上配置文件所示，在location字段中启用了缓存名为one的缓存空间。</p>
+<p><strong>proxy_cache_valid</strong></p>
+<p><strong>语法</strong>：proxy_cache_valid reply_code [reply_code …] time</p>
+<p>为不同应答设置不同的缓存时间，如上图所示，为应答代码为200的设置了10分钟的缓存时间。</p>
+<p>以上配置文件中有涉及到nginx集群配置信息，参考<a href="http://jieminblog.tk/2017/08/07/nginx集群/">nginx集群</a></p>
+<p>关于如何指定哪些请求被缓存，对于某些请求，是否可以不走缓存这两个问题参考<a href="http://www.cnblogs.com/jun1019/p/6260662.html" target="_blank" rel="external">nginx缓存机制</a></p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ol>
+<li><a href="http://linux008.blog.51cto.com/2837805/547236/" target="_blank" rel="external">nginx缓存设置</a></li>
+<li><a href="http://www.cnblogs.com/jun1019/p/6260662.html" target="_blank" rel="external">nginx缓存机制</a></li>
+<li><a href="http://www.cnblogs.com/caoguo/p/5012447.html" target="_blank" rel="external">Nginx 反向代理并缓存及缓存清除</a></li>
+<li><a href="http://blog.csdn.net/w1014074794/article/details/51893766" target="_blank" rel="external">Nginx之页面缓存</a></li>
+<li><a href="http://www.cnblogs.com/dahuandan/p/6765042.html" target="_blank" rel="external">nginx四 之缓存模块</a></li>
+</ol>
 
       
     </div>
@@ -357,7 +413,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Mac/" rel="tag"># Mac</a>
+            <a href="/tags/nginx/" rel="tag"># nginx</a>
           
         </div>
       
@@ -370,8 +426,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/18/学习笔记－使用poi替换word内容/" rel="next" title="学习笔记－使用poi替换word内容">
-                <i class="fa fa-chevron-left"></i> 学习笔记－使用poi替换word内容
+              <a href="/2017/08/08/mac环境下svn操作/" rel="next" title="mac环境下svn操作">
+                <i class="fa fa-chevron-left"></i> mac环境下svn操作
               </a>
             
           </div>
@@ -379,10 +435,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/02/4月总结及5月计划/" rel="prev" title="4月总结及5月计划">
-                4月总结及5月计划 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -429,8 +481,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/touxiang.jpeg"
@@ -483,6 +544,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#配置文件"><span class="nav-number">1.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">2.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
