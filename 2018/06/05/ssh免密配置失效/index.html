@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="学习笔记,java," />
+  <meta name="keywords" content="linux," />
 
 
 
@@ -87,22 +87,37 @@
 
 
 
-<meta name="description" content="修改工程属性右键eclipse的工程，选择属性，再选择Project Facets里面中选择Dynamic Web Module ，将2.2修改为3.0，可能会提示如下信息：
-cannot change version web module 3.0
-修改配置文件找到工程项目目录，打开项目下的 .setting文件夹，找到 .setting文件夹内的org.eclipse.wst.common.pr">
+<meta name="description" content="前言配置jenkins需要设置ssh免密，在jenkins所在主机中生成id_rsa.pub后，将id_rsa.pub追加到想要免密登录主机的.ssh目录下的authorized_keys文件中，但添加完成后还是不能免密登录。
+排除问题过程1 保证用户的.ssh目录权限是700。
+
+2 保证.ssh下的authorized_keys文件是600权限
+
+3 查看selinux，保证selinux为d">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Eclipse如何修改dynamic web module version">
-<meta property="og:url" content="http://jieminblog.tk/2017/03/08/Eclipse如何修改dynamic-web-module-version/index.html">
+<meta property="og:title" content="ssh免密配置失效">
+<meta property="og:url" content="http://jieminblog.tk/2018/06/05/ssh免密配置失效/index.html">
 <meta property="og:site_name" content="jiemin's Blog">
-<meta property="og:description" content="修改工程属性右键eclipse的工程，选择属性，再选择Project Facets里面中选择Dynamic Web Module ，将2.2修改为3.0，可能会提示如下信息：
-cannot change version web module 3.0
-修改配置文件找到工程项目目录，打开项目下的 .setting文件夹，找到 .setting文件夹内的org.eclipse.wst.common.pr">
-<meta property="og:updated_time" content="2017-03-08T08:04:32.000Z">
+<meta property="og:description" content="前言配置jenkins需要设置ssh免密，在jenkins所在主机中生成id_rsa.pub后，将id_rsa.pub追加到想要免密登录主机的.ssh目录下的authorized_keys文件中，但添加完成后还是不能免密登录。
+排除问题过程1 保证用户的.ssh目录权限是700。
+
+2 保证.ssh下的authorized_keys文件是600权限
+
+3 查看selinux，保证selinux为d">
+<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/18-6-5/13309181.jpg">
+<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/18-6-5/48264509.jpg">
+<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/18-6-5/83741607.jpg">
+<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/18-6-5/83273048.jpg">
+<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/18-6-5/93783212.jpg">
+<meta property="og:updated_time" content="2018-06-05T02:52:01.179Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eclipse如何修改dynamic web module version">
-<meta name="twitter:description" content="修改工程属性右键eclipse的工程，选择属性，再选择Project Facets里面中选择Dynamic Web Module ，将2.2修改为3.0，可能会提示如下信息：
-cannot change version web module 3.0
-修改配置文件找到工程项目目录，打开项目下的 .setting文件夹，找到 .setting文件夹内的org.eclipse.wst.common.pr">
+<meta name="twitter:title" content="ssh免密配置失效">
+<meta name="twitter:description" content="前言配置jenkins需要设置ssh免密，在jenkins所在主机中生成id_rsa.pub后，将id_rsa.pub追加到想要免密登录主机的.ssh目录下的authorized_keys文件中，但添加完成后还是不能免密登录。
+排除问题过程1 保证用户的.ssh目录权限是700。
+
+2 保证.ssh下的authorized_keys文件是600权限
+
+3 查看selinux，保证selinux为d">
+<meta name="twitter:image" content="http://omdsjtsd2.bkt.clouddn.com/18-6-5/13309181.jpg">
 
 
 
@@ -130,13 +145,13 @@ cannot change version web module 3.0
 
 
 
-  <link rel="canonical" href="http://jieminblog.tk/2017/03/08/Eclipse如何修改dynamic-web-module-version/"/>
+  <link rel="canonical" href="http://jieminblog.tk/2018/06/05/ssh免密配置失效/"/>
 
 
 
 
 
-  <title> Eclipse如何修改dynamic web module version | jiemin's Blog </title>
+  <title> ssh免密配置失效 | jiemin's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -255,7 +270,7 @@ cannot change version web module 3.0
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/03/08/Eclipse如何修改dynamic-web-module-version/">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2018/06/05/ssh免密配置失效/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="我爱的乌托邦">
@@ -276,7 +291,7 @@ cannot change version web module 3.0
             
             
               
-                Eclipse如何修改dynamic web module version
+                ssh免密配置失效
               
             
           </h1>
@@ -291,8 +306,8 @@ cannot change version web module 3.0
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-08T16:02:40+08:00">
-                2017-03-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-05T10:48:40+08:00">
+                2018-06-05
               </time>
             
 
@@ -327,10 +342,29 @@ cannot change version web module 3.0
       
 
       
-        <h1 id="修改工程属性"><a href="#修改工程属性" class="headerlink" title="修改工程属性"></a>修改工程属性</h1><p>右键eclipse的工程，选择属性，再选择Project Facets里面中选择Dynamic Web Module ，将2.2修改为3.0，可能会提示如下信息：</p>
-<p><strong>cannot change version web module 3.0</strong></p>
-<h1 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h1><p>找到工程项目目录，打开项目下的 .setting文件夹，找到 .setting文件夹内的org.eclipse.wst.common.project.facet.core.xml文件，文件格式大致如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">faceted-project</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">fixed</span> <span class="attr">facet</span>=<span class="string">"wst.jsdt.web"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">installed</span> <span class="attr">facet</span>=<span class="string">"jst.web"</span> <span class="attr">version</span>=<span class="string">"2.2"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">installed</span> <span class="attr">facet</span>=<span class="string">"wst.jsdt.web"</span> <span class="attr">version</span>=<span class="string">"1.0"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">installed</span> <span class="attr">facet</span>=<span class="string">"java"</span> <span class="attr">version</span>=<span class="string">"1.7"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">installed</span> <span class="attr">facet</span>=<span class="string">"jst.jaxrs"</span> <span class="attr">version</span>=<span class="string">"2.0"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">installed</span> <span class="attr">facet</span>=<span class="string">"jst.jsf"</span> <span class="attr">version</span>=<span class="string">"2.2"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">faceted-project</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>手动将<code>&lt;installed facet=&quot;jst.web&quot; version=&quot;2.2&quot;/&gt;</code>的值改为3.0，刷新或重启项目即显示修改成功，错误消失。</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>配置jenkins需要设置ssh免密，在jenkins所在主机中生成<code>id_rsa.pub</code>后，将<code>id_rsa.pub</code>追加到想要免密登录主机的.ssh目录下的<code>authorized_keys</code>文件中，但添加完成后还是不能免密登录。</p>
+<h1 id="排除问题过程"><a href="#排除问题过程" class="headerlink" title="排除问题过程"></a>排除问题过程</h1><p>1 保证用户的.ssh目录权限是700。</p>
+<p><img src="http://omdsjtsd2.bkt.clouddn.com/18-6-5/13309181.jpg" alt=""></p>
+<p>2 保证.ssh下的authorized_keys文件是600权限</p>
+<p><img src="http://omdsjtsd2.bkt.clouddn.com/18-6-5/48264509.jpg" alt=""></p>
+<p>3 查看selinux，保证selinux为disabled<br><img src="http://omdsjtsd2.bkt.clouddn.com/18-6-5/83741607.jpg" alt=""></p>
+<p>4 查看/etc/ssh/sshd_config文件，定位到最后。</p>
+<p><img src="http://omdsjtsd2.bkt.clouddn.com/18-6-5/83273048.jpg" alt=""></p>
+<p>发现authorizedKeysFile文件指向的是.ssh/KHK75NEOiq,改为.ssh/authorized_keys</p>
+<p><img src="http://omdsjtsd2.bkt.clouddn.com/18-6-5/93783212.jpg" alt=""></p>
+<p>5 重启sshd服务</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">service sshd restart</span></div></pre></td></tr></table></figure>
+<p>再次尝试连接，不用密码就能登录了，问题解决。</p>
+<a id="more"></a>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>解决问题后去查了下之前sshd配置中的KHK75NEOiq文件，在.ssh的目录下存在，把这个文件删除。查了网上的资料是由于linux漏洞导致的这个问题，有以下几种方式可以提高linux服务器的安全性。</p>
+<h2 id="修改ssh端口"><a href="#修改ssh端口" class="headerlink" title="修改ssh端口"></a>修改ssh端口</h2><p>编辑<code>/etc/ssh/sshd_config</code>文件中的<code>Port 22</code> 将22修改为其他端口</p>
+<h2 id="禁止root用户登陆"><a href="#禁止root用户登陆" class="headerlink" title="禁止root用户登陆"></a>禁止root用户登陆</h2><p>编辑<code>/etc/ssh/sshd_config</code>文件中的PermitRootLogin 修改为no</p>
+<h2 id="修改无密码登陆的文件路径"><a href="#修改无密码登陆的文件路径" class="headerlink" title="修改无密码登陆的文件路径"></a>修改无密码登陆的文件路径</h2><p>编辑/etc/ssh/sshd_config文件中的AuthorizedKeysFile 修改为其他文件路径</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
+<li><a href="https://jingyan.baidu.com/article/b7001fe1bf71ee0e7282dddb.html" target="_blank" rel="external">彻底清除Linux centos minerd木马</a></li>
+<li><a href="https://yq.aliyun.com/articles/484226" target="_blank" rel="external">linux下免密认证登录失败原因总结
+</a></li>
+</ol>
 
       
     </div>
@@ -354,9 +388,7 @@ cannot change version web module 3.0
       
         <div class="post-tags">
           
-            <a href="/tags/学习笔记/" rel="tag"># 学习笔记</a>
-          
-            <a href="/tags/java/" rel="tag"># java</a>
+            <a href="/tags/linux/" rel="tag"># linux</a>
           
         </div>
       
@@ -369,8 +401,8 @@ cannot change version web module 3.0
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/08/vi学习笔记/" rel="next" title="vi学习笔记">
-                <i class="fa fa-chevron-left"></i> vi学习笔记
+              <a href="/2018/05/02/postgresql安装及主从部署/" rel="next" title="postgresql安装及主从部署">
+                <i class="fa fa-chevron-left"></i> postgresql安装及主从部署
               </a>
             
           </div>
@@ -378,10 +410,6 @@ cannot change version web module 3.0
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/09/使用MyBatis-Generator自动创建代码/" rel="prev" title="使用MyBatis Generator自动创建代码">
-                使用MyBatis Generator自动创建代码 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -501,7 +529,7 @@ cannot change version web module 3.0
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#修改工程属性"><span class="nav-number">1.</span> <span class="nav-text">修改工程属性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改配置文件"><span class="nav-number">2.</span> <span class="nav-text">修改配置文件</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#排除问题过程"><span class="nav-number">2.</span> <span class="nav-text">排除问题过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">3.</span> <span class="nav-text">后记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#修改ssh端口"><span class="nav-number">3.1.</span> <span class="nav-text">修改ssh端口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#禁止root用户登陆"><span class="nav-number">3.2.</span> <span class="nav-text">禁止root用户登陆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改无密码登陆的文件路径"><span class="nav-number">3.3.</span> <span class="nav-text">修改无密码登陆的文件路径</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
