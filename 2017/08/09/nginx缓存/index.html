@@ -1,0 +1,741 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="nginx," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="基本思路利用请求的局部性原理，将请求过的内容在本地建立一个副本，下次访问时不再连接到后端服务器，直接响应本地内容。
+我们运用nginx缓存一般会有以下几个问题：
+
+缓存文件存放的路径
+缓存空间大小的设置
+设置缓存的有效期
+如何指定哪些请求被缓存
+对于某些请求，是否可以不走缓存
+
+配置文件示例文件：
+1234567891011121314151617181920proxy_cache_path /z">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx缓存">
+<meta property="og:url" content="http://jieminblog.tk/2017/08/09/nginx缓存/index.html">
+<meta property="og:site_name" content="jiemin's Blog">
+<meta property="og:description" content="基本思路利用请求的局部性原理，将请求过的内容在本地建立一个副本，下次访问时不再连接到后端服务器，直接响应本地内容。
+我们运用nginx缓存一般会有以下几个问题：
+
+缓存文件存放的路径
+缓存空间大小的设置
+设置缓存的有效期
+如何指定哪些请求被缓存
+对于某些请求，是否可以不走缓存
+
+配置文件示例文件：
+1234567891011121314151617181920proxy_cache_path /z">
+<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/17-8-9/57479986.jpg">
+<meta property="og:updated_time" content="2017-08-09T02:09:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx缓存">
+<meta name="twitter:description" content="基本思路利用请求的局部性原理，将请求过的内容在本地建立一个副本，下次访问时不再连接到后端服务器，直接响应本地内容。
+我们运用nginx缓存一般会有以下几个问题：
+
+缓存文件存放的路径
+缓存空间大小的设置
+设置缓存的有效期
+如何指定哪些请求被缓存
+对于某些请求，是否可以不走缓存
+
+配置文件示例文件：
+1234567891011121314151617181920proxy_cache_path /z">
+<meta name="twitter:image" content="http://omdsjtsd2.bkt.clouddn.com/17-8-9/57479986.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jieminblog.tk/2017/08/09/nginx缓存/"/>
+
+
+
+
+
+  <title> nginx缓存 | jiemin's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">jiemin's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">本来无一物，何处惹尘埃</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/08/09/nginx缓存/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                nginx缓存
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-09T10:04:57+08:00">
+                2017-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h1><p>利用请求的局部性原理，将请求过的内容在本地建立一个副本，下次访问时不再连接到后端服务器，直接响应本地内容。</p>
+<p>我们运用nginx缓存一般会有以下几个问题：</p>
+<ol>
+<li>缓存文件存放的路径</li>
+<li>缓存空间大小的设置</li>
+<li>设置缓存的有效期</li>
+<li>如何指定哪些请求被缓存</li>
+<li>对于某些请求，是否可以不走缓存</li>
+</ol>
+<h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><p>示例文件：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">proxy_cache_path</span> /zndata/server/nginx/cache levels=<span class="number">1</span>:<span class="number">2</span> keys_zone=one:<span class="number">10m</span> loader_threshold=<span class="number">300</span> loader_files=<span class="number">200</span> max_size=<span class="number">800m</span>;</div><div class="line"></div><div class="line"><span class="attribute">upstream</span> tomcats &#123;</div><div class="line">        <span class="attribute">server</span>  <span class="number">192.168.1.241:8080</span> weight=<span class="number">5</span>;</div><div class="line">        <span class="attribute">server</span>  <span class="number">192.168.1.241:9090</span> weight=<span class="number">5</span>;</div><div class="line">        <span class="attribute">server</span>  <span class="number">192.168.1.242:8080</span> weight=<span class="number">5</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="section">server</span> &#123;</div><div class="line">        <span class="attribute">listen</span>       <span class="number">80</span>;</div><div class="line">        <span class="attribute">server_name</span>  <span class="number">192.168.1.242</span>;</div><div class="line"></div><div class="line">        <span class="attribute">location</span> / &#123;</div><div class="line">            <span class="attribute">proxy_set_header</span>  Host            <span class="variable">$host</span>;</div><div class="line">            <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</div><div class="line">            <span class="attribute">proxy_pass</span>  http://tomcats;</div><div class="line">            <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</div><div class="line">            <span class="attribute">proxy_cache</span> one;</div><div class="line">            <span class="attribute">proxy_cache_valid</span> <span class="number">200</span> <span class="number">10m</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>参数说明：</p>
+<p><strong>proxy_cache_path</strong></p>
+<p><strong>语法</strong>：proxy_cache_path path [levels=number] keys_zone=zone_name: zone_size [inactive=time] [max_size=size]; </p>
+<ol>
+<li>proxy_cache_path指定缓存的目录</li>
+<li>level指定缓存的目录结构，如上配置文件所示，生成的缓存文件如下图所示</li>
+</ol>
+<p><img src="http://omdsjtsd2.bkt.clouddn.com/17-8-9/57479986.jpg" alt=""></p>
+<p>缓存文件名为6f7e21bb2c6246ba259832c682bdfdd0,配置文件中的level是1:2，那么他在缓存目录下生成<code>/0/dd</code>子目录，如果level是1:3，那么会生成<code>/0/fdd</code>子目录</p>
+<ol>
+<li>keys_zone=zone_name: zone_size指定缓存空间的名称和缓存空间的大小，如上配置文件所示表示缓存空间的名称是one，缓存空间的大小是10m。</li>
+<li>inactive=time表示在inactive参数指定的时间内缓存的数据没有被请求则被删除，默认inactive为10分钟。</li>
+<li>max_size指定缓存空间的大小，当目前缓存的值超出max_size指定的值之后，超过其大小后最少使用数据将被删除。</li>
+</ol>
+<p><strong>proxy_cache</strong></p>
+<p><strong>语法</strong>: proxy_cache zone_name</p>
+<p>启用缓存空间，可以在http, server, location这些字段中使用，如上配置文件所示，在location字段中启用了缓存名为one的缓存空间。</p>
+<p><strong>proxy_cache_valid</strong></p>
+<p><strong>语法</strong>：proxy_cache_valid reply_code [reply_code …] time</p>
+<p>为不同应答设置不同的缓存时间，如上图所示，为应答代码为200的设置了10分钟的缓存时间。</p>
+<p>以上配置文件中有涉及到nginx集群配置信息，参考<a href="http://jieminblog.tk/2017/08/07/nginx集群/">nginx集群</a></p>
+<p>关于如何指定哪些请求被缓存，对于某些请求，是否可以不走缓存这两个问题参考<a href="http://www.cnblogs.com/jun1019/p/6260662.html" target="_blank" rel="external">nginx缓存机制</a></p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ol>
+<li><a href="http://linux008.blog.51cto.com/2837805/547236/" target="_blank" rel="external">nginx缓存设置</a></li>
+<li><a href="http://www.cnblogs.com/jun1019/p/6260662.html" target="_blank" rel="external">nginx缓存机制</a></li>
+<li><a href="http://www.cnblogs.com/caoguo/p/5012447.html" target="_blank" rel="external">Nginx 反向代理并缓存及缓存清除</a></li>
+<li><a href="http://blog.csdn.net/w1014074794/article/details/51893766" target="_blank" rel="external">Nginx之页面缓存</a></li>
+<li><a href="http://www.cnblogs.com/dahuandan/p/6765042.html" target="_blank" rel="external">nginx四 之缓存模块</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nginx/" rel="tag"># nginx</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/08/mac环境下svn操作/" rel="next" title="mac环境下svn操作">
+                <i class="fa fa-chevron-left"></i> mac环境下svn操作
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/31/Mac环境中eclipse使用反编译插件/" rel="prev" title="Mac环境中eclipse使用反编译插件">
+                Mac环境中eclipse使用反编译插件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/touxiang.jpeg"
+               alt="我爱的乌托邦" />
+          <p class="site-author-name" itemprop="name">我爱的乌托邦</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本思路"><span class="nav-number">1.</span> <span class="nav-text">基本思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置文件"><span class="nav-number">2.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">3.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">我爱的乌托邦</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

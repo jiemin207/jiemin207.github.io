@@ -1,0 +1,690 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="POI的两种模式对于Excel的读取，POI有两种模式，第一种是用户模式，使用比较简单，是将文件一次性读到内存，这种模式在文件比较大的情况下会有OutOfMemory内存溢出的情况。第二种是事件驱动模式，excel的内容是使用XML的格式存储的，处理excel就是解析XML,而目前使用事件驱动模式解析XML的API是SAX(Simple API for XML)，这种模型在读取XML文档时，并没有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用POI事件模式解析Excel">
+<meta property="og:url" content="http://jieminblog.tk/2019/01/07/使用POI事件模式解析Excel/index.html">
+<meta property="og:site_name" content="jiemin's Blog">
+<meta property="og:description" content="POI的两种模式对于Excel的读取，POI有两种模式，第一种是用户模式，使用比较简单，是将文件一次性读到内存，这种模式在文件比较大的情况下会有OutOfMemory内存溢出的情况。第二种是事件驱动模式，excel的内容是使用XML的格式存储的，处理excel就是解析XML,而目前使用事件驱动模式解析XML的API是SAX(Simple API for XML)，这种模型在读取XML文档时，并没有">
+<meta property="og:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-1-7/89678789.jpg">
+<meta property="og:updated_time" content="2019-01-06T17:34:42.562Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用POI事件模式解析Excel">
+<meta name="twitter:description" content="POI的两种模式对于Excel的读取，POI有两种模式，第一种是用户模式，使用比较简单，是将文件一次性读到内存，这种模式在文件比较大的情况下会有OutOfMemory内存溢出的情况。第二种是事件驱动模式，excel的内容是使用XML的格式存储的，处理excel就是解析XML,而目前使用事件驱动模式解析XML的API是SAX(Simple API for XML)，这种模型在读取XML文档时，并没有">
+<meta name="twitter:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-1-7/89678789.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jieminblog.tk/2019/01/07/使用POI事件模式解析Excel/"/>
+
+
+
+
+
+  <title> 使用POI事件模式解析Excel | jiemin's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">jiemin's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">本来无一物，何处惹尘埃</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2019/01/07/使用POI事件模式解析Excel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用POI事件模式解析Excel
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-07T01:30:48+08:00">
+                2019-01-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="POI的两种模式"><a href="#POI的两种模式" class="headerlink" title="POI的两种模式"></a>POI的两种模式</h1><p>对于Excel的读取，POI有两种模式，第一种是用户模式，使用比较简单，是将文件一次性读到内存，这种模式在文件比较大的情况下会有OutOfMemory内存溢出的情况。第二种是事件驱动模式，excel的内容是使用XML的格式存储的，处理excel就是解析XML,而目前使用事件驱动模式解析XML的API是SAX(Simple API for XML)，这种模型在读取XML文档时，并没有将整个文档读入内存，而是按顺序将整个文档解析完，在解析过程中，会主动产生事件交给程序中相应的处理函数来处理当前内容。因此这种方式对系统资源要求不高。</p>
+<h1 id="事件模式解析步骤"><a href="#事件模式解析步骤" class="headerlink" title="事件模式解析步骤"></a>事件模式解析步骤</h1><ol>
+<li>通过文件路径或者Inputstream调用OPCPackage的open方法生成OPCPackage实例</li>
+<li>通过OPCPackage实例创建XSSFReader实例对象</li>
+<li>通过XSSFReader实例对象获取共享的字符串表</li>
+<li>创建XMLReader实例对象，使用SAX进行解析取共享的字符串表,并设置内容处理器</li>
+<li>开始处理</li>
+</ol>
+<h1 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h1><h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>解析一份大数据量的用户名+电话的excel，将解析出来的数据放入List集合中，格式如图:</p>
+<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-1-7/89678789.jpg" alt=""></p>
+<a id="more"></a>
+<h2 id="实体类-AiMobileTemp"><a href="#实体类-AiMobileTemp" class="headerlink" title="实体类 AiMobileTemp"></a>实体类 AiMobileTemp</h2><figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">@Data</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AiMobileTemp</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 用户姓名</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">String</span> name;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 用户手机号</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">String</span> mobile;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Excel事件解析类-ExcelXlsxReader类"><a href="#Excel事件解析类-ExcelXlsxReader类" class="headerlink" title="Excel事件解析类 ExcelXlsxReader类"></a>Excel事件解析类 ExcelXlsxReader类</h2><figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.yingying.callcenter.component;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.Map;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.commons.collections.<span class="built_in">map</span>.HashedMap;</div><div class="line"><span class="keyword">import</span> org.apache.poi.openxml4j.opc.OPCPackage;</div><div class="line"><span class="keyword">import</span> org.apache.poi.xssf.eventusermodel.XSSFReader;</div><div class="line"><span class="keyword">import</span> org.apache.poi.xssf.model.SharedStringsTable;</div><div class="line"><span class="keyword">import</span> org.xml.sax.Attributes;</div><div class="line"><span class="keyword">import</span> org.xml.sax.InputSource;</div><div class="line"><span class="keyword">import</span> org.xml.sax.SAXException;</div><div class="line"><span class="keyword">import</span> org.xml.sax.XMLReader;</div><div class="line"><span class="keyword">import</span> org.xml.sax.helpers.DefaultHandler;</div><div class="line"><span class="keyword">import</span> org.xml.sax.helpers.XMLReaderFactory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</div><div class="line"></div><div class="line">@Slf4j</div><div class="line"><span class="keyword">public</span> class ExcelXlsxReader extends DefaultHandler &#123;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 共享字符串表</div><div class="line">	 */</div><div class="line">	<span class="keyword">private</span> SharedStringsTable sst;</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 上一次的内容</div><div class="line">	 */</div><div class="line">	<span class="keyword">private</span> <span class="keyword">String</span> lastContents;</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 字符串标识</div><div class="line">	 */</div><div class="line">	<span class="keyword">private</span> <span class="built_in">boolean</span> nextIsString;</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 工作表索引</div><div class="line">	 */</div><div class="line">	<span class="keyword">private</span> <span class="built_in">int</span> sheetIndex = <span class="number">-1</span>;</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 行集合</div><div class="line">	 */</div><div class="line">	<span class="keyword">private</span> List&lt;<span class="keyword">String</span>&gt; rowlist = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 当前行</div><div class="line">	 */</div><div class="line">	<span class="keyword">private</span> <span class="built_in">int</span> curRow = <span class="number">0</span>;</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 当前列</div><div class="line">	 */</div><div class="line">	<span class="keyword">private</span> <span class="built_in">int</span> curCol = <span class="number">0</span>;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">String</span> col = <span class="string">""</span>;</div><div class="line">	@SuppressWarnings(<span class="string">"rawtypes"</span>)</div><div class="line">	<span class="keyword">private</span> Map <span class="built_in">map</span> = <span class="keyword">new</span> HashedMap();</div><div class="line"></div><div class="line">	<span class="keyword">private</span> ExcelReader excelReader;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="keyword">void</span> setExcelRow(ExcelReader excelReader) &#123;</div><div class="line">		<span class="keyword">this</span>.excelReader = excelReader;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 读取第一个工作簿的入口方法</div><div class="line">	 * </div><div class="line">	 * @param path</div><div class="line">	 *            文件路径</div><div class="line">	 * @param sheetNo</div><div class="line">	 *            工作表 从1开始</div><div class="line">	 */</div><div class="line">	<span class="keyword">public</span> <span class="keyword">void</span> readOneSheet(InputStream is, Integer sheetNo) &#123;</div><div class="line">		OPCPackage pkg = <span class="keyword">null</span>;</div><div class="line">		InputStream sheet = <span class="keyword">null</span>;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			pkg = OPCPackage.<span class="built_in">open</span>(is);</div><div class="line">			XSSFReader r = <span class="keyword">new</span> XSSFReader(pkg);</div><div class="line">			SharedStringsTable sharedStringsTable = r.getSharedStringsTable();</div><div class="line"></div><div class="line">			XMLReader parser = fetchSheetParser(sharedStringsTable);</div><div class="line"></div><div class="line">			sheet = r.getSheet(<span class="string">"rId"</span> + sheetNo);</div><div class="line"></div><div class="line">			InputSource sheetSource = <span class="keyword">new</span> InputSource(sheet);</div><div class="line">			parser.parse(sheetSource);</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="built_in">log</span>.error(e.getMessage(), e);</div><div class="line">		&#125; <span class="keyword">finally</span> &#123;</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				<span class="keyword">if</span> (sheet != <span class="keyword">null</span>) &#123;</div><div class="line">					sheet.close();</div><div class="line">				&#125;</div><div class="line">			&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">				<span class="built_in">log</span>.error(e.getMessage(), e);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> XMLReader fetchSheetParser(SharedStringsTable sst) <span class="keyword">throws</span> SAXException &#123;</div><div class="line">		XMLReader parser = XMLReaderFactory.createXMLReader(<span class="string">"org.apache.xerces.parsers.SAXParser"</span>);</div><div class="line">		<span class="keyword">this</span>.sst = sst;</div><div class="line">		parser.setContentHandler(<span class="keyword">this</span>);</div><div class="line">		<span class="keyword">return</span> parser;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	<span class="keyword">public</span> <span class="keyword">void</span> startElement(<span class="keyword">String</span> uri, <span class="keyword">String</span> localName, <span class="keyword">String</span> name, Attributes attributes) <span class="keyword">throws</span> SAXException &#123;</div><div class="line">		<span class="comment">// c =&gt; 单元格</span></div><div class="line">		<span class="keyword">if</span> (name.equals(<span class="string">"c"</span>)) &#123;</div><div class="line">			col = attributes.getValue(<span class="string">"r"</span>);</div><div class="line">			<span class="comment">// 如果下一个元素是 SST 的索引，则将nextIsString标记为true</span></div><div class="line">			<span class="keyword">String</span> cellType = attributes.getValue(<span class="string">"t"</span>);</div><div class="line">			<span class="keyword">if</span> (cellType != <span class="keyword">null</span> &amp;&amp; cellType.equals(<span class="string">"s"</span>)) &#123;</div><div class="line">				nextIsString = <span class="keyword">true</span>;</div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				nextIsString = <span class="keyword">false</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 置空</span></div><div class="line">		lastContents = <span class="string">""</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@SuppressWarnings(<span class="string">"unchecked"</span>)</div><div class="line">	@Override</div><div class="line">	<span class="keyword">public</span> <span class="keyword">void</span> endElement(<span class="keyword">String</span> uri, <span class="keyword">String</span> localName, <span class="keyword">String</span> name) <span class="keyword">throws</span> SAXException &#123;</div><div class="line">		<span class="comment">// 根据SST的索引值的到单元格的真正要存储的字符串</span></div><div class="line">		<span class="comment">// 这时characters()方法可能会被调用多次</span></div><div class="line">		<span class="keyword">if</span> (nextIsString) &#123;</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				<span class="built_in">int</span> idx = Integer.parseInt(lastContents);</div><div class="line">				lastContents = sst.getItemAt(idx).toString();</div><div class="line">				nextIsString = <span class="keyword">false</span>;</div><div class="line">			&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">				<span class="built_in">log</span>.error(e.getMessage(), e);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="comment">// v =&gt; 单元格的值，如果单元格是字符串则v标签的值为该字符串在SST中的索引</span></div><div class="line">		<span class="comment">// 将单元格内容加入rowlist中，在这之前先去掉字符串前后的空白符</span></div><div class="line">		<span class="keyword">if</span> (name.equals(<span class="string">"v"</span>)) &#123;</div><div class="line">			<span class="keyword">String</span> value = lastContents.<span class="built_in">trim</span>();</div><div class="line">			rowlist.<span class="built_in">add</span>(curCol, value);</div><div class="line">			curCol++;</div><div class="line">			<span class="built_in">map</span>.put(col, value);</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			<span class="comment">// 如果标签名称为 row ，这说明已到行尾，调用 optRows() 方法</span></div><div class="line">			<span class="keyword">if</span> (name.equals(<span class="string">"row"</span>)) &#123;</div><div class="line">				<span class="comment">// 实际业务逻辑处理</span></div><div class="line">				excelReader.getRow(sheetIndex, curRow, <span class="built_in">map</span>);</div><div class="line">				rowlist.<span class="built_in">clear</span>();</div><div class="line">				curRow++;</div><div class="line">				curCol = <span class="number">0</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	<span class="keyword">public</span> <span class="keyword">void</span> characters(<span class="built_in">char</span>[] ch, <span class="built_in">int</span> start, <span class="built_in">int</span> length) <span class="keyword">throws</span> SAXException &#123;</div><div class="line">		<span class="comment">// 得到单元格内容的值</span></div><div class="line">		lastContents += <span class="keyword">new</span> <span class="keyword">String</span>(ch, start, length);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="事件实现接口-ExcelReader"><a href="#事件实现接口-ExcelReader" class="headerlink" title="事件实现接口 ExcelReader"></a>事件实现接口 ExcelReader</h2><figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">ExcelReader</span> &#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getRow</span>(<span class="params"><span class="keyword">int</span> sheetIndex, <span class="keyword">int</span> curRow, Map&lt;String, String&gt; map</span>)</span>;</div><div class="line"></div><div class="line">	<span class="function">List&lt;AiMobileTemp&gt; <span class="title">getAiMobileTemp</span>(<span class="params"></span>)</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="事件实现具体逻辑类-ExcelReaderImpl"><a href="#事件实现具体逻辑类-ExcelReaderImpl" class="headerlink" title="事件实现具体逻辑类 ExcelReaderImpl"></a>事件实现具体逻辑类 ExcelReaderImpl</h2><figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span></div><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ExcelReaderImpl</span> <span class="keyword">implements</span> <span class="title">ExcelReader</span> </span>&#123;</div><div class="line"></div><div class="line">	private <span class="built_in">List</span>&lt;AiMobileTemp&gt; temps = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	public <span class="keyword">void</span> getRow(<span class="built_in">int</span> sheetIndex, <span class="built_in">int</span> curRow, <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; map) &#123;</div><div class="line">		AiMobileTemp aiMobileTemp = <span class="keyword">new</span> AiMobileTemp();</div><div class="line">		aiMobileTemp.setName(map.<span class="keyword">get</span>(<span class="string">"A"</span> + curRow));</div><div class="line">		aiMobileTemp.setMobile(map.<span class="keyword">get</span>(<span class="string">"B"</span> + curRow));</div><div class="line">		temps.add(aiMobileTemp);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	public <span class="built_in">List</span>&lt;AiMobileTemp&gt; getAiMobileTemp() &#123;</div><div class="line">		<span class="keyword">return</span> temps;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="方法调用类-AiTaskServiceImpl"><a href="#方法调用类-AiTaskServiceImpl" class="headerlink" title="方法调用类 AiTaskServiceImpl"></a>方法调用类 AiTaskServiceImpl</h2><figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> List&lt;AiMobileTemp&gt; parseAiCallByExcelUrl(<span class="keyword">String</span> url) &#123;</div><div class="line">		InputStream inputStream = getInputStreamByRemoteUrl(url);</div><div class="line">		ExcelXlsxReader excelXlsxReader = <span class="keyword">new</span> <span class="type">ExcelXlsxReader</span>();</div><div class="line">		excelXlsxReader.setExcelRow(excelReader);</div><div class="line">		excelXlsxReader.readOneSheet(inputStream, <span class="number">1</span>);</div><div class="line">		<span class="keyword">return</span> excelReader.getAiMobileTemp();</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>以上代码基本实现了excel大批量数据导入的需求，不会发生内存溢出的情况了，但还有不少地方可以优化和封装，需要进一步完善。</p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ol>
+<li><a href="https://blog.csdn.net/lipinganq/article/details/78775195" target="_blank" rel="external">POI事件模式读取Excel 2007</a></li>
+<li><a href="https://blog.csdn.net/daiyutage/article/details/53023020" target="_blank" rel="external">POI解决读入Excel内存溢出</a></li>
+<li><a href="https://blog.csdn.net/weixin_33654636/article/details/80694747" target="_blank" rel="external">POI 事件模式解析xlsx</a></li>
+<li><a href="https://blog.csdn.net/goodkuang2012/article/details/7350985" target="_blank" rel="external">POI读写海量Excel</a></li>
+<li><a href="https://blog.csdn.net/lipinganq/article/details/78509351" target="_blank" rel="external">POI事件模式解析Excel 2007（二） - SAX简介</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/28/RedHat上安装指定版本docker和docker-compose/" rel="next" title="RedHat上安装指定版本docker和docker-compose">
+                <i class="fa fa-chevron-left"></i> RedHat上安装指定版本docker和docker-compose
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/touxiang.jpeg"
+               alt="我爱的乌托邦" />
+          <p class="site-author-name" itemprop="name">我爱的乌托邦</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#POI的两种模式"><span class="nav-number">1.</span> <span class="nav-text">POI的两种模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#事件模式解析步骤"><span class="nav-number">2.</span> <span class="nav-text">事件模式解析步骤</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#示例代码"><span class="nav-number">3.</span> <span class="nav-text">示例代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#目标"><span class="nav-number">3.1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实体类-AiMobileTemp"><span class="nav-number">3.2.</span> <span class="nav-text">实体类 AiMobileTemp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Excel事件解析类-ExcelXlsxReader类"><span class="nav-number">3.3.</span> <span class="nav-text">Excel事件解析类 ExcelXlsxReader类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件实现接口-ExcelReader"><span class="nav-number">3.4.</span> <span class="nav-text">事件实现接口 ExcelReader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件实现具体逻辑类-ExcelReaderImpl"><span class="nav-number">3.5.</span> <span class="nav-text">事件实现具体逻辑类 ExcelReaderImpl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法调用类-AiTaskServiceImpl"><span class="nav-number">3.6.</span> <span class="nav-text">方法调用类 AiTaskServiceImpl</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">5.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">我爱的乌托邦</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

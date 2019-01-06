@@ -247,6 +247,389 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/08/31/Mac环境中eclipse使用反编译插件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/31/Mac环境中eclipse使用反编译插件/" itemprop="url">
+                  Mac环境中eclipse使用反编译插件
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-31T11:01:43+08:00">
+                2017-08-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h1><h2 id="下载本地插件"><a href="#下载本地插件" class="headerlink" title="下载本地插件"></a>下载本地插件</h2><p>1  <a href="http://jadclipse.sourceforge.net/wiki/index.php/Main_Page#Download">JadClipse</a></p>
+<p><img src="http://omdsjtsd2.bkt.clouddn.com/17-8-31/84884088.jpg" alt=""></p>
+<p>2 <a href="http://www.varaneckas.com/jad">Jad</a></p>
+<p><img src="http://omdsjtsd2.bkt.clouddn.com/17-8-31/51706949.jpg" alt=""></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/31/Mac环境中eclipse使用反编译插件/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/08/09/nginx缓存/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/09/nginx缓存/" itemprop="url">
+                  nginx缓存
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-09T10:04:57+08:00">
+                2017-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h1><p>利用请求的局部性原理，将请求过的内容在本地建立一个副本，下次访问时不再连接到后端服务器，直接响应本地内容。</p>
+<p>我们运用nginx缓存一般会有以下几个问题：</p>
+<ol>
+<li>缓存文件存放的路径</li>
+<li>缓存空间大小的设置</li>
+<li>设置缓存的有效期</li>
+<li>如何指定哪些请求被缓存</li>
+<li>对于某些请求，是否可以不走缓存</li>
+</ol>
+<h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><p>示例文件：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">proxy_cache_path</span> /zndata/server/nginx/cache levels=<span class="number">1</span>:<span class="number">2</span> keys_zone=one:<span class="number">10m</span> loader_threshold=<span class="number">300</span> loader_files=<span class="number">200</span> max_size=<span class="number">800m</span>;</div><div class="line"></div><div class="line"><span class="attribute">upstream</span> tomcats &#123;</div><div class="line">        <span class="attribute">server</span>  <span class="number">192.168.1.241:8080</span> weight=<span class="number">5</span>;</div><div class="line">        <span class="attribute">server</span>  <span class="number">192.168.1.241:9090</span> weight=<span class="number">5</span>;</div><div class="line">        <span class="attribute">server</span>  <span class="number">192.168.1.242:8080</span> weight=<span class="number">5</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="section">server</span> &#123;</div><div class="line">        <span class="attribute">listen</span>       <span class="number">80</span>;</div><div class="line">        <span class="attribute">server_name</span>  <span class="number">192.168.1.242</span>;</div><div class="line"></div><div class="line">        <span class="attribute">location</span> / &#123;</div><div class="line">            <span class="attribute">proxy_set_header</span>  Host            <span class="variable">$host</span>;</div><div class="line">            <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</div><div class="line">            <span class="attribute">proxy_pass</span>  http://tomcats;</div><div class="line">            <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</div><div class="line">            <span class="attribute">proxy_cache</span> one;</div><div class="line">            <span class="attribute">proxy_cache_valid</span> <span class="number">200</span> <span class="number">10m</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/09/nginx缓存/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/08/08/mac环境下svn操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/08/mac环境下svn操作/" itemprop="url">
+                  mac环境下svn操作
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-08T14:12:42+08:00">
+                2017-08-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="创建svn仓库"><a href="#创建svn仓库" class="headerlink" title="创建svn仓库"></a>创建svn仓库</h1><p>1.新建一个svn目录，进入svn目录，输入指令 <code>svnadmin create /Users/zjm/svn/mycode</code>,执行成功后svn目录下会生成mycode仓库，目录结构如下</p>
+<p><img src="http://omdsjtsd2.bkt.clouddn.com/17-8-8/53415204.jpg" alt=""></p>
+<h1 id="配置svn用户权限"><a href="#配置svn用户权限" class="headerlink" title="配置svn用户权限"></a>配置svn用户权限</h1><h2 id="修改svnserver-conf文件"><a href="#修改svnserver-conf文件" class="headerlink" title="修改svnserver.conf文件"></a>修改svnserver.conf文件</h2><p>进入conf目录，修改svnserver.conf文件，将下列配置前的#和空格去掉<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta"># anon-access = read  </span></div><div class="line"><span class="meta"># auth-access = write  </span></div><div class="line">  </div><div class="line"><span class="meta"># password-db = passwd  </span></div><div class="line">  </div><div class="line"><span class="meta"># authz-db = authz</span></div></pre></td></tr></table></figure></p>
+<h2 id="修改passwd文件"><a href="#修改passwd文件" class="headerlink" title="修改passwd文件"></a>修改passwd文件</h2><p>在[users]下添加账号和密码</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section">[users]</span></div><div class="line"><span class="attr">zjm</span> = <span class="number">123456</span></div><div class="line"><span class="attr">zs</span>  = <span class="number">123456</span></div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/08/mac环境下svn操作/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/08/07/CentOS-7二进制文件安装nodejs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1120,431 +1503,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/04/06/git学习笔记/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="我爱的乌托邦">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/touxiang.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jiemin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/06/git学习笔记/" itemprop="url">
-                  git学习笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-06T09:06:16+08:00">
-                2017-04-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p> 使用git已经有一段时间了，好记性不如烂笔头，这里将常用的命令整理下做个记录。</p>
-<h1 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h1><table>
-<thead>
-<tr>
-<th style="text-align:center">命令</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">git init</td>
-<td style="text-align:center">创建版本库</td>
-</tr>
-<tr>
-<td style="text-align:center">git add</td>
-<td style="text-align:center">将文件添加到仓库</td>
-</tr>
-<tr>
-<td style="text-align:center">git commit</td>
-<td style="text-align:center">将文件提交到仓库</td>
-</tr>
-<tr>
-<td style="text-align:center">git status</td>
-<td style="text-align:center">查看仓库状态,文件是否有修改</td>
-</tr>
-<tr>
-<td style="text-align:center">git diff</td>
-<td style="text-align:center">查看修改内容</td>
-</tr>
-<tr>
-<td style="text-align:center">git clone</td>
-<td style="text-align:center">从远程仓库克隆项目</td>
-</tr>
-<tr>
-<td style="text-align:center">git push</td>
-<td style="text-align:center">提交本地代码到远程仓库</td>
-</tr>
-<tr>
-<td style="text-align:center">git pull</td>
-<td style="text-align:center">从远程仓库拉取项目到本地</td>
-</tr>
-<tr>
-<td style="text-align:center">git checkout</td>
-<td style="text-align:center">切换分支</td>
-</tr>
-<tr>
-<td style="text-align:center">git merge</td>
-<td style="text-align:center">合并分支</td>
-</tr>
-<tr>
-<td style="text-align:center">git stash</td>
-<td style="text-align:center">备份当前工作区内容</td>
-</tr>
-</tbody>
-</table>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/06/git学习笔记/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/03/25/windows2016server部署中普审计软件服务端/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="我爱的乌托邦">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/touxiang.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jiemin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/25/windows2016server部署中普审计软件服务端/" itemprop="url">
-                  windows2016server部署中普审计软件服务端
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-25T10:50:40+08:00">
-                2017-03-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>公司之前安装的中普审计软件网络版由于服务器被黑，需要请中普实施人员重新部署。本着下次需要重新安装能自己解决的心态，看中普实施人员部署一遍后，我又重新部署了一遍，并将安装过程整理了一下，记录成了文档。部署过程主要分为安装中普审计软件，安装IIS服务器，配置数据库，初始化数据库这么几步。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/25/windows2016server部署中普审计软件服务端/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/03/24/Centos7搭建FTP服务器/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="我爱的乌托邦">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/touxiang.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jiemin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/24/Centos7搭建FTP服务器/" itemprop="url">
-                  Centos7搭建FTP服务器
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-24T15:50:46+08:00">
-                2017-03-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>阿里云上使用Ngnix部署了一个静态项目，想通过FTP来管理这个静态项目。搭建前先去了解了一下FTP，FTP是文件传输协议，用于Internet上的控制文件的双向传输，实现服务端和客户端的文件上传和下载。阿里云线上环境是Centos7，这里使用vsftpd来搭建FTP服务。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/24/Centos7搭建FTP服务器/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1589,7 +1552,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1644,7 +1607,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

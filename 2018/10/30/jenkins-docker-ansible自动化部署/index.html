@@ -1,0 +1,774 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="运维," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="jenkins+docker+ansible实现自动化部署jenkins工作流程示意图
+环境准备
+
+
+资源
+路径
+
+
+
+
+jenkins服务器
+10.100.2.12
+
+
+
+python项目所在服务器
+10.200.1.37
+
+
+
+
+两台服务器上均装有docker和ansible
+流程第一步为项目添加Dockerfile文件，DockerFile放在项目的根路径，DockerFile文件如下:12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jenkins+docker+ansible自动化部署">
+<meta property="og:url" content="http://jieminblog.tk/2018/10/30/jenkins-docker-ansible自动化部署/index.html">
+<meta property="og:site_name" content="jiemin's Blog">
+<meta property="og:description" content="jenkins+docker+ansible实现自动化部署jenkins工作流程示意图
+环境准备
+
+
+资源
+路径
+
+
+
+
+jenkins服务器
+10.100.2.12
+
+
+
+python项目所在服务器
+10.200.1.37
+
+
+
+
+两台服务器上均装有docker和ansible
+流程第一步为项目添加Dockerfile文件，DockerFile放在项目的根路径，DockerFile文件如下:12">
+<meta property="og:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/18-10-30/81955932.jpg">
+<meta property="og:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/18-10-30/33558193.jpg">
+<meta property="og:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/18-10-30/21122269.jpg">
+<meta property="og:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/18-10-30/58918181.jpg">
+<meta property="og:updated_time" content="2018-10-30T05:28:04.666Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jenkins+docker+ansible自动化部署">
+<meta name="twitter:description" content="jenkins+docker+ansible实现自动化部署jenkins工作流程示意图
+环境准备
+
+
+资源
+路径
+
+
+
+
+jenkins服务器
+10.100.2.12
+
+
+
+python项目所在服务器
+10.200.1.37
+
+
+
+
+两台服务器上均装有docker和ansible
+流程第一步为项目添加Dockerfile文件，DockerFile放在项目的根路径，DockerFile文件如下:12">
+<meta name="twitter:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/18-10-30/81955932.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jieminblog.tk/2018/10/30/jenkins-docker-ansible自动化部署/"/>
+
+
+
+
+
+  <title> jenkins+docker+ansible自动化部署 | jiemin's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">jiemin's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">本来无一物，何处惹尘埃</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2018/10/30/jenkins-docker-ansible自动化部署/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                jenkins+docker+ansible自动化部署
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-30T13:26:54+08:00">
+                2018-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="jenkins-docker-ansible实现自动化部署"><a href="#jenkins-docker-ansible实现自动化部署" class="headerlink" title="jenkins+docker+ansible实现自动化部署"></a>jenkins+docker+ansible实现自动化部署</h1><h2 id="jenkins工作流程示意图"><a href="#jenkins工作流程示意图" class="headerlink" title="jenkins工作流程示意图"></a>jenkins工作流程示意图</h2><p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/18-10-30/81955932.jpg" alt=""></p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">资源</th>
+<th style="text-align:center">路径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">jenkins服务器</td>
+<td style="text-align:center">10.100.2.12</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">python项目所在服务器</td>
+<td style="text-align:center">10.200.1.37</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>两台服务器上均装有docker和ansible</p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>为项目添加Dockerfile文件，DockerFile放在项目的根路径，DockerFile文件如下:<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 基于什么镜像进行构建</span></div><div class="line"><span class="keyword">FROM</span> lucascosta/serverless-python3.<span class="number">6</span></div><div class="line"><span class="comment"># 设置容器环境变量时区为东八区</span></div><div class="line"><span class="keyword">ENV</span> TZ=<span class="string">"Asia/Shanghai"</span></div><div class="line"></div><div class="line"><span class="comment"># Add a yinghuo user to run our application so that it doesn't need to run as root</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> adduser --disabled-password  yinghuo</span></div><div class="line"><span class="comment"># 安装python项目所需依赖</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> pip3 install flask</span></div><div class="line"><span class="comment"># 将项目添加到容器中</span></div><div class="line"><span class="keyword">ADD</span><span class="bash"> ./* /home/yinghuo/ai_voice_engine/</span></div><div class="line"><span class="comment"># 设置权限</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> chmod -R 777 /home/yinghuo/ai_voice_engine/</span></div><div class="line"></div><div class="line"><span class="comment">#  等同于cd /home/yinghuo的意思</span></div><div class="line"><span class="keyword">WORKDIR</span><span class="bash"> /home/yinghuo</span></div><div class="line"></div><div class="line"><span class="keyword">USER</span> yinghuo</div><div class="line"><span class="comment"># 启动项目</span></div><div class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"python3"</span>, <span class="string">"ai_voice_engine/hello.py"</span>]</span></div><div class="line"><span class="comment"># 容器暴露对外的端口号，需要在docker run时添加容器跟服务器的映射关系</span></div><div class="line"><span class="keyword">EXPOSE</span> <span class="number">5000</span></div></pre></td></tr></table></figure></p>
+<p>添加完DockerFile后项目结构如下:</p>
+<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/18-10-30/33558193.jpg" alt=""></p>
+<a id="more"></a>
+<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>创建jenkins新任务，使用自由风格构建模式,源码管理使用git。</p>
+<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/18-10-30/21122269.jpg" alt=""></p>
+<p>构建选择使用shell构建</p>
+<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/18-10-30/58918181.jpg" alt=""></p>
+<p>shell脚本</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 删除原有的打包文件</span></div><div class="line">rm -rf ai_voice_engine.tar</div><div class="line"><span class="comment"># 将当前工作目录进行打包成一个文件</span></div><div class="line">tar -cvf ai_voice_engine.tar ./</div><div class="line"></div><div class="line"><span class="comment"># 将打包的文件发送至python项目服务器</span></div><div class="line">ansible -i devops/provision/inventories/development/hosts  all -m <span class="keyword">copy</span><span class="bash"> <span class="_">-a</span> <span class="string">"src=<span class="variable">$WORKSPACE</span>/ai_voice_engine.tar  dest=/root/project/ mode=0777"</span></span></div><div class="line"><span class="comment"># 执行python项目服务器上的脚本</span></div><div class="line">ansible -i devops/provision/inventories/development/hosts all -m shell -a <span class="string">"/service/ai_voice_engine/deploy.sh"</span></div></pre></td></tr></table></figure>
+<p><strong>注意</strong>: 打包是为了加快文件的传输速度，如果不打包，且ansibel没有使用免密传输的话，ansible的copy命令传输每一个文件时都会去进行一遍用户名密码的校验，速度会很慢。</p>
+<h3 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h3><p>在python项目服务器中添加执行脚本。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 将原有的文件删除</span></div><div class="line">rm -rf /service/ai_voice_engine/ai_voice_engine/*</div><div class="line"><span class="comment"># 将jenkins服务器传输过来的文件移动到指定目录下</span></div><div class="line">mv <span class="_">-f</span>  /root/project/ai_voice_engine.tar /service/ai_voice_engine/ai_voice_engine/</div><div class="line"><span class="comment"># 解压文件到指定目录下，必须指定绝对路径，如果不指定，会默认解药到deploy.sh脚本所在目录</span></div><div class="line">tar xvf /service/ai_voice_engine/ai_voice_engine/ai_voice_engine.tar -C /service/ai_voice_engine/ai_voice_engine/</div><div class="line"></div><div class="line">REG_URL=10.200.1.37</div><div class="line">NODE_URL=10.200.1.37</div><div class="line">JOB_NAME=ai_voice_engine</div><div class="line">WORKSPACE=/service/ai_voice_engine/</div><div class="line"></div><div class="line">TAG=<span class="variable">$REG_URL</span>/<span class="variable">$JOB_NAME</span>/`date +%Y%m%d-%H-%M`</div><div class="line"></div><div class="line"><span class="comment"># 构建docker镜像</span></div><div class="line">docker build -t  <span class="variable">$TAG</span>  <span class="variable">$WORKSPACE</span>/ai_voice_engine/.</div><div class="line"><span class="comment"># 登录docker 私服仓库</span></div><div class="line">docker login -u admin -p Harbor12345 10.200.1.37</div><div class="line"><span class="comment"># 推送docker镜像到私服仓库</span></div><div class="line">docker push <span class="variable">$TAG</span></div><div class="line"></div><div class="line"><span class="comment"># 移除原有在运行的docker容器</span></div><div class="line"><span class="keyword">if</span> docker ps <span class="_">-a</span> | grep -i <span class="variable">$JOB_NAME</span> ; <span class="keyword">then</span></div><div class="line">    docker rm <span class="_">-f</span> <span class="variable">$JOB_NAME</span></div><div class="line"><span class="keyword">fi</span></div><div class="line"><span class="comment"># 启动docker容器</span></div><div class="line">docker run <span class="_">-d</span> --name <span class="variable">$JOB_NAME</span> --restart always -p 8888:5000 <span class="variable">$TAG</span></div></pre></td></tr></table></figure></p>
+<h1 id="第四步"><a href="#第四步" class="headerlink" title="第四步"></a>第四步</h1><p>完成以上三步后可在jenkins中点击构建，构建完成后在python服务器查看日志，看项目是否启动成功。<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker ps <span class="comment">#查看容器id</span></div><div class="line">docker logs 容器<span class="built_in">id</span> <span class="comment">#查看容器中的日志</span></div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/运维/" rel="tag"># 运维</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/26/单元测试之道Java版读书笔记/" rel="next" title="单元测试之道Java版读书笔记">
+                <i class="fa fa-chevron-left"></i> 单元测试之道Java版读书笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/28/RedHat上安装指定版本docker和docker-compose/" rel="prev" title="RedHat上安装指定版本docker和docker-compose">
+                RedHat上安装指定版本docker和docker-compose <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/touxiang.jpeg"
+               alt="我爱的乌托邦" />
+          <p class="site-author-name" itemprop="name">我爱的乌托邦</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#jenkins-docker-ansible实现自动化部署"><span class="nav-number">1.</span> <span class="nav-text">jenkins+docker+ansible实现自动化部署</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jenkins工作流程示意图"><span class="nav-number">1.1.</span> <span class="nav-text">jenkins工作流程示意图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境准备"><span class="nav-number">1.2.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程"><span class="nav-number">1.3.</span> <span class="nav-text">流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步"><span class="nav-number">1.3.1.</span> <span class="nav-text">第一步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步"><span class="nav-number">1.3.2.</span> <span class="nav-text">第二步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三步"><span class="nav-number">1.3.3.</span> <span class="nav-text">第三步</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第四步"><span class="nav-number">2.</span> <span class="nav-text">第四步</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">我爱的乌托邦</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
