@@ -103,12 +103,12 @@
 2 保证.ssh下的authorized_keys文件是600权限
 
 3 查看selinux，保证selinux为d">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/18-6-5/13309181.jpg">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/18-6-5/48264509.jpg">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/18-6-5/83741607.jpg">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/18-6-5/83273048.jpg">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/18-6-5/93783212.jpg">
-<meta property="og:updated_time" content="2018-06-05T02:52:01.179Z">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/18-6-5/13309181.jpg">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/18-6-5/48264509.jpg">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/18-6-5/83741607.jpg">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/18-6-5/83273048.jpg">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/18-6-5/93783212.jpg">
+<meta property="og:updated_time" content="2019-02-14T09:08:00.742Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ssh免密配置失效">
 <meta name="twitter:description" content="前言配置jenkins需要设置ssh免密，在jenkins所在主机中生成id_rsa.pub后，将id_rsa.pub追加到想要免密登录主机的.ssh目录下的authorized_keys文件中，但添加完成后还是不能免密登录。
@@ -117,7 +117,7 @@
 2 保证.ssh下的authorized_keys文件是600权限
 
 3 查看selinux，保证selinux为d">
-<meta name="twitter:image" content="http://omdsjtsd2.bkt.clouddn.com/18-6-5/13309181.jpg">
+<meta name="twitter:image" content="http://img.cdn.jmzhao.top/18-6-5/13309181.jpg">
 
 
 
@@ -306,7 +306,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-05T10:48:40+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-05T10:48:40-04:00">
                 2018-06-05
               </time>
             
@@ -344,14 +344,14 @@
       
         <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>配置jenkins需要设置ssh免密，在jenkins所在主机中生成<code>id_rsa.pub</code>后，将<code>id_rsa.pub</code>追加到想要免密登录主机的.ssh目录下的<code>authorized_keys</code>文件中，但添加完成后还是不能免密登录。</p>
 <h1 id="排除问题过程"><a href="#排除问题过程" class="headerlink" title="排除问题过程"></a>排除问题过程</h1><p>1 保证用户的.ssh目录权限是700。</p>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/18-6-5/13309181.jpg" alt=""></p>
+<p><img src="http://img.cdn.jmzhao.top/18-6-5/13309181.jpg" alt=""></p>
 <p>2 保证.ssh下的authorized_keys文件是600权限</p>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/18-6-5/48264509.jpg" alt=""></p>
-<p>3 查看selinux，保证selinux为disabled<br><img src="http://omdsjtsd2.bkt.clouddn.com/18-6-5/83741607.jpg" alt=""></p>
+<p><img src="http://img.cdn.jmzhao.top/18-6-5/48264509.jpg" alt=""></p>
+<p>3 查看selinux，保证selinux为disabled<br><img src="http://img.cdn.jmzhao.top/18-6-5/83741607.jpg" alt=""></p>
 <p>4 查看/etc/ssh/sshd_config文件，定位到最后。</p>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/18-6-5/83273048.jpg" alt=""></p>
+<p><img src="http://img.cdn.jmzhao.top/18-6-5/83273048.jpg" alt=""></p>
 <p>发现authorizedKeysFile文件指向的是.ssh/KHK75NEOiq,改为.ssh/authorized_keys</p>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/18-6-5/93783212.jpg" alt=""></p>
+<p><img src="http://img.cdn.jmzhao.top/18-6-5/93783212.jpg" alt=""></p>
 <p>5 重启sshd服务</p>
 <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">service sshd restart</span></div></pre></td></tr></table></figure>
 <p>再次尝试连接，不用密码就能登录了，问题解决。</p>
@@ -485,7 +485,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

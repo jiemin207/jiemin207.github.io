@@ -101,11 +101,11 @@
 <meta property="og:image" content="http://i4.buimg.com/567571/f3cb0d4ce0fe46b9.png">
 <meta property="og:image" content="http://i1.piimg.com/567571/5589a02b3a4d9d66.png">
 <meta property="og:image" content="http://i1.piimg.com/567571/9ca2d175cc847cc4.png">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/17-4-13/22437020-file_1492050771270_7ea.png">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/17-4-13/22437020-file_1492050771270_7ea.png">
 <meta property="og:image" content="http://i1.piimg.com/567571/7c480aed24b44b84.png">
 <meta property="og:image" content="http://i1.piimg.com/567571/561d033c068d5d78.png">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/17-4-13/67981561-file_1492050907930_12f64.png">
-<meta property="og:updated_time" content="2017-04-13T03:02:34.000Z">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/17-4-13/67981561-file_1492050907930_12f64.png">
+<meta property="og:updated_time" content="2019-02-14T09:08:00.730Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac上搭建jenkins+docker+maven+git自动部署">
 <meta name="twitter:description" content="前言公司之前的项目发布是通过jenkins自动发布的，只要在jenkins上选择项目，点击构建项目，项目就自动部署好了。对于开发人员来说这非常方便，只要修改好源码，提交到github中后，登录jenkins的Web界面，选择项目点击构建就行了。几经摸索后，我终于在自己的Mac上搭建成功了，期间碰到的问题大多是关于docker方面的，其中有个问题还没有从根本上解决，只是通过变通的方式使得部署成功，在">
@@ -298,7 +298,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-13T10:56:34+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-13T10:56:34-04:00">
                 2017-04-13
               </time>
             
@@ -363,14 +363,14 @@
 <h1 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h1><ol>
 <li>docker registry不能push成功</li>
 </ol>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/17-4-13/22437020-file_1492050771270_7ea.png" alt=""></p>
+<p><img src="http://img.cdn.jmzhao.top/17-4-13/22437020-file_1492050771270_7ea.png" alt=""></p>
 <p>解决办法: advance中添加docker私服地址</p>
 <p><img src="http://i1.piimg.com/567571/7c480aed24b44b84.png" alt=""></p>
 <p><img src="http://i1.piimg.com/567571/561d033c068d5d78.png" alt=""></p>
 <ol>
 <li>docker远程管理失败</li>
 </ol>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/17-4-13/67981561-file_1492050907930_12f64.png" alt=""></p>
+<p><img src="http://img.cdn.jmzhao.top/17-4-13/67981561-file_1492050907930_12f64.png" alt=""></p>
 <p>解决办法:由于我的docker版本是docker for mac，我查了很多资料，基本都是linux的docker版本远程管理解决方案，没有mac版本的方案。所以就退而求其次，把<code>-H 192.168.1.207</code>给删除了，相当于访问服务器本机的资源，如果有多台服务器，那就必须通过<code>-H ip</code>来管理了。</p>
 <h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>这次的搭建中新学到了不少的东西，比如docker的私服，docker的远程管理，dockerfile文件等等，其中mac上的远程管理我暂时还未能实现。我打算去centos服务器中再去从头搭建一次jenkins+docker+git+maven自动部署，巩固所学知识的同时看看mac和centos上搭建的区别，并在centos上实现docker的远程管理。</p>
 
@@ -497,7 +497,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

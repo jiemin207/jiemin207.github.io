@@ -95,19 +95,19 @@
 <meta property="og:site_name" content="jiemin's Blog">
 <meta property="og:description" content="前言本地搭建了redis服务器，想把服务器上的redis数据拷贝到本地上来，查询资料后发现有两种方式进行redis数据迁移，一种是停服务器，搬迁数据；另一种通过主从同步转移。我这里使用的是主从同步转移的方式实现redis数据的迁移
 过程登录redis客户端，查询redis的配置文件所在位置123redis-cliauth mypasswordinfo">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/17-9-21/66590351.jpg">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/17-9-21/519636.jpg">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/17-9-21/1506375.jpg">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/17-9-21/53213757.jpg">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/17-9-21/46876707.jpg">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/17-9-21/82574079.jpg">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/17-9-21/34788019.jpg">
-<meta property="og:updated_time" content="2017-09-22T01:16:13.000Z">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/17-9-21/66590351.jpg">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/17-9-21/519636.jpg">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/17-9-21/1506375.jpg">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/17-9-21/53213757.jpg">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/17-9-21/46876707.jpg">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/17-9-21/82574079.jpg">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/17-9-21/34788019.jpg">
+<meta property="og:updated_time" content="2019-02-14T09:08:00.765Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="主从同步redis数据迁移">
 <meta name="twitter:description" content="前言本地搭建了redis服务器，想把服务器上的redis数据拷贝到本地上来，查询资料后发现有两种方式进行redis数据迁移，一种是停服务器，搬迁数据；另一种通过主从同步转移。我这里使用的是主从同步转移的方式实现redis数据的迁移
 过程登录redis客户端，查询redis的配置文件所在位置123redis-cliauth mypasswordinfo">
-<meta name="twitter:image" content="http://omdsjtsd2.bkt.clouddn.com/17-9-21/66590351.jpg">
+<meta name="twitter:image" content="http://img.cdn.jmzhao.top/17-9-21/66590351.jpg">
 
 
 
@@ -296,7 +296,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-22T09:11:12+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-22T09:11:12-04:00">
                 2017-09-22
               </time>
             
@@ -334,24 +334,24 @@
       
         <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本地搭建了redis服务器，想把服务器上的redis数据拷贝到本地上来，查询资料后发现有两种方式进行redis数据迁移，一种是停服务器，搬迁数据；另一种通过主从同步转移。我这里使用的是主从同步转移的方式实现redis数据的迁移</p>
 <h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><h2 id="登录redis客户端，查询redis的配置文件所在位置"><a href="#登录redis客户端，查询redis的配置文件所在位置" class="headerlink" title="登录redis客户端，查询redis的配置文件所在位置"></a>登录redis客户端，查询redis的配置文件所在位置</h2><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">redis-<span class="keyword">cli</span></div><div class="line">auth mypassword</div><div class="line">info</div></pre></td></tr></table></figure>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/17-9-21/66590351.jpg" alt=""></p>
+<p><img src="http://img.cdn.jmzhao.top/17-9-21/66590351.jpg" alt=""></p>
 <a id="more"></a>
-<h2 id="修改redis-conf配置文件。"><a href="#修改redis-conf配置文件。" class="headerlink" title="修改redis.conf配置文件。"></a>修改redis.conf配置文件。</h2><h3 id="增加redis-log文件"><a href="#增加redis-log文件" class="headerlink" title="增加redis log文件"></a>增加redis log文件</h3><p><img src="http://omdsjtsd2.bkt.clouddn.com/17-9-21/519636.jpg" alt=""></p>
-<h3 id="开启redis-远程连接，注释掉bind-127-0-0-1"><a href="#开启redis-远程连接，注释掉bind-127-0-0-1" class="headerlink" title="开启redis 远程连接，注释掉bind 127.0.0.1"></a>开启redis 远程连接，注释掉bind 127.0.0.1</h3><p><img src="http://omdsjtsd2.bkt.clouddn.com/17-9-21/1506375.jpg" alt=""></p>
-<h3 id="增加主服务器的访问密码"><a href="#增加主服务器的访问密码" class="headerlink" title="增加主服务器的访问密码"></a>增加主服务器的访问密码</h3><p><img src="http://omdsjtsd2.bkt.clouddn.com/17-9-21/53213757.jpg" alt=""></p>
+<h2 id="修改redis-conf配置文件。"><a href="#修改redis-conf配置文件。" class="headerlink" title="修改redis.conf配置文件。"></a>修改redis.conf配置文件。</h2><h3 id="增加redis-log文件"><a href="#增加redis-log文件" class="headerlink" title="增加redis log文件"></a>增加redis log文件</h3><p><img src="http://img.cdn.jmzhao.top/17-9-21/519636.jpg" alt=""></p>
+<h3 id="开启redis-远程连接，注释掉bind-127-0-0-1"><a href="#开启redis-远程连接，注释掉bind-127-0-0-1" class="headerlink" title="开启redis 远程连接，注释掉bind 127.0.0.1"></a>开启redis 远程连接，注释掉bind 127.0.0.1</h3><p><img src="http://img.cdn.jmzhao.top/17-9-21/1506375.jpg" alt=""></p>
+<h3 id="增加主服务器的访问密码"><a href="#增加主服务器的访问密码" class="headerlink" title="增加主服务器的访问密码"></a>增加主服务器的访问密码</h3><p><img src="http://img.cdn.jmzhao.top/17-9-21/53213757.jpg" alt=""></p>
 <h2 id="重启redis"><a href="#重启redis" class="headerlink" title="重启redis"></a>重启redis</h2><p><code>brew services restart redis</code></p>
 <h2 id="同步主服务器"><a href="#同步主服务器" class="headerlink" title="同步主服务器"></a>同步主服务器</h2><ol>
 <li>再次进入redis-cli，执行从库配置slaveof 192.168.1.242 6379，这里假设要将192.168.1.242的6379端口的redis服务转移过来。这样就已经开始同步了。通过info可以查看当前服务器是slave。</li>
 </ol>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/17-9-21/46876707.jpg" alt=""></p>
+<p><img src="http://img.cdn.jmzhao.top/17-9-21/46876707.jpg" alt=""></p>
 <ol>
 <li>然后通过info命令查看master_link_status，如果为up，表示同步完成。</li>
 </ol>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/17-9-21/82574079.jpg" alt=""></p>
+<p><img src="http://img.cdn.jmzhao.top/17-9-21/82574079.jpg" alt=""></p>
 <ol>
 <li>最后断开主从关系，在redis-cli命令行下执行slaveof no one提示OK，再通过info查看，该新服务器已经自己变成master了。</li>
 </ol>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/17-9-21/34788019.jpg" alt=""></p>
+<p><img src="http://img.cdn.jmzhao.top/17-9-21/34788019.jpg" alt=""></p>
 <h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>数据迁移的过程中出现过遇到了一些问题，一开始没有配置redis日志，定位不到问题发生的原因。配了redis日志后发现数据迁移不成功是因为没有配置远程连接和主服务器密码。配置好以后执行数据迁移就未发生其他问题了，圆满成功。</p>
 <h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ol>
 <li><a href="https://yq.aliyun.com/articles/62511" target="_blank" rel="external">老司机的 redis 数据迁移笔记</a></li>
@@ -478,7 +478,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

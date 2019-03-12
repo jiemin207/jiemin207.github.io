@@ -95,13 +95,13 @@
 <meta property="og:site_name" content="jiemin's Blog">
 <meta property="og:description" content="redis Sentinel介绍Redis Sentinel是一个分布式架构，包含若干个Sentinel节点和Redis数据节点，每个Sentinel节点会对数据节点和其余Sentinel节点进行监控，当发现节点不可达时，会对节点做下线标识。
 如果被标识的是主节点，他还会选择和其他Sentinel节点进行“协商”，当大多数的Sentinel节点都认为主节点不可达时，他们会选举出一个Sentinel">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/18-7-17/95669833.jpg">
-<meta property="og:updated_time" content="2018-07-17T10:31:54.982Z">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/18-7-17/95669833.jpg">
+<meta property="og:updated_time" content="2019-02-14T09:08:00.741Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sentinel安装部署中遇到的坑">
 <meta name="twitter:description" content="redis Sentinel介绍Redis Sentinel是一个分布式架构，包含若干个Sentinel节点和Redis数据节点，每个Sentinel节点会对数据节点和其余Sentinel节点进行监控，当发现节点不可达时，会对节点做下线标识。
 如果被标识的是主节点，他还会选择和其他Sentinel节点进行“协商”，当大多数的Sentinel节点都认为主节点不可达时，他们会选举出一个Sentinel">
-<meta name="twitter:image" content="http://omdsjtsd2.bkt.clouddn.com/18-7-17/95669833.jpg">
+<meta name="twitter:image" content="http://img.cdn.jmzhao.top/18-7-17/95669833.jpg">
 
 
 
@@ -290,7 +290,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-17T18:31:13+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-17T18:31:13-04:00">
                 2018-07-17
               </time>
             
@@ -330,7 +330,7 @@
 <p>如果被标识的是主节点，他还会选择和其他Sentinel节点进行“协商”，当大多数的Sentinel节点都认为主节点不可达时，他们会选举出一个Sentinel节点来完成自动故障转移工作，同时将这个变化通知给Redis应用方。</p>
 <h1 id="sentinel-配置文件"><a href="#sentinel-配置文件" class="headerlink" title="sentinel 配置文件"></a>sentinel 配置文件</h1><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Sentinel节点的端口</span></div><div class="line">port <span class="number">26379</span>  </div><div class="line">dir /var/redis/data/</div><div class="line">logfile <span class="string">"26379.log"</span></div><div class="line"></div><div class="line"><span class="comment">// 当前Sentinel节点监控 127.0.0.1:6379 这个主节点</span></div><div class="line"><span class="comment">// 2代表判断主节点失败至少需要2个Sentinel节点节点同意</span></div><div class="line"><span class="comment">// mymaster是主节点的别名</span></div><div class="line">sentinel monitor mymaster <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="number">6379</span> <span class="number">2</span></div><div class="line"></div><div class="line"><span class="comment">//每个Sentinel节点都要定期PING命令来判断Redis数据节点和其余Sentinel节点是否可达，如果超过30000毫秒且没有回复，则判定不可达</span></div><div class="line">sentinel down-after-milliseconds mymaster <span class="number">30000</span></div><div class="line"></div><div class="line"><span class="comment">//当Sentinel节点集合对主节点故障判定达成一致时，Sentinel领导者节点会做故障转移操作，选出新的主节点，原来的从节点会向新的主节点发起复制操作，限制每次向新的主节点发起复制操作的从节点个数为1</span></div><div class="line">sentinel parallel-syncs mymaster <span class="number">1</span></div><div class="line"></div><div class="line"><span class="comment">//故障转移超时时间为180000毫秒</span></div><div class="line">sentinel failover-timeout mymaster <span class="number">180000</span></div><div class="line"></div><div class="line"><span class="comment">// 注意不同的哨兵需要设置不同的myid</span></div><div class="line">sentinel myid <span class="number">184122</span>c2e00efdee4fd157961fb2d47901d85e23</div></pre></td></tr></table></figure>
 <p>由于我安装sentinel时是直接复制的sentinel.conf文件，所以文件中的sentinel myid 的值是一样，这样启动多个sentinel时只算一个sentinel，sentinel是通过myid来区分，而不是通过端口号，网上其他的教程没有提到这一点，在此记录一下。</p>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/18-7-17/95669833.jpg" alt=""></p>
+<p><img src="http://img.cdn.jmzhao.top/18-7-17/95669833.jpg" alt=""></p>
 <h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ol>
 <li><a href="https://blog.csdn.net/men_wen/article/details/72724406" target="_blank" rel="external">Redis 学习笔记（十三）Redis Sentinel 介绍与部署</a></li>
 <li><a href="https://blog.csdn.net/xuxile/article/details/52213854" target="_blank" rel="external">Redis+Sentinel集群安装与配置</a></li>
@@ -455,7 +455,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

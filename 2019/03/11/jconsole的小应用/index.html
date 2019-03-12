@@ -1,0 +1,700 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="应用场景当excel导出时发生了oom，优化代码后想查看下优化前和优化后导出excel时占用的内存差异，这个时候可以借助jconsole工具来进行查看。
+调试步骤测试类示例代码
+模拟50万条数据调用优化前和优化后excel工具类1234567891011121314151617181920212223242526272829303132333435@Testpublic void testExpo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jconsole的小应用">
+<meta property="og:url" content="http://jieminblog.tk/2019/03/11/jconsole的小应用/index.html">
+<meta property="og:site_name" content="jiemin's Blog">
+<meta property="og:description" content="应用场景当excel导出时发生了oom，优化代码后想查看下优化前和优化后导出excel时占用的内存差异，这个时候可以借助jconsole工具来进行查看。
+调试步骤测试类示例代码
+模拟50万条数据调用优化前和优化后excel工具类1234567891011121314151617181920212223242526272829303132333435@Testpublic void testExpo">
+<meta property="og:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-3-11/%E8%B0%83%E8%AF%95%E5%89%8Ddebug.png">
+<meta property="og:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-3-11/jconsole%E8%BF%9B%E7%A8%8B.png">
+<meta property="og:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-3-11/oom.png">
+<meta property="og:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-3-11/oom2.png">
+<meta property="og:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-3-11/%E4%BC%98%E5%8C%96%E5%90%8E.png">
+<meta property="og:updated_time" content="2019-03-12T02:51:08.961Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jconsole的小应用">
+<meta name="twitter:description" content="应用场景当excel导出时发生了oom，优化代码后想查看下优化前和优化后导出excel时占用的内存差异，这个时候可以借助jconsole工具来进行查看。
+调试步骤测试类示例代码
+模拟50万条数据调用优化前和优化后excel工具类1234567891011121314151617181920212223242526272829303132333435@Testpublic void testExpo">
+<meta name="twitter:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-3-11/%E8%B0%83%E8%AF%95%E5%89%8Ddebug.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jieminblog.tk/2019/03/11/jconsole的小应用/"/>
+
+
+
+
+
+  <title> jconsole的小应用 | jiemin's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">jiemin's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">本来无一物，何处惹尘埃</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2019/03/11/jconsole的小应用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                jconsole的小应用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-11T22:43:31-04:00">
+                2019-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><p>当excel导出时发生了oom，优化代码后想查看下优化前和优化后导出excel时占用的内存差异，这个时候可以借助jconsole工具来进行查看。</p>
+<h1 id="调试步骤"><a href="#调试步骤" class="headerlink" title="调试步骤"></a>调试步骤</h1><p>测试类示例代码</p>
+<p>模拟50万条数据调用优化前和优化后excel工具类<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">@<span class="function">Test</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testExport</span>(<span class="params"></span>) throws Exception &#123;</div><div class="line">	<span class="keyword">long</span> startTime = System.currentTimeMillis();</div><div class="line">	ExcelData&lt;AiCallVO&gt; data = <span class="keyword">new</span> ExcelData&lt;&gt;();</div><div class="line">	List&lt;String&gt; titles = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">	titles.<span class="keyword">add</span>(<span class="string">"通话记录ID"</span>);</div><div class="line">	titles.<span class="keyword">add</span>(<span class="string">"客户姓名"</span>);</div><div class="line">	titles.<span class="keyword">add</span>(<span class="string">"客户手机"</span>);</div><div class="line">	titles.<span class="keyword">add</span>(<span class="string">"意向等级"</span>);</div><div class="line">	titles.<span class="keyword">add</span>(<span class="string">"通话时长"</span>);</div><div class="line">	titles.<span class="keyword">add</span>(<span class="string">"呼叫时间"</span>);</div><div class="line">	titles.<span class="keyword">add</span>(<span class="string">"通话状态"</span>);</div><div class="line">	titles.<span class="keyword">add</span>(<span class="string">"所属任务"</span>);</div><div class="line"></div><div class="line">	List&lt;AiCallVO&gt; volist = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">500000</span>; i++) &#123;</div><div class="line">		AiCallVO aiCallVO = <span class="keyword">new</span> AiCallVO();</div><div class="line">		aiCallVO.setCallDuration(i);</div><div class="line">		aiCallVO.setCallStartTime(<span class="string">"2019-03-07"</span>);</div><div class="line">		aiCallVO.setIntentionLevel(<span class="string">"A"</span>);</div><div class="line">		aiCallVO.setMobile(<span class="string">"13758270856"</span>);</div><div class="line">		aiCallVO.setName(<span class="string">"测试"</span>);</div><div class="line">		aiCallVO.setStatus(<span class="string">"已接通"</span>);</div><div class="line">		aiCallVO.setTaskName(<span class="string">"测试任务"</span> + i);</div><div class="line">		volist.<span class="keyword">add</span>(aiCallVO);</div><div class="line">	&#125;</div><div class="line">	data.setRows(volist);</div><div class="line">	data.setTitles(titles);</div><div class="line">	data.setName(<span class="string">"通话记录"</span>);</div><div class="line"></div><div class="line">	ExportExcel4BigDataUtil.exportExcel(data); <span class="meta">#优化后工具类</span></div><div class="line">	<span class="comment">//ExportExcelUtils.exportExcel(data); #优化前工具类</span></div><div class="line">	<span class="keyword">long</span> endTime = System.currentTimeMillis();</div><div class="line">	System.<span class="keyword">out</span>.println(endTime - startTime + <span class="string">"ms"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<ol>
+<li>首先打开优化前的工具类方法调用，注释掉优化后调用的代码，并在测试方法中打一个断点，使用debug模式启动程序</li>
+</ol>
+<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-3-11/%E8%B0%83%E8%AF%95%E5%89%8Ddebug.png" alt=""></p>
+<ol>
+<li>打开命令行，输入jconsole,会弹出一个gui界面，选择本地进程中debug的那个进程，点击连接</li>
+</ol>
+<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-3-11/jconsole%E8%BF%9B%E7%A8%8B.png" alt=""></p>
+<ol>
+<li>放开debug断点，继续执行程序，可以在gui界面上看到实时内存使用情况</li>
+</ol>
+<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-3-11/oom.png" alt=""></p>
+<p>可以看到优化前代码内存占用率在持续升高，直到堆内存满为止，这样最终就导致oom的情况。</p>
+<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-3-11/oom2.png" alt=""></p>
+<ol>
+<li>打开优化后的代码，重新执行以上步骤, 结果如下</li>
+</ol>
+<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-3-11/%E4%BC%98%E5%8C%96%E5%90%8E.png" alt=""></p>
+<p>可以看到优化后代码内存占用最高时只有700M，并且很快就回收完成了。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>以上是通过POI的XSSFWorkbook和SXSSFWorkbook方式导出excel演示的例子，可以通过jconsole工具，较为直观的展现出两种方式在大批量数据导出excel时的内存使用情况，对于重现oom和进行性能调优非常有帮助。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/23/使用POI导入时出现中文拼音问题解决方法/" rel="next" title="使用POI导入时出现中文拼音问题解决方法">
+                <i class="fa fa-chevron-left"></i> 使用POI导入时出现中文拼音问题解决方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/touxiang.jpeg"
+               alt="我爱的乌托邦" />
+          <p class="site-author-name" itemprop="name">我爱的乌托邦</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#应用场景"><span class="nav-number">1.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调试步骤"><span class="nav-number">2.</span> <span class="nav-text">调试步骤</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">我爱的乌托邦</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

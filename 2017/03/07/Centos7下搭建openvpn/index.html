@@ -93,12 +93,12 @@
 <meta property="og:url" content="http://jieminblog.tk/2017/03/07/Centos7下搭建openvpn/index.html">
 <meta property="og:site_name" content="jiemin's Blog">
 <meta property="og:description" content="前言自从公司配置了openvpn之后就可以在家里连到公司的内网，能访问部署在公司内网的项目。这让我对openvpn很感兴趣，于是我就开始查找相应的教程，并在寻找便宜的vps主机尝试搭建openvpn。我先后在华为云，腾讯云，搬瓦工上搭建了openvpn，不同的vps上搭建略有不同，但大体的原理是一样的。期间也遇到了不少坑，尝试搭建的过程大概花了一个多星期。在这里我想把搭建的过程以及遇到的问题纪录一">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/17-3-7/31012857-file_1488863440132_1800e.png">
-<meta property="og:updated_time" content="2017-03-07T08:57:54.000Z">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/17-3-7/31012857-file_1488863440132_1800e.png">
+<meta property="og:updated_time" content="2019-02-14T09:08:00.719Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Centos7下搭建openvpn">
 <meta name="twitter:description" content="前言自从公司配置了openvpn之后就可以在家里连到公司的内网，能访问部署在公司内网的项目。这让我对openvpn很感兴趣，于是我就开始查找相应的教程，并在寻找便宜的vps主机尝试搭建openvpn。我先后在华为云，腾讯云，搬瓦工上搭建了openvpn，不同的vps上搭建略有不同，但大体的原理是一样的。期间也遇到了不少坑，尝试搭建的过程大概花了一个多星期。在这里我想把搭建的过程以及遇到的问题纪录一">
-<meta name="twitter:image" content="http://omdsjtsd2.bkt.clouddn.com/17-3-7/31012857-file_1488863440132_1800e.png">
+<meta name="twitter:image" content="http://img.cdn.jmzhao.top/17-3-7/31012857-file_1488863440132_1800e.png">
 
 
 
@@ -287,7 +287,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-07T05:48:42+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-07T05:48:42-05:00">
                 2017-03-07
               </time>
             
@@ -394,7 +394,7 @@
 <h2 id="搭建openvpn过程中遇到的那些坑"><a href="#搭建openvpn过程中遇到的那些坑" class="headerlink" title="搭建openvpn过程中遇到的那些坑"></a>搭建openvpn过程中遇到的那些坑</h2><h4 id="1-华为云上搭建好了openvpn，客户端一直连接不上。"><a href="#1-华为云上搭建好了openvpn，客户端一直连接不上。" class="headerlink" title="1.华为云上搭建好了openvpn，客户端一直连接不上。"></a>1.华为云上搭建好了openvpn，客户端一直连接不上。</h4><p><strong>原因:</strong> 华为云中有个安全策略设置，安全策略中1194端口没有开放，需要开放后才能连接。安全策略设置在华为云后台控制中设置</p>
 <h4 id="2-搬瓦工vps中安装不了docker。"><a href="#2-搬瓦工vps中安装不了docker。" class="headerlink" title="2. 搬瓦工vps中安装不了docker。"></a>2. 搬瓦工vps中安装不了docker。</h4><p><strong>原因:</strong><br>使用docker-compose方式安装openvpn需要先安装docker。搬瓦工采用openvz架构搭建，其linux内核版本为<code>2.6.32-042stab120.18</code>,不可升级，而docker需要linux内核3.1以上，所以搬瓦工上不能安装docker,也不能使用docker-compose的方式安装openvpn。</p>
 <h4 id="3-搬瓦工上openvpn连接上了，但不能上网。"><a href="#3-搬瓦工上openvpn连接上了，但不能上网。" class="headerlink" title="3. 搬瓦工上openvpn连接上了，但不能上网。"></a>3. 搬瓦工上openvpn连接上了，但不能上网。</h4><p><strong>原因:</strong> 转发失败，由于搬瓦工上一个网卡上有两个ip地址所致,默认转发到第一个ip地址上。</p>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/17-3-7/31012857-file_1488863440132_1800e.png" alt=""></p>
+<p><img src="http://img.cdn.jmzhao.top/17-3-7/31012857-file_1488863440132_1800e.png" alt=""></p>
 <p><strong>解决办法:</strong> </p>
 <p>编辑转发配置文件</p>
 <p><code>vi /etc/sysconfig/iptables</code></p>
@@ -530,7 +530,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

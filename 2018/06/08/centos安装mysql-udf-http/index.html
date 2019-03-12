@@ -95,14 +95,14 @@
 <meta property="og:site_name" content="jiemin's Blog">
 <meta property="og:description" content="mysql-udf-http简介mysql-udf-http 是一款简单的MySQL用户自定义函数，具有http_get()、http_post()、http_put()、http_delete()四个函数，可以在MySQL数据库中利用HTTP协议进行REST相关操作。
 应用场景当mysql数据库表中某一个字段的值发生变化，需要通知业务系统，这个时候就可以使用mysql的触发器及mysql-udf">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/18-6-8/39924486.jpg">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/18-6-8/2248744.jpg">
-<meta property="og:updated_time" content="2018-06-08T09:09:32.983Z">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/18-6-8/39924486.jpg">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/18-6-8/2248744.jpg">
+<meta property="og:updated_time" content="2019-02-14T09:08:00.719Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="centos安装mysql-udf-http">
 <meta name="twitter:description" content="mysql-udf-http简介mysql-udf-http 是一款简单的MySQL用户自定义函数，具有http_get()、http_post()、http_put()、http_delete()四个函数，可以在MySQL数据库中利用HTTP协议进行REST相关操作。
 应用场景当mysql数据库表中某一个字段的值发生变化，需要通知业务系统，这个时候就可以使用mysql的触发器及mysql-udf">
-<meta name="twitter:image" content="http://omdsjtsd2.bkt.clouddn.com/18-6-8/39924486.jpg">
+<meta name="twitter:image" content="http://img.cdn.jmzhao.top/18-6-8/39924486.jpg">
 
 
 
@@ -291,7 +291,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-08T17:08:09+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-08T17:08:09-04:00">
                 2018-06-08
               </time>
             
@@ -334,7 +334,7 @@
 <h3 id="解压文件"><a href="#解压文件" class="headerlink" title="解压文件"></a>解压文件</h3><p><code>tar zxvf mysql-udf-http-1.0.tar.gz</code></p>
 <h3 id="查看mysql安装目录"><a href="#查看mysql安装目录" class="headerlink" title="查看mysql安装目录"></a>查看mysql安装目录</h3><p>进入mysql中，在命令行中输入</p>
 <p><code>show variables like &quot;%char%&quot;</code></p>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/18-6-8/39924486.jpg" alt=""></p>
+<p><img src="http://img.cdn.jmzhao.top/18-6-8/39924486.jpg" alt=""></p>
 <p>如上图所示，该服务器的mysql安装目录为<code>/usr/share/mysql</code><br><a id="more"></a></p>
 <h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd mysql-udf-http-<span class="number">1.0</span>/</div><div class="line">./configure --prefix=<span class="regexp">/usr/share</span><span class="regexp">/mysql --with-mysql=/usr</span><span class="regexp">/bin/mysql</span>_config</div><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
 <p>注意：如果使用yum安装的mysql可能会找不到mysql_config,需要安装依赖<br><code>yum install mysql-devel</code><br>源码安装不存在这种情况，可以通过<br><code>find / -name mysql_config</code> 来查询mysql_config的位置。</p>
@@ -344,7 +344,7 @@
 <h3 id="注册相关函数"><a href="#注册相关函数" class="headerlink" title="注册相关函数"></a>注册相关函数</h3><p>进入mysql控制台，输入以下命令</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">function</span> http_get <span class="keyword">returns</span> <span class="keyword">string</span> <span class="keyword">soname</span> <span class="string">'mysql-udf-http.so'</span>;</div><div class="line"><span class="keyword">create</span> <span class="keyword">function</span> http_post <span class="keyword">returns</span> <span class="keyword">string</span> <span class="keyword">soname</span> <span class="string">'mysql-udf-http.so'</span>;</div><div class="line"><span class="keyword">create</span> <span class="keyword">function</span> http_put <span class="keyword">returns</span> <span class="keyword">string</span> <span class="keyword">soname</span> <span class="string">'mysql-udf-http.so'</span>;</div><div class="line"><span class="keyword">create</span> <span class="keyword">function</span> http_delete <span class="keyword">returns</span> <span class="keyword">string</span> <span class="keyword">soname</span> <span class="string">'mysql-udf-http.so'</span>;</div></pre></td></tr></table></figure>
 <p>出现以下提示表示安装成功</p>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/18-6-8/2248744.jpg" alt=""></p>
+<p><img src="http://img.cdn.jmzhao.top/18-6-8/2248744.jpg" alt=""></p>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
 <li><a href="https://blog.csdn.net/cyantide/article/details/50828746" target="_blank" rel="external">mysql表数据发生变化时，主动通知业务系统(mysql-udf-http)</a></li>
 <li><a href="https://www.cnblogs.com/yanan7890/p/7245809.html" target="_blank" rel="external">怎么查看mysql的安装目录</a></li>
@@ -463,7 +463,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -109,8 +109,8 @@
 -C：添加cookie；
 -g：将测试结果输出为“gnuolot”文件；
 -h：显示帮助信息">
-<meta property="og:image" content="http://omdsjtsd2.bkt.clouddn.com/18-9-12/73582493.jpg">
-<meta property="og:updated_time" content="2018-09-12T09:03:09.091Z">
+<meta property="og:image" content="http://img.cdn.jmzhao.top/18-9-12/73582493.jpg">
+<meta property="og:updated_time" content="2019-02-14T09:04:50.447Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ab压力测试">
 <meta name="twitter:description" content="ab压力测试安装abyum -y install httpd-tools 
@@ -122,7 +122,7 @@
 -C：添加cookie；
 -g：将测试结果输出为“gnuolot”文件；
 -h：显示帮助信息">
-<meta name="twitter:image" content="http://omdsjtsd2.bkt.clouddn.com/18-9-12/73582493.jpg">
+<meta name="twitter:image" content="http://img.cdn.jmzhao.top/18-9-12/73582493.jpg">
 
 
 
@@ -311,7 +311,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-12T16:44:22+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-12T16:44:22-04:00">
                 2018-09-12
               </time>
             
@@ -371,7 +371,7 @@
 </ul>
 <a id="more"></a>
 <h2 id="返回结果解析"><a href="#返回结果解析" class="headerlink" title="返回结果解析"></a>返回结果解析</h2><figure class="highlight tap"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">Server Software:        nginx/1.14.0      <span class="comment">#被测试的服务器所用的软件信息</span></div><div class="line">Server Hostname:        api.biwinner.cn   <span class="comment">#被测主机名</span></div><div class="line">Server Port:           <span class="number"> 80 </span> <span class="comment">#被测主机的服务端口号</span></div><div class="line"></div><div class="line">Document Path:          /coin/coin/1/coinpair/order/list  <span class="comment">#请求路径</span></div><div class="line">Document Length:       <span class="number"> 1378 </span>bytes <span class="comment">#请求路径返回数据的大小</span></div><div class="line"></div><div class="line">Concurrency Level:     <span class="number"> 100 </span> <span class="comment">#并发数</span></div><div class="line">Time taken for tests:   79.022 seconds  <span class="comment">#本次测试花费的时间</span></div><div class="line">Complete requests:     <span class="number"> 916 </span> <span class="comment">#完成的请求数</span></div><div class="line">Failed requests:       <span class="number"> 2 </span>  <span class="comment">#失败的请求数</span></div><div class="line">   (Connect: 0, Receive: 0, Length: 2, Exceptions: 0)</div><div class="line">Keep-Alive requests:   <span class="number"> 0 </span></div><div class="line">Total transferred:     <span class="number"> 1447564 </span>bytes <span class="comment">#总共传输的数据量，指的是ab从被测服务器接收到的总数据量，包括index.html的文本内容和请求头信息。</span></div><div class="line">HTML transferred:      <span class="number"> 1265602 </span>bytes  <span class="comment">#从服务器接收到的index.html文件的总大小，等于Document Length＊Complete requests</span></div><div class="line">Requests per second:    11.59 [<span class="comment">#/sec] (mean) #平均(mean)每秒完成的请求数：QPS，这是一个平均值，等于Complete requests/Time taken for tests</span></div><div class="line">Time per request:       8626.891 [ms] (mean) <span class="comment">#从用户角度看，完成一个请求所需要的时间（因用户数量不止一个，服务器完成100个请求，平均每个用户才接收到一个完整的返回，所以该值是下一项数值的100倍</span></div><div class="line">Time per request:       86.269 [ms] (mean, across all concurrent requests) <span class="comment">#服务器完成一个请求的时间。</span></div><div class="line">Transfer rate:          17.89 [Kbytes/sec] received <span class="comment">#网络传输速度。对于大文件的请求测试，这个值很容易成为系统瓶颈所在。要确定该值是不是瓶颈，需要了解客户端和被测服务器之间的网络情况，包括网络带宽和网卡速度等信息</span></div><div class="line"></div><div class="line">Connection Times (ms)</div><div class="line">              min  mean[+/-sd] median   max</div><div class="line">Connect:       <span class="number"> 0 </span> <span class="number"> 54 </span> 73.4    <span class="number"> 45 </span>   1153</div><div class="line">Processing:   <span class="number"> 42 </span><span class="number"> 325 </span>2816.8    <span class="number"> 52 </span>  60091</div><div class="line">Waiting:      <span class="number"> 41 </span><span class="number"> 186 </span>320.7    <span class="number"> 51 </span>   2296</div><div class="line">Total:        <span class="number"> 81 </span><span class="number"> 379 </span>2815.8   <span class="number"> 101 </span>  60091</div><div class="line"></div><div class="line"><span class="comment"># 这几行组成的表格主要是针对响应时间也就是第一个Time per request进行细分和统计。一个请求的响应时间可以分成网络链接（Connect），系统处理（Processing）和等待（Waiting）三个部分。表中min表示最小值； mean表示平均值；[+/-sd]表示标准差（Standard Deviation） ，也称均方差（mean square error），这个概念在中学的数学课上学过，表示数据的离散程度，数值越大表示数据越分散，系统响应时间越不稳定。 median表示中位数； max当然就是表示最大值了。</span></div><div class="line"></div><div class="line"><span class="comment">#需要注意的是表中的Total并不等于前三行数据相加，因为前三行的数据并不是在同一个请求中采集到的，可能某个请求的网络延迟最短，但是系统处理时间又是最长的呢。所以Total是从整个请求所需要的时间的角度来统计的。这里可以看到最慢的一个请求花费了60091ms，这个数据可以在下面的表中得到验证。</span></div><div class="line"></div><div class="line">Percentage of the requests served within a certain time (ms)</div><div class="line">  50%    101</div><div class="line">  66%    118</div><div class="line">  75%    154</div><div class="line">  80%    217</div><div class="line">  90%    632</div><div class="line">  95%   1064</div><div class="line">  98%   1606</div><div class="line">  99%   1611</div><div class="line"> 100% <span class="number"> 60091 </span>(longest request)</div><div class="line"> </div><div class="line"> <span class="comment">#这个表第一行表示有50%的请求都是在101ms内完成的</span></div><div class="line"></div><div class="line"><span class="comment">#以此类推，90%的请求是小于等于632ms的。刚才我们看到响应时间最长的那个请求是60091ms，那么显然所有请求（100%）的时间都是小于等于60091毫秒的，也就是表中最后一行的数据肯定是时间最长的那个请求（longest request）。</span></div></pre></td></tr></table></figure>
-<p><img src="http://omdsjtsd2.bkt.clouddn.com/18-9-12/73582493.jpg" alt=""></p>
+<p><img src="http://img.cdn.jmzhao.top/18-9-12/73582493.jpg" alt=""></p>
 <h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ol>
 <li><a href="https://www.cnblogs.com/gumuzi/p/5617232.html" target="_blank" rel="external">Apache ab性能测试结果分析</a></li>
 <li><a href="https://www.cnblogs.com/liangml/p/6421754.html" target="_blank" rel="external">ab测试工具参数详解</a></li>
@@ -490,7 +490,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
