@@ -1,0 +1,697 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="devops," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="自动化构建示意图
+配置步骤1、 新建任务
+
+2、配置git仓库地址">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用jenkinsfile进行多分支自动化构建">
+<meta property="og:url" content="http://jieminblog.tk/2019/03/19/使用jenkinsfile进行多分支自动化构建/index.html">
+<meta property="og:site_name" content="jiemin's Blog">
+<meta property="og:description" content="自动化构建示意图
+配置步骤1、 新建任务
+
+2、配置git仓库地址">
+<meta property="og:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-03-19/jenkins%E6%9E%84%E5%BB%BA%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-03-19/%E6%96%B0%E5%BB%BA%E4%BB%BB%E5%8A%A1.png">
+<meta property="og:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-03-19/git%E9%85%8D%E7%BD%AE.png">
+<meta property="og:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-03-19/%E8%8A%82%E7%82%B9%E6%9C%8D%E5%8A%A1%E5%99%A8.png">
+<meta property="og:image" content="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-03-19/%E5%B7%A5%E7%A8%8B%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-03-19/%E5%A4%9A%E5%88%86%E6%94%AF%E6%9E%84%E5%BB%BA.png">
+<meta property="og:updated_time" content="2019-03-19T10:06:04.040Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用jenkinsfile进行多分支自动化构建">
+<meta name="twitter:description" content="自动化构建示意图
+配置步骤1、 新建任务
+
+2、配置git仓库地址">
+<meta name="twitter:image" content="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-03-19/jenkins%E6%9E%84%E5%BB%BA%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jieminblog.tk/2019/03/19/使用jenkinsfile进行多分支自动化构建/"/>
+
+
+
+
+
+  <title> 使用jenkinsfile进行多分支自动化构建 | jiemin's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">jiemin's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">本来无一物，何处惹尘埃</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2019/03/19/使用jenkinsfile进行多分支自动化构建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用jenkinsfile进行多分支自动化构建
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-19T06:01:47-04:00">
+                2019-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="自动化构建示意图"><a href="#自动化构建示意图" class="headerlink" title="自动化构建示意图"></a>自动化构建示意图</h1><p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-03-19/jenkins%E6%9E%84%E5%BB%BA%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt=""></p>
+<h1 id="配置步骤"><a href="#配置步骤" class="headerlink" title="配置步骤"></a>配置步骤</h1><p>1、 新建任务</p>
+<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-03-19/%E6%96%B0%E5%BB%BA%E4%BB%BB%E5%8A%A1.png" alt=""></p>
+<p>2、配置git仓库地址</p>
+<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-03-19/git%E9%85%8D%E7%BD%AE.png" alt=""><br><a id="more"></a><br>3、jenkinsfile 示例文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div></pre></td><td class="code"><pre><div class="line">pipeline &#123;</div><div class="line">    options &#123;</div><div class="line">        <span class="comment"># jenkins自身的配置项 构建的保留数量和天数</span></div><div class="line">        buildDiscarder(<span class="built_in">log</span>Rotator(numToKeepStr: <span class="string">'7'</span>, artifactNumToKeepStr: <span class="string">'10'</span>, daysToKeepStr: <span class="string">'5'</span>))</div><div class="line">    &#125;</div><div class="line">    <span class="comment"># 构建节点</span></div><div class="line">    agent &#123; label <span class="string">'node_one'</span> &#125;</div><div class="line">    <span class="comment"># jenkins构建前手动填写的参数</span></div><div class="line">    parameters &#123;</div><div class="line">        booleanParam(name: <span class="string">'SPEED_MODE'</span>, defaultValue: <span class="literal">false</span>, description: <span class="string">'极速模式下，将跳过构建、测试和静态扫描直接发布。'</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="comment"># 环境变量</span></div><div class="line">   environment &#123;</div><div class="line">        APPLICATION_NAME = <span class="string">'ai_callcenter'</span></div><div class="line">        APPLICATION_DOCKER_TAG_NAME = <span class="string">'ai_callcenter'</span></div><div class="line">        APPLICATION_DISPLAY_NAME = <span class="string">'智能呼叫中心'</span></div><div class="line">        APPLICATION_DEVELOPMENT_PORT = <span class="string">'18084'</span></div><div class="line">        APPLICATION_TESTING_PORT = <span class="string">'18084'</span></div><div class="line">        DOCKER_REGISTER = <span class="string">'192.168.20.192/we_eat_bugs'</span></div><div class="line">    &#125;</div><div class="line">    <span class="comment"># 构建阶段</span></div><div class="line">    stages &#123;</div><div class="line">        stage(<span class="string">'环境准备'</span>) &#123;</div><div class="line">            <span class="comment"># 构建步骤</span></div><div class="line">            steps &#123;</div><div class="line">                <span class="comment"># 更换执行目录</span></div><div class="line">                dir(<span class="string">'devops'</span>) &#123;</div><div class="line">                  git url: <span class="string">'git@10.100.5.99:yinghuo/yxx/devops.git'</span>, poll: <span class="literal">false</span></div><div class="line">                &#125;</div><div class="line">                <span class="comment"># 不同分支对应的变量设置</span></div><div class="line">                script &#123;</div><div class="line">                    <span class="keyword">if</span> (!env.BRANCH_NAME.startsWith(<span class="string">'feature-'</span>) &amp;&amp; env.BRANCH_NAME != <span class="string">'master'</span> &amp;&amp; !env.BRANCH_NAME.startsWith(<span class="string">'release-'</span>)) &#123;</div><div class="line">                        error(<span class="string">"非法的分支名：<span class="variable">$env</span>.BRANCH_NAME. 自定义的分支应以 feature- 开头。"</span>)</div><div class="line">                    &#125;</div><div class="line">                    env.PROJECT_VERSION = sh(</div><div class="line">                        script: <span class="string">"cat build.gradle  | grep '^version = ' |awk -F = '&#123;gsub(\"\\047\", \"\", \$2); print \$2 &#125;'"</span>,</div><div class="line">                        <span class="built_in">return</span>Stdout: <span class="literal">true</span></div><div class="line">                    ).trim()</div><div class="line">                    assert env.PROJECT_VERSION != <span class="string">''</span></div><div class="line">                    env.VERSION = <span class="string">"<span class="variable">$&#123;env.PROJECT_VERSION.toLowerCase()&#125;</span>.<span class="variable">$&#123;BUILD_ID&#125;</span>"</span></div><div class="line"></div><div class="line">                    <span class="keyword">if</span> (env.BRANCH_NAME.startsWith(<span class="string">'feature'</span>) || env.BRANCH_NAME == <span class="string">"master"</span>) &#123;</div><div class="line">                        env.ENV_NAME = <span class="string">"development"</span></div><div class="line">                        env.SPRING_PROFILES_ACTIVE = <span class="string">"development,swagger"</span></div><div class="line">                        env.PORT = <span class="string">"<span class="variable">$&#123;env.APPLICATION_DEVELOPMENT_PORT&#125;</span>"</span></div><div class="line">                        env.DOCKER_IAMGE_NAME = <span class="string">"<span class="variable">$&#123;APPLICATION_NAME&#125;</span>_development_<span class="variable">$&#123;env.VERSION&#125;</span>"</span></div><div class="line">                        env.xxl_port = 9998</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">if</span> (env.BRANCH_NAME == <span class="string">'release-testing'</span>) &#123;</div><div class="line">                        env.PORT = <span class="string">"<span class="variable">$&#123;env.APPLICATION_TESTING_PORT&#125;</span>"</span></div><div class="line">                        env.ENV_NAME = <span class="string">"testing"</span></div><div class="line">                        env.SPRING_PROFILES_ACTIVE = <span class="string">"testing,swagger"</span></div><div class="line">                        env.DOCKER_IAMGE_NAME = <span class="string">"<span class="variable">$&#123;APPLICATION_NAME&#125;</span>_testing_<span class="variable">$&#123;env.VERSION&#125;</span>"</span></div><div class="line">                        env.xxl_port = 9998</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    <span class="keyword">if</span> (env.BRANCH_NAME == <span class="string">'release-production'</span>) &#123;</div><div class="line">                        env.ENV_NAME = <span class="string">"production"</span></div><div class="line">                        env.DOCKER_IAMGE_NAME = <span class="string">"<span class="variable">$&#123;APPLICATION_NAME&#125;</span>_testing_<span class="variable">$&#123;env.VERSION&#125;</span>"</span></div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    sh <span class="string">"echo Project Version: <span class="variable">$&#123;env.PROJECT_VERSION&#125;</span>"</span></div><div class="line">                    sh <span class="string">"echo Build Version : <span class="variable">$&#123;env.VERSION&#125;</span>"</span></div><div class="line">                    sh <span class="string">"echo Env name is : <span class="variable">$&#123;env.ENV_NAME&#125;</span>"</span></div><div class="line">                    sh <span class="string">"echo Port is : <span class="variable">$&#123;env.PORT&#125;</span>"</span></div><div class="line">                    sh <span class="string">"echo Image name is : <span class="variable">$&#123;env.DOCKER_IAMGE_NAME&#125;</span>"</span></div><div class="line">                    sh <span class="string">"echo active profile is : <span class="variable">$&#123;env.SPRING_PROFILES_ACTIVE&#125;</span>"</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        stage(<span class="string">'检查 &amp; 构建 &amp; 测试'</span>) &#123;</div><div class="line">            steps &#123;</div><div class="line">                sh <span class="string">'chmod +x gradlew'</span></div><div class="line">                sh <span class="string">'./gradlew clean build -x test --daemon -x war '</span></div><div class="line">                //sh <span class="string">'./gradlew test'</span></div><div class="line">                stash allowEmpty: <span class="literal">true</span>, includes: <span class="string">'build/**/*'</span>, name: <span class="string">'buildResult'</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        stage(<span class="string">"构建镜像"</span>) &#123;</div><div class="line">            steps &#123;</div><div class="line">                sh <span class="string">'./gradlew clean bootRepackage buildDocker'</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        stage(<span class="string">"发布镜像"</span>) &#123;</div><div class="line">            steps &#123;</div><div class="line">                script &#123;</div><div class="line">                    env.DOCKER_IAMGE_NAME = <span class="string">"<span class="variable">$&#123;env.DOCKER_REGISTER&#125;</span>/<span class="variable">$&#123;APPLICATION_NAME&#125;</span>-<span class="variable">$&#123;ENV_NAME&#125;</span>:<span class="variable">$&#123;env.VERSION&#125;</span>"</span></div><div class="line">                    sh <span class="string">"docker tag <span class="variable">$&#123;env.APPLICATION_NAME&#125;</span> <span class="variable">$&#123;env.DOCKER_IAMGE_NAME&#125;</span>"</span></div><div class="line">                    sh <span class="string">"docker login -u test -p 123456 192.168.20.192"</span></div><div class="line">                    sh <span class="string">"docker push <span class="variable">$&#123;env.DOCKER_IAMGE_NAME&#125;</span>"</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        stage(<span class="string">"发布应用到DEV|QA"</span>) &#123;</div><div class="line">            when &#123;</div><div class="line">                expression &#123;</div><div class="line">                    env.BRANCH_NAME.startsWith(<span class="string">'feature'</span>) || env.BRANCH_NAME == <span class="string">'release-testing'</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            steps &#123;</div><div class="line">                ansiblePlaybook(</div><div class="line">                        inventory: <span class="string">"devops/provision/inventories/<span class="variable">$&#123;env.ENV_NAME&#125;</span>/hosts"</span>,</div><div class="line">                        playbook: <span class="string">'devops/provision/deploy.yml'</span>,</div><div class="line">                        <span class="built_in">limit</span>: <span class="string">"tianlai"</span>,</div><div class="line">                        tags: <span class="string">'new_java'</span>,</div><div class="line">                        extraVars: [</div><div class="line">                                workspace_path  : <span class="string">"<span class="variable">$&#123;WORKSPACE&#125;</span>"</span>,</div><div class="line">                                application_name: <span class="string">"<span class="variable">$&#123;APPLICATION_NAME&#125;</span>"</span>,</div><div class="line">                                application_port: <span class="string">"<span class="variable">$&#123;env.PORT&#125;</span>"</span>,</div><div class="line">                                container_name  : <span class="string">"<span class="variable">$&#123;APPLICATION_NAME&#125;</span>_<span class="variable">$&#123;ENV_NAME&#125;</span>"</span>,</div><div class="line">                                image_name      : <span class="string">"<span class="variable">$&#123;DOCKER_IAMGE_NAME&#125;</span>"</span>,</div><div class="line">                                run_container   : <span class="string">"docker run -d -p <span class="variable">$&#123;env.PORT&#125;</span>:8080 -p <span class="variable">$&#123;env.xxl_port&#125;</span>:9998 -e 'SPRING_PROFILES_ACTIVE=<span class="variable">$&#123;SPRING_PROFILES_ACTIVE&#125;</span>' -e JAVA_OPTS='-Xmx512m' -v /data/tianlai/localVoice:/home/yinghuo/localVoice --name <span class="variable">$&#123;APPLICATION_NAME&#125;</span>_<span class="variable">$&#123;ENV_NAME&#125;</span> <span class="variable">$&#123;env.DOCKER_IAMGE_NAME&#125;</span>"</span></div><div class="line">                        ])</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    post &#123;</div><div class="line">        success &#123;</div><div class="line">            sendEmailNotification(<span class="literal">true</span>)</div><div class="line">        &#125;</div><div class="line">        failure &#123;</div><div class="line">            sendEmailNotification(<span class="literal">false</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">def sendEmailNotification(isSuccess) &#123;</div><div class="line">    def subject</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (env.ENV_NAME == <span class="string">"development"</span> || env.ENV_NAME == <span class="string">"testing"</span> || env.ENV_NAME == <span class="string">"master"</span>) &#123;</div><div class="line">        subject = isSuccess ? <span class="string">"【发布】<span class="variable">$&#123;env.APPLICATION_DISPLAY_NAME&#125;</span>|已经成功发布到 <span class="variable">$&#123;env.ENV_NAME&#125;</span> 环境，请知悉。版本号：<span class="variable">$&#123;env.VERSION&#125;</span>"</span> : <span class="string">"【重要】<span class="variable">$&#123;env.APPLICATION_DISPLAY_NAME&#125;</span>|发布到 <span class="variable">$&#123;env.ENV_NAME&#125;</span> 失败，请及时处理。版本号：<span class="variable">$&#123;env.VERSION&#125;</span>"</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (env.BRANCH_NAME == <span class="string">"release-production"</span>) &#123;</div><div class="line">        subject = isSuccess ? <span class="string">"【镜像构建完成】<span class="variable">$&#123;env.APPLICATION_DISPLAY_NAME&#125;</span>的Docker镜像已经构建完成并发布，请知悉。镜像名：<span class="variable">$&#123;env.DOCKER_IAMGE_NAME&#125;</span>"</span> : <span class="string">"【重要-镜像构建失败】<span class="variable">$&#123;env.APPLICATION_DISPLAY_NAME&#125;</span>的Docker镜像构建时出错，请及时处理。镜像名：<span class="variable">$&#123;env.DOCKER_IAMGE_NAME&#125;</span>"</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    mail body: <span class="string">"访问 <span class="variable">$&#123;env.BUILD_URL&#125;</span> 查看Pipeline详情。"</span>, from: <span class="string">'cd@yingyinglicai.com'</span>, replyTo: <span class="string">''</span>, subject: <span class="string">" <span class="variable">$&#123;subject&#125;</span>"</span>, mimeType: <span class="string">'text/html'</span>, to:</div><div class="line">            <span class="string">'xubitao@yingnagroup.com'</span>, cc: <span class="string">'we-eat-bugs@yingyinglicai.com'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>4、 节点构建服务器配置</p>
+<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-03-19/%E8%8A%82%E7%82%B9%E6%9C%8D%E5%8A%A1%E5%99%A8.png" alt=""></p>
+<p>5、 在节点服务器和应用服务器中均需要安装docker和ansible服务，安装步骤可参考<a href="http://blog.jmzhao.top/2018/11/28/RedHat%E4%B8%8A%E5%AE%89%E8%A3%85%E6%8C%87%E5%AE%9A%E7%89%88%E6%9C%ACdocker%E5%92%8Cdocker-compose/" target="_blank" rel="external">RedHat上安装指定版本docker和docker-compose</a>和<a href="http://blog.jmzhao.top/2018/09/25/ansible%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#more" target="_blank" rel="external">ansible学习笔记</a>。需要注意的是在应用服务器中为了能使docker正常pull镜像，需要进行以下操作。</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">vi /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">systemd</span>/<span class="title">system</span>/<span class="title">docker</span>.<span class="title">service</span></span></div><div class="line"></div><div class="line">ExecStart=<span class="regexp">/usr/bin</span><span class="regexp">/dockerd --insecure-registry 10.100.2.38 --insecure-registry 192.168.20.192</span></div><div class="line"></div><div class="line">systemctl daemon-reload</div><div class="line">systemctl restart  docker</div></pre></td></tr></table></figure>
+<p>6、 配置dockerfile文件。dockerfile示例文件如下</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 基于什么镜像进行构建</span></div><div class="line"><span class="keyword">FROM</span> java:<span class="number">8</span></div><div class="line"></div><div class="line"><span class="comment"># 设置环境变量</span></div><div class="line"><span class="keyword">ENV</span> SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \</div><div class="line">    YINGHUO_SLEEP=<span class="number">0</span> \</div><div class="line">    JAVA_OPTS=<span class="string">""</span> \</div><div class="line">    TZ=<span class="string">"Asia/Shanghai"</span></div><div class="line"></div><div class="line"><span class="comment"># Add a yinghuo user to run our application so that it doesn't need to run as root</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> adduser --disabled-password yinghuo &amp;&amp; mkdir -p /home/yinghuo/<span class="built_in">local</span>Voice &amp;&amp;  mkdir -p /home/yinghuo/remoteVoice  \</span></div><div class="line">	&amp;&amp; mkdir -p /data/xxl/logs &amp;&amp; chown -R yinghuo:yinghuo /home/yinghuo/<span class="built_in">local</span>Voice/ &amp;&amp; chown -R yinghuo:yinghuo /home/yinghuo/remoteVoice/ &amp;&amp; \</div><div class="line">	chown -R yinghuo:yinghuo /data/xxl/logs</div><div class="line"></div><div class="line"><span class="comment">#  等同于cd /home/yinghuo的意思</span></div><div class="line"><span class="keyword">WORKDIR</span><span class="bash"> /home/yinghuo</span></div><div class="line"></div><div class="line"><span class="comment"># 添加启动脚本到容器中，设置权限</span></div><div class="line"><span class="keyword">ADD</span><span class="bash"> entrypoint.sh entrypoint.sh</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> chmod 755 entrypoint.sh &amp;&amp; chown yinghuo:yinghuo entrypoint.sh</span></div><div class="line"><span class="keyword">USER</span> yinghuo</div><div class="line"></div><div class="line"><span class="comment"># 把构建好的war包放入容器中</span></div><div class="line"><span class="keyword">ADD</span><span class="bash"> *.war app.war</span></div><div class="line"></div><div class="line"><span class="comment"># 执行启动命令</span></div><div class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"./entrypoint.sh"</span>]</span></div><div class="line"></div><div class="line"><span class="comment"># 容器暴露对外的端口号，需要在docker run时添加容器跟服务器的映射关系</span></div><div class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></div></pre></td></tr></table></figure>
+<p>工程项目结构图</p>
+<p><img src="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-03-19/%E5%B7%A5%E7%A8%8B%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png" alt=""></p>
+<p>7、进行ansible配置<br>在jenkinsfile中，会下载一个devops的项目，所有的ansible相关配置都在这个里面,当有新的应用服务器需要部署时，需要在ansible中hosts文件中添加相应的应用服务器信息。hosts文件在devops的<code>devops/provision/inventories/development/</code>路径下, 所有项目发布相关的ansible脚本在<code>devops/provision/roles/deployment/tasks/</code>这个路径下。</p>
+<h1 id="进行多分支构建"><a href="#进行多分支构建" class="headerlink" title="进行多分支构建"></a>进行多分支构建</h1><p>进入jenkins相关的项目后，点击扫描多分支流水线，扫描完毕后，选择需要构建的分支点击构建</p>
+<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-03-19/%E5%A4%9A%E5%88%86%E6%94%AF%E6%9E%84%E5%BB%BA.png" alt=""></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/devops/" rel="tag"># devops</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/11/jconsole的小应用/" rel="next" title="jconsole的小应用">
+                <i class="fa fa-chevron-left"></i> jconsole的小应用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/touxiang.jpeg"
+               alt="我爱的乌托邦" />
+          <p class="site-author-name" itemprop="name">我爱的乌托邦</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#自动化构建示意图"><span class="nav-number">1.</span> <span class="nav-text">自动化构建示意图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置步骤"><span class="nav-number">2.</span> <span class="nav-text">配置步骤</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进行多分支构建"><span class="nav-number">3.</span> <span class="nav-text">进行多分支构建</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">我爱的乌托邦</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
