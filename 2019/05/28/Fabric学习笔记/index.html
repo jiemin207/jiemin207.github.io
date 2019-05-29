@@ -108,7 +108,7 @@ peer:">
 <meta property="og:image" content="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-05-27/fabric%E5%BC%80%E5%8F%91%E8%80%85.png">
 <meta property="og:image" content="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-05-27/docker%20images.png">
 <meta property="og:image" content="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-05-27/e2e_cli.png">
-<meta property="og:updated_time" content="2019-05-29T02:52:30.461Z">
+<meta property="og:updated_time" content="2019-05-29T02:57:02.930Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hyperledger Fabric学习笔记">
 <meta name="twitter:description" content="fabric概念名词概念
@@ -362,6 +362,7 @@ peer:">
 <li>git </li>
 </ol>
 <p>可参照:<a href="http://blog.jmzhao.top/2018/11/28/RedHat%E4%B8%8A%E5%AE%89%E8%A3%85%E6%8C%87%E5%AE%9A%E7%89%88%E6%9C%ACdocker%E5%92%8Cdocker-compose/" target="_blank" rel="external">docker和docker-compose安装</a></p>
+<a id="more"></a>
 <h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><p>1、 拉取fabric代码(使用1.1版本的分支)<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">mkdir</span> -<span class="keyword">p</span> /<span class="keyword">opt</span>/gopath/src/github.<span class="keyword">com</span>/hyperledger</div><div class="line"><span class="keyword">cd</span> /<span class="keyword">opt</span>/gopath/src/github.<span class="keyword">com</span>/hyperledger</div><div class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/hyperledger/fabric.git</div><div class="line">git checkout release-<span class="number">1.1</span></div></pre></td></tr></table></figure></p>
 <p>2、 拉取docker镜像及一些可执行文件<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd <span class="regexp">/opt/g</span>opath<span class="regexp">/src/gi</span>thub.com<span class="regexp">/hyperledger/</span>fabric<span class="regexp">/scripts/</span></div><div class="line">.<span class="regexp">/bootstrap.sh</span></div></pre></td></tr></table></figure></p>
 <p>执行完成后有以下镜像</p>
@@ -371,10 +372,7 @@ peer:">
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> GOPATH=<span class="regexp">/opt/g</span>opath</div></pre></td></tr></table></figure>
 <p>使环境变量生效</p>
 <figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">source</span> <span class="regexp">/etc/</span>profile</div></pre></td></tr></table></figure>
-<ol>
-<li>启动服务<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> /<span class="keyword">opt</span>/gopath/src/github.<span class="keyword">com</span>/hyperledger/fabric/examples/e2e_cli</div><div class="line">bash network_setup.<span class="keyword">sh</span> <span class="keyword">up</span></div></pre></td></tr></table></figure>
-</li>
-</ol>
+<p>4、 启动服务<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> /<span class="keyword">opt</span>/gopath/src/github.<span class="keyword">com</span>/hyperledger/fabric/examples/e2e_cli</div><div class="line">bash network_setup.<span class="keyword">sh</span> <span class="keyword">up</span></div></pre></td></tr></table></figure></p>
 <p>出现下图表示启动成功:</p>
 <p><img src="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-05-27/e2e_cli.png" alt=""></p>
 <p><strong>注意:</strong> 以上操作请尽量在root用户下进行，否则会由于权限或者路径问题报错。</p>

@@ -323,8 +323,7 @@
 
       
         
-          
-            <h1 id="fabric概念"><a href="#fabric概念" class="headerlink" title="fabric概念"></a>fabric概念</h1><h2 id="名词概念"><a href="#名词概念" class="headerlink" title="名词概念"></a>名词概念</h2><ol>
+          <h1 id="fabric概念"><a href="#fabric概念" class="headerlink" title="fabric概念"></a>fabric概念</h1><h2 id="名词概念"><a href="#名词概念" class="headerlink" title="名词概念"></a>名词概念</h2><ol>
 <li>chaincode: 智能合约</li>
 <li>transaction: 交易，每条指令都是一次交易</li>
 <li>world state: 对同一个key的多次交易形成的最终value，就是世界状态。</li>
@@ -342,44 +341,14 @@
 <li>docker-compose</li>
 <li>git </li>
 </ol>
-<p>可参照:<a href="http://blog.jmzhao.top/2018/11/28/RedHat%E4%B8%8A%E5%AE%89%E8%A3%85%E6%8C%87%E5%AE%9A%E7%89%88%E6%9C%ACdocker%E5%92%8Cdocker-compose/" target="_blank" rel="external">docker和docker-compose安装</a></p>
-<h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><p>1、 拉取fabric代码(使用1.1版本的分支)<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">mkdir</span> -<span class="keyword">p</span> /<span class="keyword">opt</span>/gopath/src/github.<span class="keyword">com</span>/hyperledger</div><div class="line"><span class="keyword">cd</span> /<span class="keyword">opt</span>/gopath/src/github.<span class="keyword">com</span>/hyperledger</div><div class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/hyperledger/fabric.git</div><div class="line">git checkout release-<span class="number">1.1</span></div></pre></td></tr></table></figure></p>
-<p>2、 拉取docker镜像及一些可执行文件<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd <span class="regexp">/opt/g</span>opath<span class="regexp">/src/gi</span>thub.com<span class="regexp">/hyperledger/</span>fabric<span class="regexp">/scripts/</span></div><div class="line">.<span class="regexp">/bootstrap.sh</span></div></pre></td></tr></table></figure></p>
-<p>执行完成后有以下镜像</p>
-<p><img src="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-05-27/docker%20images.png" alt=""></p>
-<p>3、安装go语言并配置环境变量<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum <span class="keyword">install</span> golang -y</div></pre></td></tr></table></figure></p>
-<p>编辑 /etc/profile文件，添加以下内容</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> GOPATH=<span class="regexp">/opt/g</span>opath</div></pre></td></tr></table></figure>
-<p>使环境变量生效</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">source</span> <span class="regexp">/etc/</span>profile</div></pre></td></tr></table></figure>
-<ol>
-<li>启动服务<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> /<span class="keyword">opt</span>/gopath/src/github.<span class="keyword">com</span>/hyperledger/fabric/examples/e2e_cli</div><div class="line">bash network_setup.<span class="keyword">sh</span> <span class="keyword">up</span></div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>出现下图表示启动成功:</p>
-<p><img src="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-05-27/e2e_cli.png" alt=""></p>
-<p><strong>注意:</strong> 以上操作请尽量在root用户下进行，否则会由于权限或者路径问题报错。</p>
-<h1 id="fabric-cli交互"><a href="#fabric-cli交互" class="headerlink" title="fabric cli交互"></a>fabric cli交互</h1><p>e2e_cli启动后，可以看到有以下实例</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">docker ps --format <span class="string">"&#123;&#123;.ID&#125;&#125;: &#123;&#123;.Names&#125;&#125;"</span></div><div class="line"></div><div class="line">d09d80cbb69a: dev-peer1<span class="selector-class">.org2</span><span class="selector-class">.example</span><span class="selector-class">.com-mycc-1</span>.<span class="number">0</span></div><div class="line"><span class="number">89</span>e9dfab9c10: dev-peer0<span class="selector-class">.org1</span><span class="selector-class">.example</span><span class="selector-class">.com-mycc-1</span>.<span class="number">0</span></div><div class="line">f865285adc95: dev-peer0<span class="selector-class">.org2</span><span class="selector-class">.example</span><span class="selector-class">.com-mycc-1</span>.<span class="number">0</span></div><div class="line">ff4c56d305e8: orderer<span class="selector-class">.example</span><span class="selector-class">.com</span></div><div class="line">f03857ea2ff9: kafka1</div><div class="line"><span class="number">86657663401</span>e: kafka3</div><div class="line"><span class="number">65</span>d678b8d4c7: kafka2</div><div class="line"><span class="number">3</span>a7128ce2e3e: kafka0</div><div class="line"><span class="number">9</span>e3f75e6b724: zookeeper2</div><div class="line">a9e1e9731bea: zookeeper1</div><div class="line">de4a92941e58: zookeeper0</div><div class="line">cbc16a54b727: peer0<span class="selector-class">.org1</span><span class="selector-class">.example</span><span class="selector-class">.com</span></div><div class="line"><span class="number">858</span>e507f523b: peer1<span class="selector-class">.org1</span><span class="selector-class">.example</span><span class="selector-class">.com</span></div><div class="line">bb334ea7d4d8: peer1<span class="selector-class">.org2</span><span class="selector-class">.example</span><span class="selector-class">.com</span></div><div class="line">a08a01762d55: peer0<span class="selector-class">.org2</span><span class="selector-class">.example</span><span class="selector-class">.com</span></div></pre></td></tr></table></figure>
-<p>4个peer节点，4个节点构成的kafka集群，3个节点构成的zookeeper集群，一个orderer节点</p>
-<h2 id="使用peer命令"><a href="#使用peer命令" class="headerlink" title="使用peer命令"></a>使用peer命令</h2><p>启动cli容器</p>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker start <span class="keyword">cli</span></div></pre></td></tr></table></figure>
-<p>进入cli容器中</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker exec -<span class="keyword">it</span> cli bash</div></pre></td></tr></table></figure>
-<p>查看peer命令</p>
-<figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">peer --help</div><div class="line"></div><div class="line">## 命令结果</div><div class="line">Available Commands:</div><div class="line">  chaincode   Operate a chaincode: install|<span class="type">instantiate</span>|<span class="type">invoke</span>|<span class="type">package</span>|<span class="type">query</span>|<span class="type">signpackage</span>|<span class="type">upgrade</span>|<span class="type">list</span>.</div><div class="line">  channel     Operate a channel: create|<span class="type">fetch</span>|<span class="type">join</span>|<span class="type">list</span>|<span class="type">update</span>|<span class="type">signconfigtx</span>|<span class="type">getinfo</span>.</div><div class="line">  logging     Log levels: getlevel|<span class="type">setlevel</span>|<span class="type">revertlevels</span>.</div><div class="line">  node        Operate a peer node: start|<span class="type">status</span>.</div><div class="line">  version     <span class="keyword">Print</span> fabric peer version.</div></pre></td></tr></table></figure>
-<h2 id="example02智能合约"><a href="#example02智能合约" class="headerlink" title="example02智能合约"></a>example02智能合约</h2><p>1、安装智能合约<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">peer chaincode install -n mycc -v <span class="number">1.0</span> -p github.com<span class="regexp">/hyperledger/</span>fabric<span class="regexp">/examples/</span>chaincode<span class="regexp">/go/</span>chaincode_example02</div><div class="line"><span class="comment">## -n表示合约名字，-p指向合约文件目录路径，-v是版本号</span></div></pre></td></tr></table></figure></p>
-<p>2、 初始化<br><figure class="highlight apache"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">peer</span> chaincode instantiate -o orderer.example.com:7050 -C mychannel -n mycc -v 1.0 -c '&#123;<span class="string">"Args"</span>:[<span class="string">"init"</span>,<span class="string">"a"</span>,<span class="string">"100"</span>,<span class="string">"b"</span>,<span class="string">"200"</span>]&#125;' -P <span class="string">"OR    ('Org1MSP.peer','Org2MSP.peer')"</span></div><div class="line"><span class="comment">## -C指向channel名字，-c则是初始构造json格式的消息，-P是背书策略，-o指定共识节点。这里置帐户a初始余额为100，帐户b初始余额为200</span></div></pre></td></tr></table></figure></p>
-<p>3、 查询余额<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">peer chaincode <span class="keyword">query</span> -C mychannel -n mycc -c '&#123;<span class="string">"Args"</span>:[<span class="string">"query"</span>,<span class="string">"a"</span>]&#125;'</div></pre></td></tr></table></figure></p>
-<p>4、 转账<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">peer chaincode invoke -o orderer<span class="selector-class">.example</span><span class="selector-class">.com</span>:<span class="number">7050</span>  --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer<span class="selector-class">.example</span><span class="selector-class">.com</span>/msp/tlscacerts/tlsca<span class="selector-class">.example</span><span class="selector-class">.com-cert</span><span class="selector-class">.pem</span>  -C mychannel -n mycc -c <span class="string">'&#123;"Args":["invoke","b","a","50"]&#125;'</span></div></pre></td></tr></table></figure></p>
-<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ol>
-<li><a href="http://www.taohui.pub/2018/05/26/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BC%80%E6%BA%90%E5%AE%9E%E7%8E%B0hyperledger-fabric%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/" target="_blank" rel="external">区块链开源实现HYPERLEDGER FABRIC架构详解</a></li>
-<li><a href="https://github.com/chaozh/awesome-blockchain-cn" target="_blank" rel="external">区块链(BlockChain)技术开发相关资料</a></li>
-<li><a href="https://www.cnblogs.com/aberic/p/7532421.html" target="_blank" rel="external">Hyperledger Fabric 1.0 从零开始</a></li>
-<li><a href="https://blog.csdn.net/qq_38591756/article/details/82826979" target="_blank" rel="external">CentOS7 - Fabric1.0单机安装时的一些记录</a></li>
-</ol>
-
-          
+<p>可参照:<a href="http://blog.jmzhao.top/2018/11/28/RedHat%E4%B8%8A%E5%AE%89%E8%A3%85%E6%8C%87%E5%AE%9A%E7%89%88%E6%9C%ACdocker%E5%92%8Cdocker-compose/">docker和docker-compose安装</a></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/05/28/Fabric学习笔记/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
