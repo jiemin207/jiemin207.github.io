@@ -247,6 +247,132 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2018/04/02/Eclipse在Mac下启动时卡住问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/04/02/Eclipse在Mac下启动时卡住问题/" itemprop="url">
+                  Eclipse在Mac下启动时卡住问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-02T15:40:56-04:00">
+                2018-04-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>电脑强制关机后重新打开eclipse是在加载界面加载到”org.eclipse.mylyn.tasks.ui” 时卡住了，打不开eclipse了。之前我使用的解决方法是将工作空间下的<code>.metadata</code>目录整个删除，然后eclipse就能重新启动了。但这种解决方式会将eclipse所有的配置给删除了，需要重新设置，比较麻烦。经过网上搜索解决办法，尝试了几种后，确定了一种方法有效，在这里记录一下。</p>
+<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><ol>
+<li><p>使用命令行窗口进入工作空间目录下，输入<code>cd .metadata/.plugins/org.eclipse.core.resources</code></p>
+</li>
+<li><p>使用rm命令或者手动删除含有snap的文件，例如“7.snap”<br><img src="http://img.cdn.jmzhao.top/18-4-2/25397383.jpg" alt=""></p>
+</li>
+<li><p>重启Eclipse</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2018/03/01/近三个月的那些事及2018年展望/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1371,137 +1497,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/08/08/mac环境下svn操作/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="我爱的乌托邦">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/touxiang.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jiemin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/08/mac环境下svn操作/" itemprop="url">
-                  mac环境下svn操作
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-08T14:12:42-04:00">
-                2017-08-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="创建svn仓库"><a href="#创建svn仓库" class="headerlink" title="创建svn仓库"></a>创建svn仓库</h1><p>1.新建一个svn目录，进入svn目录，输入指令 <code>svnadmin create /Users/zjm/svn/mycode</code>,执行成功后svn目录下会生成mycode仓库，目录结构如下</p>
-<p><img src="http://img.cdn.jmzhao.top/17-8-8/53415204.jpg" alt=""></p>
-<h1 id="配置svn用户权限"><a href="#配置svn用户权限" class="headerlink" title="配置svn用户权限"></a>配置svn用户权限</h1><h2 id="修改svnserver-conf文件"><a href="#修改svnserver-conf文件" class="headerlink" title="修改svnserver.conf文件"></a>修改svnserver.conf文件</h2><p>进入conf目录，修改svnserver.conf文件，将下列配置前的#和空格去掉<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta"># anon-access = read  </span></div><div class="line"><span class="meta"># auth-access = write  </span></div><div class="line">  </div><div class="line"><span class="meta"># password-db = passwd  </span></div><div class="line">  </div><div class="line"><span class="meta"># authz-db = authz</span></div></pre></td></tr></table></figure></p>
-<h2 id="修改passwd文件"><a href="#修改passwd文件" class="headerlink" title="修改passwd文件"></a>修改passwd文件</h2><p>在[users]下添加账号和密码</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section">[users]</span></div><div class="line"><span class="attr">zjm</span> = <span class="number">123456</span></div><div class="line"><span class="attr">zs</span>  = <span class="number">123456</span></div></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/08/08/mac环境下svn操作/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1546,7 +1546,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1559,7 +1559,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

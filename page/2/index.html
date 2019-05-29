@@ -247,6 +247,152 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2018/10/30/jenkins-docker-ansible自动化部署/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/10/30/jenkins-docker-ansible自动化部署/" itemprop="url">
+                  jenkins+docker+ansible自动化部署
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-30T13:26:54-04:00">
+                2018-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="jenkins-docker-ansible实现自动化部署"><a href="#jenkins-docker-ansible实现自动化部署" class="headerlink" title="jenkins+docker+ansible实现自动化部署"></a>jenkins+docker+ansible实现自动化部署</h1><h2 id="jenkins工作流程示意图"><a href="#jenkins工作流程示意图" class="headerlink" title="jenkins工作流程示意图"></a>jenkins工作流程示意图</h2><p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/18-10-30/81955932.jpg" alt=""></p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">资源</th>
+<th style="text-align:center">路径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">jenkins服务器</td>
+<td style="text-align:center">10.100.2.12</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">python项目所在服务器</td>
+<td style="text-align:center">10.200.1.37</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>两台服务器上均装有docker和ansible</p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>为项目添加Dockerfile文件，DockerFile放在项目的根路径，DockerFile文件如下:<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 基于什么镜像进行构建</span></div><div class="line"><span class="keyword">FROM</span> lucascosta/serverless-python3.<span class="number">6</span></div><div class="line"><span class="comment"># 设置容器环境变量时区为东八区</span></div><div class="line"><span class="keyword">ENV</span> TZ=<span class="string">"Asia/Shanghai"</span></div><div class="line"></div><div class="line"><span class="comment"># Add a yinghuo user to run our application so that it doesn't need to run as root</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> adduser --disabled-password  yinghuo</div><div class="line"></span><span class="comment"># 安装python项目所需依赖</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> pip3 install flask</div><div class="line"></span><span class="comment"># 将项目添加到容器中</span></div><div class="line"><span class="keyword">ADD</span><span class="bash"> ./* /home/yinghuo/ai_voice_engine/</div><div class="line"></span><span class="comment"># 设置权限</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> chmod -R 777 /home/yinghuo/ai_voice_engine/</div><div class="line"></span></div><div class="line"><span class="comment">#  等同于cd /home/yinghuo的意思</span></div><div class="line"><span class="keyword">WORKDIR</span><span class="bash"> /home/yinghuo</div><div class="line"></span></div><div class="line"><span class="keyword">USER</span> yinghuo</div><div class="line"><span class="comment"># 启动项目</span></div><div class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"python3"</span>, <span class="string">"ai_voice_engine/hello.py"</span>]</div><div class="line"></span><span class="comment"># 容器暴露对外的端口号，需要在docker run时添加容器跟服务器的映射关系</span></div><div class="line"><span class="keyword">EXPOSE</span> <span class="number">5000</span></div></pre></td></tr></table></figure></p>
+<p>添加完DockerFile后项目结构如下:</p>
+<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/18-10-30/33558193.jpg" alt=""></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/30/jenkins-docker-ansible自动化部署/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2018/09/26/单元测试之道Java版读书笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1427,137 +1573,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2018/04/02/Eclipse在Mac下启动时卡住问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="我爱的乌托邦">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/touxiang.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jiemin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/04/02/Eclipse在Mac下启动时卡住问题/" itemprop="url">
-                  Eclipse在Mac下启动时卡住问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-02T15:40:56-04:00">
-                2018-04-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>电脑强制关机后重新打开eclipse是在加载界面加载到”org.eclipse.mylyn.tasks.ui” 时卡住了，打不开eclipse了。之前我使用的解决方法是将工作空间下的<code>.metadata</code>目录整个删除，然后eclipse就能重新启动了。但这种解决方式会将eclipse所有的配置给删除了，需要重新设置，比较麻烦。经过网上搜索解决办法，尝试了几种后，确定了一种方法有效，在这里记录一下。</p>
-<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><ol>
-<li><p>使用命令行窗口进入工作空间目录下，输入<code>cd .metadata/.plugins/org.eclipse.core.resources</code></p>
-</li>
-<li><p>使用rm命令或者手动删除含有snap的文件，例如“7.snap”<br><img src="http://img.cdn.jmzhao.top/18-4-2/25397383.jpg" alt=""></p>
-</li>
-<li><p>重启Eclipse</p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1602,7 +1622,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1615,7 +1635,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -247,6 +247,177 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2019/05/28/Fabric学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/05/28/Fabric学习笔记/" itemprop="url">
+                  hyperledger Fabric学习笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-28T22:38:31-04:00">
+                2019-05-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="fabric概念"><a href="#fabric概念" class="headerlink" title="fabric概念"></a>fabric概念</h1><h2 id="名词概念"><a href="#名词概念" class="headerlink" title="名词概念"></a>名词概念</h2><ol>
+<li>chaincode: 智能合约</li>
+<li>transaction: 交易，每条指令都是一次交易</li>
+<li>world state: 对同一个key的多次交易形成的最终value，就是世界状态。</li>
+<li>endorse: 在我们的共识机制的投票环节里，背书意味着参与投票。</li>
+<li>endorsement policy: 背书策略。由智能合约chaincode选择哪些peer节点参与到背书环节来。</li>
+<li>peer: 存放区块链数据的结点，同时还有endorse和commit功能。</li>
+<li>channel: 私有的子网络，事实上是为了隔离不同的应用，一个channel可含有一批chaincode。</li>
+<li>PKI: Public Key Infrastructure，一种遵循标准的利用公钥加密技术为电子商务的开展提供一套安全基础平台的技术和规范。</li>
+<li>MSP: Membership Service Provider，联盟链成员的证书管理，它定义了哪些RCA以及ICA在链里是可信任的，包括定义了channel上的合作者。</li>
+</ol>
+<h2 id="开发概念"><a href="#开发概念" class="headerlink" title="开发概念"></a>开发概念</h2><p>fabric联盟链的开发人员主要分为三类：底层是系统运维，负责系统的部署与维护；其次是组织管理人员，负责证书、MSP权限管理、共识机制等；最后是业务开发人员，他们负责编写chaincode、创建维护channel、执行transaction交易等</p>
+<p><img src="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-05-27/fabric%E5%BC%80%E5%8F%91%E8%80%85.png" alt=""></p>
+<h1 id="开发环境部署"><a href="#开发环境部署" class="headerlink" title="开发环境部署"></a>开发环境部署</h1><h2 id="前置环境"><a href="#前置环境" class="headerlink" title="前置环境"></a>前置环境</h2><ol>
+<li>docker</li>
+<li>docker-compose</li>
+<li>git </li>
+</ol>
+<p>可参照:<a href="http://blog.jmzhao.top/2018/11/28/RedHat%E4%B8%8A%E5%AE%89%E8%A3%85%E6%8C%87%E5%AE%9A%E7%89%88%E6%9C%ACdocker%E5%92%8Cdocker-compose/" target="_blank" rel="external">docker和docker-compose安装</a></p>
+<h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><p>1、 拉取fabric代码(使用1.1版本的分支)<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">mkdir</span> -<span class="keyword">p</span> /<span class="keyword">opt</span>/gopath/src/github.<span class="keyword">com</span>/hyperledger</div><div class="line"><span class="keyword">cd</span> /<span class="keyword">opt</span>/gopath/src/github.<span class="keyword">com</span>/hyperledger</div><div class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/hyperledger/fabric.git</div><div class="line">git checkout release-<span class="number">1.1</span></div></pre></td></tr></table></figure></p>
+<p>2、 拉取docker镜像及一些可执行文件<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd <span class="regexp">/opt/g</span>opath<span class="regexp">/src/gi</span>thub.com<span class="regexp">/hyperledger/</span>fabric<span class="regexp">/scripts/</span></div><div class="line">.<span class="regexp">/bootstrap.sh</span></div></pre></td></tr></table></figure></p>
+<p>执行完成后有以下镜像</p>
+<p><img src="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-05-27/docker%20images.png" alt=""></p>
+<p>3、安装go语言并配置环境变量<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum <span class="keyword">install</span> golang -y</div></pre></td></tr></table></figure></p>
+<p>编辑 /etc/profile文件，添加以下内容</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> GOPATH=<span class="regexp">/opt/g</span>opath</div></pre></td></tr></table></figure>
+<p>使环境变量生效</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">source</span> <span class="regexp">/etc/</span>profile</div></pre></td></tr></table></figure>
+<ol>
+<li>启动服务<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> /<span class="keyword">opt</span>/gopath/src/github.<span class="keyword">com</span>/hyperledger/fabric/examples/e2e_cli</div><div class="line">bash network_setup.<span class="keyword">sh</span> <span class="keyword">up</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>出现下图表示启动成功:</p>
+<p><img src="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-05-27/e2e_cli.png" alt=""></p>
+<p><strong>注意:</strong> 以上操作请尽量在root用户下进行，否则会由于权限或者路径问题报错。</p>
+<h1 id="fabric-cli交互"><a href="#fabric-cli交互" class="headerlink" title="fabric cli交互"></a>fabric cli交互</h1><p>e2e_cli启动后，可以看到有以下实例</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">docker ps --format <span class="string">"&#123;&#123;.ID&#125;&#125;: &#123;&#123;.Names&#125;&#125;"</span></div><div class="line"></div><div class="line">d09d80cbb69a: dev-peer1<span class="selector-class">.org2</span><span class="selector-class">.example</span><span class="selector-class">.com-mycc-1</span>.<span class="number">0</span></div><div class="line"><span class="number">89</span>e9dfab9c10: dev-peer0<span class="selector-class">.org1</span><span class="selector-class">.example</span><span class="selector-class">.com-mycc-1</span>.<span class="number">0</span></div><div class="line">f865285adc95: dev-peer0<span class="selector-class">.org2</span><span class="selector-class">.example</span><span class="selector-class">.com-mycc-1</span>.<span class="number">0</span></div><div class="line">ff4c56d305e8: orderer<span class="selector-class">.example</span><span class="selector-class">.com</span></div><div class="line">f03857ea2ff9: kafka1</div><div class="line"><span class="number">86657663401</span>e: kafka3</div><div class="line"><span class="number">65</span>d678b8d4c7: kafka2</div><div class="line"><span class="number">3</span>a7128ce2e3e: kafka0</div><div class="line"><span class="number">9</span>e3f75e6b724: zookeeper2</div><div class="line">a9e1e9731bea: zookeeper1</div><div class="line">de4a92941e58: zookeeper0</div><div class="line">cbc16a54b727: peer0<span class="selector-class">.org1</span><span class="selector-class">.example</span><span class="selector-class">.com</span></div><div class="line"><span class="number">858</span>e507f523b: peer1<span class="selector-class">.org1</span><span class="selector-class">.example</span><span class="selector-class">.com</span></div><div class="line">bb334ea7d4d8: peer1<span class="selector-class">.org2</span><span class="selector-class">.example</span><span class="selector-class">.com</span></div><div class="line">a08a01762d55: peer0<span class="selector-class">.org2</span><span class="selector-class">.example</span><span class="selector-class">.com</span></div></pre></td></tr></table></figure>
+<p>4个peer节点，4个节点构成的kafka集群，3个节点构成的zookeeper集群，一个orderer节点</p>
+<h2 id="使用peer命令"><a href="#使用peer命令" class="headerlink" title="使用peer命令"></a>使用peer命令</h2><p>启动cli容器</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker start <span class="keyword">cli</span></div></pre></td></tr></table></figure>
+<p>进入cli容器中</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker exec -<span class="keyword">it</span> cli bash</div></pre></td></tr></table></figure>
+<p>查看peer命令</p>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">peer --help</div><div class="line"></div><div class="line">## 命令结果</div><div class="line">Available Commands:</div><div class="line">  chaincode   Operate a chaincode: install|<span class="type">instantiate</span>|<span class="type">invoke</span>|<span class="type">package</span>|<span class="type">query</span>|<span class="type">signpackage</span>|<span class="type">upgrade</span>|<span class="type">list</span>.</div><div class="line">  channel     Operate a channel: create|<span class="type">fetch</span>|<span class="type">join</span>|<span class="type">list</span>|<span class="type">update</span>|<span class="type">signconfigtx</span>|<span class="type">getinfo</span>.</div><div class="line">  logging     Log levels: getlevel|<span class="type">setlevel</span>|<span class="type">revertlevels</span>.</div><div class="line">  node        Operate a peer node: start|<span class="type">status</span>.</div><div class="line">  version     <span class="keyword">Print</span> fabric peer version.</div></pre></td></tr></table></figure>
+<h2 id="example02智能合约"><a href="#example02智能合约" class="headerlink" title="example02智能合约"></a>example02智能合约</h2><p>1、安装智能合约<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">peer chaincode install -n mycc -v <span class="number">1.0</span> -p github.com<span class="regexp">/hyperledger/</span>fabric<span class="regexp">/examples/</span>chaincode<span class="regexp">/go/</span>chaincode_example02</div><div class="line"><span class="comment">## -n表示合约名字，-p指向合约文件目录路径，-v是版本号</span></div></pre></td></tr></table></figure></p>
+<p>2、 初始化<br><figure class="highlight apache"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">peer</span> chaincode instantiate -o orderer.example.com:7050 -C mychannel -n mycc -v 1.0 -c '&#123;<span class="string">"Args"</span>:[<span class="string">"init"</span>,<span class="string">"a"</span>,<span class="string">"100"</span>,<span class="string">"b"</span>,<span class="string">"200"</span>]&#125;' -P <span class="string">"OR    ('Org1MSP.peer','Org2MSP.peer')"</span></div><div class="line"><span class="comment">## -C指向channel名字，-c则是初始构造json格式的消息，-P是背书策略，-o指定共识节点。这里置帐户a初始余额为100，帐户b初始余额为200</span></div></pre></td></tr></table></figure></p>
+<p>3、 查询余额<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">peer chaincode <span class="keyword">query</span> -C mychannel -n mycc -c '&#123;<span class="string">"Args"</span>:[<span class="string">"query"</span>,<span class="string">"a"</span>]&#125;'</div></pre></td></tr></table></figure></p>
+<p>4、 转账<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">peer chaincode invoke -o orderer<span class="selector-class">.example</span><span class="selector-class">.com</span>:<span class="number">7050</span>  --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer<span class="selector-class">.example</span><span class="selector-class">.com</span>/msp/tlscacerts/tlsca<span class="selector-class">.example</span><span class="selector-class">.com-cert</span><span class="selector-class">.pem</span>  -C mychannel -n mycc -c <span class="string">'&#123;"Args":["invoke","b","a","50"]&#125;'</span></div></pre></td></tr></table></figure></p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ol>
+<li><a href="http://www.taohui.pub/2018/05/26/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BC%80%E6%BA%90%E5%AE%9E%E7%8E%B0hyperledger-fabric%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/" target="_blank" rel="external">区块链开源实现HYPERLEDGER FABRIC架构详解</a></li>
+<li><a href="https://github.com/chaozh/awesome-blockchain-cn" target="_blank" rel="external">区块链(BlockChain)技术开发相关资料</a></li>
+<li><a href="https://www.cnblogs.com/aberic/p/7532421.html" target="_blank" rel="external">Hyperledger Fabric 1.0 从零开始</a></li>
+<li><a href="https://blog.csdn.net/qq_38591756/article/details/82826979" target="_blank" rel="external">CentOS7 - Fabric1.0单机安装时的一些记录</a></li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2019/04/26/swarm实践/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -327,7 +498,7 @@
 <h1 id="docker-swarm-集群服务通信"><a href="#docker-swarm-集群服务通信" class="headerlink" title="docker swarm 集群服务通信"></a>docker swarm 集群服务通信</h1><h2 id="前置要求"><a href="#前置要求" class="headerlink" title="前置要求"></a>前置要求</h2><ol>
 <li>服务需要在同一个docker swarm集群中</li>
 <li>服务需要处于同一个overlay网络上</li>
-<li>服务需要暴露容器端口端口</li>
+<li>服务需要暴露容器端口</li>
 <li>有2个以上服务名不同的服务</li>
 </ol>
 <h2 id="服务部署流程-手动方式"><a href="#服务部署流程-手动方式" class="headerlink" title="服务部署流程(手动方式)"></a>服务部署流程(手动方式)</h2><p>1、 创建overlay网络<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker network <span class="built_in">create</span> <span class="comment">--driver overlay lvdoo-network</span></div><div class="line">docker network ls</div></pre></td></tr></table></figure></p>
@@ -1409,157 +1580,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2018/10/30/jenkins-docker-ansible自动化部署/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="我爱的乌托邦">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/touxiang.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jiemin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/10/30/jenkins-docker-ansible自动化部署/" itemprop="url">
-                  jenkins+docker+ansible自动化部署
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-30T13:26:54-04:00">
-                2018-10-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="jenkins-docker-ansible实现自动化部署"><a href="#jenkins-docker-ansible实现自动化部署" class="headerlink" title="jenkins+docker+ansible实现自动化部署"></a>jenkins+docker+ansible实现自动化部署</h1><h2 id="jenkins工作流程示意图"><a href="#jenkins工作流程示意图" class="headerlink" title="jenkins工作流程示意图"></a>jenkins工作流程示意图</h2><p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/18-10-30/81955932.jpg" alt=""></p>
-<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><table>
-<thead>
-<tr>
-<th style="text-align:center">资源</th>
-<th style="text-align:center">路径</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">jenkins服务器</td>
-<td style="text-align:center">10.100.2.12</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">python项目所在服务器</td>
-<td style="text-align:center">10.200.1.37</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>两台服务器上均装有docker和ansible</p>
-<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>为项目添加Dockerfile文件，DockerFile放在项目的根路径，DockerFile文件如下:<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 基于什么镜像进行构建</span></div><div class="line"><span class="keyword">FROM</span> lucascosta/serverless-python3.<span class="number">6</span></div><div class="line"><span class="comment"># 设置容器环境变量时区为东八区</span></div><div class="line"><span class="keyword">ENV</span> TZ=<span class="string">"Asia/Shanghai"</span></div><div class="line"></div><div class="line"><span class="comment"># Add a yinghuo user to run our application so that it doesn't need to run as root</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> adduser --disabled-password  yinghuo</div><div class="line"></span><span class="comment"># 安装python项目所需依赖</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> pip3 install flask</div><div class="line"></span><span class="comment"># 将项目添加到容器中</span></div><div class="line"><span class="keyword">ADD</span><span class="bash"> ./* /home/yinghuo/ai_voice_engine/</div><div class="line"></span><span class="comment"># 设置权限</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> chmod -R 777 /home/yinghuo/ai_voice_engine/</div><div class="line"></span></div><div class="line"><span class="comment">#  等同于cd /home/yinghuo的意思</span></div><div class="line"><span class="keyword">WORKDIR</span><span class="bash"> /home/yinghuo</div><div class="line"></span></div><div class="line"><span class="keyword">USER</span> yinghuo</div><div class="line"><span class="comment"># 启动项目</span></div><div class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"python3"</span>, <span class="string">"ai_voice_engine/hello.py"</span>]</div><div class="line"></span><span class="comment"># 容器暴露对外的端口号，需要在docker run时添加容器跟服务器的映射关系</span></div><div class="line"><span class="keyword">EXPOSE</span> <span class="number">5000</span></div></pre></td></tr></table></figure></p>
-<p>添加完DockerFile后项目结构如下:</p>
-<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/18-10-30/33558193.jpg" alt=""></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/30/jenkins-docker-ansible自动化部署/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1604,7 +1629,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1617,7 +1642,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
