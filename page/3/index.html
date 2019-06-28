@@ -247,6 +247,274 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2018/06/05/ssh免密配置失效/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/06/05/ssh免密配置失效/" itemprop="url">
+                  ssh免密配置失效
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-05T10:48:40-04:00">
+                2018-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>配置jenkins需要设置ssh免密，在jenkins所在主机中生成<code>id_rsa.pub</code>后，将<code>id_rsa.pub</code>追加到想要免密登录主机的.ssh目录下的<code>authorized_keys</code>文件中，但添加完成后还是不能免密登录。</p>
+<h1 id="排除问题过程"><a href="#排除问题过程" class="headerlink" title="排除问题过程"></a>排除问题过程</h1><p>1 保证用户的.ssh目录权限是700。</p>
+<p><img src="http://img.cdn.jmzhao.top/18-6-5/13309181.jpg" alt=""></p>
+<p>2 保证.ssh下的authorized_keys文件是600权限</p>
+<p><img src="http://img.cdn.jmzhao.top/18-6-5/48264509.jpg" alt=""></p>
+<p>3 查看selinux，保证selinux为disabled<br><img src="http://img.cdn.jmzhao.top/18-6-5/83741607.jpg" alt=""></p>
+<p>4 查看/etc/ssh/sshd_config文件，定位到最后。</p>
+<p><img src="http://img.cdn.jmzhao.top/18-6-5/83273048.jpg" alt=""></p>
+<p>发现authorizedKeysFile文件指向的是.ssh/KHK75NEOiq,改为.ssh/authorized_keys</p>
+<p><img src="http://img.cdn.jmzhao.top/18-6-5/93783212.jpg" alt=""></p>
+<p>5 重启sshd服务</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">service sshd restart</span></div></pre></td></tr></table></figure>
+<p>再次尝试连接，不用密码就能登录了，问题解决。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/05/ssh免密配置失效/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2018/05/02/postgresql安装及主从部署/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/05/02/postgresql安装及主从部署/" itemprop="url">
+                  postgresql安装及主从部署
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-02T15:36:56-04:00">
+                2018-05-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="安装postgresql"><a href="#安装postgresql" class="headerlink" title="安装postgresql"></a>安装postgresql</h1><h2 id="使用源码安装"><a href="#使用源码安装" class="headerlink" title="使用源码安装"></a>使用源码安装</h2><ol>
+<li><p>下载源码包</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget https:<span class="regexp">//</span>ftp.postgresql.org<span class="regexp">/pub/</span>source<span class="regexp">/v9.6.3/</span>postgresql-<span class="number">9.6</span>.<span class="number">3</span>.tar.bz2</div></pre></td></tr></table></figure>
+</li>
+<li><p>解压</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">tar</span> <span class="selector-tag">xjvf</span> <span class="selector-tag">postgresql-9</span><span class="selector-class">.6</span><span class="selector-class">.3</span><span class="selector-class">.tar</span><span class="selector-class">.bz2</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>进入解压目录，指定安装目录，编译</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">./configure --prefix=/usr/<span class="keyword">local</span>/pgsql</div><div class="line"><span class="built_in">make</span>  </div><div class="line"><span class="built_in">make</span> install</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>configure<br>时可能会遇到报错，安装对应的依赖<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">yum <span class="keyword">install</span> zlib-devel</div><div class="line">yum <span class="keyword">install</span> readline-devel</div></pre></td></tr></table></figure></p>
+<h2 id="添加用户-设置目录权限"><a href="#添加用户-设置目录权限" class="headerlink" title="添加用户, 设置目录权限"></a>添加用户, 设置目录权限</h2><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">adduser postgres</div><div class="line">passwd postgres</div><div class="line">mkdir -p <span class="regexp">/usr/</span>local<span class="regexp">/pgsql/</span>data</div><div class="line">chown -R <span class="string">postgres:</span>root <span class="regexp">/usr/</span>local/pgsql</div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/02/postgresql安装及主从部署/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2018/04/02/Eclipse在Mac下启动时卡住问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1240,263 +1508,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/08/31/Mac环境中eclipse使用反编译插件/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="我爱的乌托邦">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/touxiang.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jiemin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/31/Mac环境中eclipse使用反编译插件/" itemprop="url">
-                  Mac环境中eclipse使用反编译插件
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-31T11:01:43-04:00">
-                2017-08-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h1><h2 id="下载本地插件"><a href="#下载本地插件" class="headerlink" title="下载本地插件"></a>下载本地插件</h2><p>1  <a href="http://jadclipse.sourceforge.net/wiki/index.php/Main_Page#Download">JadClipse</a></p>
-<p><img src="http://img.cdn.jmzhao.top/17-8-31/84884088.jpg" alt=""></p>
-<p>2 <a href="http://www.varaneckas.com/jad">Jad</a></p>
-<p><img src="http://img.cdn.jmzhao.top/17-8-31/51706949.jpg" alt=""></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/08/31/Mac环境中eclipse使用反编译插件/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/08/09/nginx缓存/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="我爱的乌托邦">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/touxiang.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jiemin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/09/nginx缓存/" itemprop="url">
-                  nginx缓存
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-09T10:04:57-04:00">
-                2017-08-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h1><p>利用请求的局部性原理，将请求过的内容在本地建立一个副本，下次访问时不再连接到后端服务器，直接响应本地内容。</p>
-<p>我们运用nginx缓存一般会有以下几个问题：</p>
-<ol>
-<li>缓存文件存放的路径</li>
-<li>缓存空间大小的设置</li>
-<li>设置缓存的有效期</li>
-<li>如何指定哪些请求被缓存</li>
-<li>对于某些请求，是否可以不走缓存</li>
-</ol>
-<h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><p>示例文件：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">proxy_cache_path</span> /zndata/server/nginx/cache levels=<span class="number">1</span>:<span class="number">2</span> keys_zone=one:<span class="number">10m</span> loader_threshold=<span class="number">300</span> loader_files=<span class="number">200</span> max_size=<span class="number">800m</span>;</div><div class="line"></div><div class="line"><span class="attribute">upstream</span> tomcats &#123;</div><div class="line">        <span class="attribute">server</span>  <span class="number">192.168.1.241:8080</span> weight=<span class="number">5</span>;</div><div class="line">        <span class="attribute">server</span>  <span class="number">192.168.1.241:9090</span> weight=<span class="number">5</span>;</div><div class="line">        <span class="attribute">server</span>  <span class="number">192.168.1.242:8080</span> weight=<span class="number">5</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="section">server</span> &#123;</div><div class="line">        <span class="attribute">listen</span>       <span class="number">80</span>;</div><div class="line">        <span class="attribute">server_name</span>  <span class="number">192.168.1.242</span>;</div><div class="line"></div><div class="line">        <span class="attribute">location</span> / &#123;</div><div class="line">            <span class="attribute">proxy_set_header</span>  Host            <span class="variable">$host</span>;</div><div class="line">            <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</div><div class="line">            <span class="attribute">proxy_pass</span>  http://tomcats;</div><div class="line">            <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</div><div class="line">            <span class="attribute">proxy_cache</span> one;</div><div class="line">            <span class="attribute">proxy_cache_valid</span> <span class="number">200</span> <span class="number">10m</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/08/09/nginx缓存/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1546,7 +1557,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">53</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1559,7 +1570,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
