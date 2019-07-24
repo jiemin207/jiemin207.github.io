@@ -247,6 +247,134 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2019/07/23/centos7使用kubeadm搭建Kubernetes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/07/23/centos7使用kubeadm搭建Kubernetes/" itemprop="url">
+                  centos7使用kubeadm搭建Kubernetes
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-23T23:38:31-04:00">
+                2019-07-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="前置环境"><a href="#前置环境" class="headerlink" title="前置环境"></a>前置环境</h1><ul>
+<li>服务器 centos7</li>
+<li>docker 18.06.3-ce</li>
+</ul>
+<h1 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h1><h2 id="基础安装"><a href="#基础安装" class="headerlink" title="基础安装"></a>基础安装</h2><p>1、 安装kubeadm<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">cd <span class="regexp">/etc/yum</span>.repos.d</div><div class="line">vi kubernetes.repo</div><div class="line"><span class="comment"># 添加以下内容</span></div><div class="line">[kubernetes]</div><div class="line">name=Kubernetes</div><div class="line">baseurl=https:<span class="regexp">//mi</span>rrors.aliyun.com<span class="regexp">/kubernetes/yum</span><span class="regexp">/repos/</span>kubernetes-el7-x86_64</div><div class="line">enabled=<span class="number">1</span></div><div class="line">gpgcheck=<span class="number">0</span></div><div class="line"></div><div class="line"><span class="comment"># 安装</span></div><div class="line">yum install -y kubeadm</div></pre></td></tr></table></figure></p>
+<p>2、下载镜像</p>
+<p>由于被墙的关系,需要先下载好kubeadm初始化所需的镜像。<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"># <span class="number">1</span>. 查看所需镜像的版本</div><div class="line">kubeadm config images list</div><div class="line"></div><div class="line"># 结果如下</div><div class="line">k8s.gcr.io/kube-apiserver:v1<span class="meta">.15</span><span class="meta">.0</span></div><div class="line">k8s.gcr.io/kube-controller-manager:v1<span class="meta">.15</span><span class="meta">.0</span></div><div class="line">k8s.gcr.io/kube-scheduler:v1<span class="meta">.15</span><span class="meta">.0</span></div><div class="line">k8s.gcr.io/kube-proxy:v1<span class="meta">.15</span><span class="meta">.0</span></div><div class="line">k8s.gcr.io/<span class="keyword">pause</span>:<span class="number">3.1</span></div><div class="line">k8s.gcr.io/etcd:<span class="number">3.3</span><span class="meta">.10</span></div><div class="line">k8s.gcr.io/coredns:<span class="number">1.3</span><span class="meta">.1</span></div><div class="line"></div><div class="line"># <span class="number">2</span>. 从阿里云镜像仓库下载所需镜像</div><div class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v1<span class="meta">.15</span><span class="meta">.0</span></div><div class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1<span class="meta">.15</span><span class="meta">.0</span></div><div class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1<span class="meta">.15</span><span class="meta">.0</span></div><div class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v1<span class="meta">.15</span><span class="meta">.0</span></div><div class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/<span class="keyword">pause</span>:<span class="number">3.1</span></div><div class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/etcd:<span class="number">3.3</span><span class="meta">.10</span></div><div class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/coredns:<span class="number">1.3</span><span class="meta">.1</span></div><div class="line"></div><div class="line"># <span class="number">3</span>. 给镜像打标签成kubeadm所需镜像名</div><div class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v1<span class="meta">.15</span><span class="meta">.0</span>  k8s.gcr.io/kube-apiserver:v1<span class="meta">.15</span><span class="meta">.0</span></div><div class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1<span class="meta">.15</span><span class="meta">.0</span> k8s.gcr.io/kube-controller-manager:v1<span class="meta">.15</span><span class="meta">.0</span></div><div class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1<span class="meta">.15</span><span class="meta">.0</span> k8s.gcr.io/kube-scheduler:v1<span class="meta">.15</span><span class="meta">.0</span></div><div class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v1<span class="meta">.15</span><span class="meta">.0</span> k8s.gcr.io/kube-proxy:v1<span class="meta">.15</span><span class="meta">.0</span></div><div class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/<span class="keyword">pause</span>:<span class="number">3.1</span> k8s.gcr.io/<span class="keyword">pause</span>:<span class="number">3.1</span></div><div class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/etcd:<span class="number">3.3</span><span class="meta">.10</span> k8s.gcr.io/etcd:<span class="number">3.3</span><span class="meta">.10</span></div><div class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/coredns:<span class="number">1.3</span><span class="meta">.1</span> k8s.gcr.io/coredns:<span class="number">1.3</span><span class="meta">.1</span></div></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/23/centos7使用kubeadm搭建Kubernetes/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2019/06/28/onionscan之数据提取/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -330,19 +458,7 @@
 <h2 id="tiedot文件结构"><a href="#tiedot文件结构" class="headerlink" title="tiedot文件结构"></a>tiedot文件结构</h2><p>进入<code>/opt/onionscandb</code>目录下，可以看到onionscan保存的数据目录结构如下图，<code>crawls</code>和<code>relationships</code>是tiedot的两个集合</p>
 <p><img src="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-06-27/onionscandb.png" alt=""></p>
 <p>其中<code>relationships</code>目录中结构如下图，<code>From</code>,<code>Identifier</code>, <code>Onion</code>, <code>Type</code>是四个索引，被索引的字段才可以被查询到</p>
-<p><img src="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-06-27/relationships.png" alt=""></p>
-<h2 id="查询语法"><a href="#查询语法" class="headerlink" title="查询语法"></a>查询语法</h2><p>1、查询有哪些collection<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">curl</span> <span class="string">'127.0.0.1:9090/all'</span></div></pre></td></tr></table></figure></p>
-<p>2、查询col中所有的索引<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">curl</span> <span class="string">'127.0.0.1:9090/indexes?col=relationships'</span></div></pre></td></tr></table></figure></p>
-<p>3、 查询索引Type等于uri或者索引Form等于links的内容<br><figure class="highlight llvm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">9090</span>/query?col=relationships&amp;q=[&#123;<span class="string">"eq"</span>: <span class="string">"uri"</span>, <span class="string">"in"</span>: [<span class="string">"Type"</span>]&#125;,&#123;<span class="string">"eq"</span>:<span class="string">"links"</span>,<span class="string">"in"</span>:[<span class="string">"From"</span>]&#125;]</div><div class="line">curl -g '<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">9090</span>/query?col=relationships&amp;q=[&#123;<span class="string">"eq"</span>:<span class="symbol">%20</span><span class="string">"uri"</span>,<span class="symbol">%20</span><span class="string">"in"</span>:<span class="symbol">%20</span>[<span class="string">"Type"</span>]&#125;,&#123;<span class="string">"eq"</span>:<span class="string">"links"</span>,<span class="string">"in"</span>:[<span class="string">"From"</span>]&#125;]'</div></pre></td></tr></table></figure></p>
-<p>4、 查询索引Type等于uri且索引Form等于links的内容<br><figure class="highlight llvm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">9090</span>/query?col=relationships&amp;q=&#123;<span class="string">"n"</span>:[&#123;<span class="string">"eq"</span>: <span class="string">"uri"</span>, <span class="string">"in"</span>: [<span class="string">"Type"</span>]&#125;,&#123;<span class="string">"eq"</span>:<span class="string">"links"</span>,<span class="string">"in"</span>:[<span class="string">"From"</span>]&#125;]&#125;</div><div class="line">curl -g '<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">9090</span>/query?col=relationships&amp;q=&#123;<span class="symbol">%22</span>n<span class="symbol">%22</span>:[&#123;<span class="symbol">%22</span><span class="keyword">eq</span><span class="symbol">%22</span>:<span class="symbol">%20</span><span class="symbol">%22</span>uri<span class="symbol">%22</span>,<span class="symbol">%20</span><span class="symbol">%22</span>in<span class="symbol">%22</span>:<span class="symbol">%20</span>[<span class="symbol">%22</span>Type<span class="symbol">%22</span>]&#125;,&#123;<span class="symbol">%22</span><span class="keyword">eq</span><span class="symbol">%22</span>:<span class="symbol">%22</span>links<span class="symbol">%22</span>,<span class="symbol">%22</span>in<span class="symbol">%22</span>:[<span class="symbol">%22</span>From<span class="symbol">%22</span>]&#125;]&#125;'</div></pre></td></tr></table></figure></p>
-<p>其余查询语法可参看官方文档</p>
-<ol>
-<li><a href="https://github.com/HouzuoGuo/tiedot/wiki/Tutorial">tiedot in 10 minutes</a></li>
-<li><a href="https://github.com/HouzuoGuo/tiedot/wiki/API-reference-and-embedded-usage">API reference and embedded usage
-</a></li>
-<li><a href="https://github.com/HouzuoGuo/tiedot/wiki/Query-processor-and-index">Query processor and index
-</a></li>
-</ol>
+<p><img src="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-06-27/relationships.png" alt=""><br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/06/28/onionscan之数据提取/#more" rel="contents">
@@ -1405,144 +1521,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2019/01/11/三分钟快速搭建禅道管理系统/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="我爱的乌托邦">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/touxiang.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jiemin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/01/11/三分钟快速搭建禅道管理系统/" itemprop="url">
-                  三分钟快速搭建禅道管理系统
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-11T18:52:14-05:00">
-                2019-01-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前置环境"><a href="#前置环境" class="headerlink" title="前置环境"></a>前置环境</h1><ol>
-<li>centos7服务器</li>
-<li>已安装docker</li>
-</ol>
-<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><ol>
-<li>进入docker镜像官网，搜索zentao，官网地址:<a href="https://hub.docker.com" target="_blank" rel="external">https://hub.docker.com</a></li>
-</ol>
-<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-1-11/75382104.jpg" alt=""></p>
-<ol>
-<li>选择idoop/zentao镜像进入页面，查阅安装命令，里面有个QuickStart说明,选择开源版的安装命令</li>
-</ol>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mkdir -p /data/zbox &amp;&amp; docker run -d -p 8001:80 -p 3308:3306 \</div><div class="line">        -<span class="ruby">e USER=<span class="string">"root"</span> -e PASSWD=<span class="string">"123456"</span> \</span></div><div class="line">        -<span class="ruby">e BIND_ADDRESS=<span class="string">"false"</span> \</span></div><div class="line">        -<span class="ruby">v /data/zbox/<span class="symbol">:/opt/zbox/</span> \</span></div><div class="line">        -<span class="ruby">-name zentao-server \</span></div><div class="line">        idoop/zentao:latest</div></pre></td></tr></table></figure>
-<ol>
-<li>打开禅道地址,我这里是10.200.1.27:8001</li>
-</ol>
-<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-1-11/95911406.jpg" alt=""></p>
-<ol>
-<li>选择开源版，默认的admin账户密码为123456，进入后台</li>
-</ol>
-<p><img src="http://zjmoss.oss-cn-beijing.aliyuncs.com/19-1-11/83158113.jpg" alt=""></p>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>这是一个docker的小运用，可以快速搭建一些服务, 可以在linux系统上实现类似于windows中一键安装的效果。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1592,7 +1570,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-count">54</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

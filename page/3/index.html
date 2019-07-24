@@ -247,6 +247,136 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2018/06/08/centos安装mysql-udf-http/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/06/08/centos安装mysql-udf-http/" itemprop="url">
+                  centos安装mysql-udf-http
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-08T17:08:09-04:00">
+                2018-06-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="mysql-udf-http"><a href="#mysql-udf-http" class="headerlink" title="mysql-udf-http"></a>mysql-udf-http</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>mysql-udf-http 是一款简单的MySQL用户自定义函数，具有http_get()、http_post()、http_put()、http_delete()四个函数，可以在MySQL数据库中利用HTTP协议进行REST相关操作。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>当mysql数据库表中某一个字段的值发生变化，需要通知业务系统，这个时候就可以使用mysql的触发器及mysql-udf-http来进行http请求的发送。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>下载地址:<br><a href="`https://code.google.com/archive/p/mysql-udf-http/downloads`"><code>https://code.google.com/archive/p/mysql-udf-http/downloads</code></a></p>
+<p>注:需要使用翻墙代理才能下载。</p>
+<h3 id="解压文件"><a href="#解压文件" class="headerlink" title="解压文件"></a>解压文件</h3><p><code>tar zxvf mysql-udf-http-1.0.tar.gz</code></p>
+<h3 id="查看mysql安装目录"><a href="#查看mysql安装目录" class="headerlink" title="查看mysql安装目录"></a>查看mysql安装目录</h3><p>进入mysql中，在命令行中输入</p>
+<p><code>show variables like &quot;%char%&quot;</code></p>
+<p><img src="http://img.cdn.jmzhao.top/18-6-8/39924486.jpg" alt=""></p>
+<p>如上图所示，该服务器的mysql安装目录为<code>/usr/share/mysql</code><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/08/centos安装mysql-udf-http/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2018/06/05/ssh免密配置失效/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1383,131 +1513,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/09/14/对于Domain-Form-Dto的一些理解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="我爱的乌托邦">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/touxiang.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jiemin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/09/14/对于Domain-Form-Dto的一些理解/" itemprop="url">
-                  对于Domain,Form,Dto的一些理解
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-14T14:48:00-04:00">
-                2017-09-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>目前公司的项目使用前后端分离的方式进行开发，后端负责接口的开发，接口返回json数据格式给前端。后端有三处地方用到实体类，分别是domain，form，dto。</p>
-<p><img src="http://img.cdn.jmzhao.top/17-9-14/61422347.jpg" alt=""></p>
-<p><img src="http://img.cdn.jmzhao.top/17-9-14/18569503.jpg" alt=""></p>
-<p><img src="http://img.cdn.jmzhao.top/17-9-14/90897513.jpg" alt=""></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/09/14/对于Domain-Form-Dto的一些理解/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1557,7 +1562,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-count">54</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
