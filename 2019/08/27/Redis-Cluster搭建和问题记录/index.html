@@ -101,7 +101,7 @@
 3、编译redis
 123cd redis-5.0.5/make MALLOC=libcmake install
 4、将redis放到指定目录1cp -r  /root/redis-5.0.5/ /opt/redi">
-<meta property="og:updated_time" content="2019-08-27T10:55:25.623Z">
+<meta property="og:updated_time" content="2019-08-27T11:00:51.493Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis Cluster搭建和问题记录">
 <meta name="twitter:description" content="安装1、下载redis1wget http://download.redis.io/releases/redis-5.0.5.tar.gz
@@ -340,7 +340,50 @@
 <p>4、将redis放到指定目录<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp -r  <span class="regexp">/root/</span>redis-<span class="number">5.0</span>.<span class="number">5</span><span class="regexp">/ /</span>opt<span class="regexp">/redis-master</span></div></pre></td></tr></table></figure></p>
 <p>5、修改redis配置<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">vi redis.conf</div><div class="line"><span class="meta">## 修改以下配置</span></div><div class="line"></div><div class="line"><span class="meta"># dir 默认配置是 ./ 是相对路径，对应的aof,rdb,nodes.conf文件会在执行启动命令时的目录下路径，需要改成绝对路径</span></div><div class="line">dir /opt/redis-master</div><div class="line"><span class="meta"># 以守护进程的方式启动</span></div><div class="line">daemonize yes</div><div class="line"><span class="meta"># redis 端口号好</span></div><div class="line">port <span class="number">6381</span></div><div class="line"><span class="meta"># 去掉注释，开启集群</span></div><div class="line">cluster-enabled yes</div><div class="line">cluster-config-file nodes.conf</div><div class="line"><span class="meta"># 开启aof备份</span></div><div class="line">appendonly yes</div></pre></td></tr></table></figure></p>
 <p>将以上配置文件复制6份，放到相应的路径下，修改配置文件中的端口号和dir的路径</p>
-<p>最终修改完成后的redis信息如下:<br>|服务器|redis路径|reids端口号|<br>|:–:|:–:|:–:|<br>|10.80.5.8| /opt/redis-master| 6381|<br>|10.80.5.8| /opt/redis-slave| 6382|<br>|10.80.5.9| /opt/redis-master| 6381|<br>|10.80.5.9| /opt/redis-slave| 6382|<br>|10.80.5.10| /opt/redis-master| 6381|<br>|10.80.5.10| /opt/redis-slave| 6382|<br><a id="more"></a><br>6、添加redis的常用命令到环境变量中<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> /bin</div><div class="line"><span class="keyword">ln</span> -s /<span class="keyword">opt</span>/redis-master/src/redis-server</div><div class="line"><span class="keyword">ln</span> -s /<span class="keyword">opt</span>/redis-master/src/redis-cli</div></pre></td></tr></table></figure></p>
+<p>最终修改完成后的redis信息如下:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">服务器</th>
+<th style="text-align:center">redis路径</th>
+<th style="text-align:center">reids端口号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">10.80.5.8</td>
+<td style="text-align:center">/opt/redis-master</td>
+<td style="text-align:center">6381</td>
+</tr>
+<tr>
+<td style="text-align:center">10.80.5.8</td>
+<td style="text-align:center">/opt/redis-slave</td>
+<td style="text-align:center">6382</td>
+</tr>
+<tr>
+<td style="text-align:center">10.80.5.9</td>
+<td style="text-align:center">/opt/redis-master</td>
+<td style="text-align:center">6381</td>
+</tr>
+<tr>
+<td style="text-align:center">10.80.5.9</td>
+<td style="text-align:center">/opt/redis-slave</td>
+<td style="text-align:center">6382</td>
+</tr>
+<tr>
+<td style="text-align:center">10.80.5.10</td>
+<td style="text-align:center">/opt/redis-master</td>
+<td style="text-align:center">6381</td>
+</tr>
+<tr>
+<td style="text-align:center">10.80.5.10</td>
+<td style="text-align:center">/opt/redis-slave</td>
+<td style="text-align:center">6382</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
+<p>6、添加redis的常用命令到环境变量中<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> /bin</div><div class="line"><span class="keyword">ln</span> -s /<span class="keyword">opt</span>/redis-master/src/redis-server</div><div class="line"><span class="keyword">ln</span> -s /<span class="keyword">opt</span>/redis-master/src/redis-cli</div></pre></td></tr></table></figure></p>
 <p>7、 启动redis<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># 在三台服务器上执行</div><div class="line">redis-server /<span class="keyword">opt</span>/redis-master/redis.<span class="keyword">conf</span></div><div class="line">redis-server /<span class="keyword">opt</span>/redis-slave/redis.<span class="keyword">conf</span></div></pre></td></tr></table></figure></p>
 <p>8、启动集群<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">redis-cli</span> <span class="selector-tag">--cluster</span> <span class="selector-tag">create</span> 10<span class="selector-class">.80</span><span class="selector-class">.5</span><span class="selector-class">.8</span><span class="selector-pseudo">:6381</span> 10<span class="selector-class">.80</span><span class="selector-class">.5</span><span class="selector-class">.8</span><span class="selector-pseudo">:6382</span> 10<span class="selector-class">.80</span><span class="selector-class">.5</span><span class="selector-class">.9</span><span class="selector-pseudo">:6381</span> 10<span class="selector-class">.80</span><span class="selector-class">.5</span><span class="selector-class">.9</span><span class="selector-pseudo">:6382</span> 10<span class="selector-class">.80</span><span class="selector-class">.5</span><span class="selector-class">.10</span><span class="selector-pseudo">:6381</span> 10<span class="selector-class">.80</span><span class="selector-class">.5</span><span class="selector-class">.10</span><span class="selector-pseudo">:6382</span> <span class="selector-tag">--cluster-replicas</span> 1</div></pre></td></tr></table></figure></p>
 <h1 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h1><p>redis.conf中的dir问题，设置成绝对路径比较好,如果是默认设置，则生成的aof,rbd,nodes.conf文件是在启动redis时的目录下生成,如果每次启动时所在路径不一致，会读取不到相应配置导致集群出错。</p>
