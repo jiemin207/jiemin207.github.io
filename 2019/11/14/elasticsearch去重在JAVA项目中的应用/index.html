@@ -1,0 +1,784 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="es," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="ES环境配置
+ES版本:6.4.0
+ES集群服务器 3台
+
+
+
+
+IP
+备注
+
+
+
+
+10.80.5.6
+master节点
+
+
+10.80.5.7
+data节点
+
+
+10.80.5.8
+data节点
+
+
+
+ 配置文件示例
+ 123456789101112cluster.name: mic-ga-es # 集群名字node.name: node-001  # 当前节点名字node.master: t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="elasticsearch去重在JAVA项目中的应用">
+<meta property="og:url" content="http://jieminblog.tk/2019/11/14/elasticsearch去重在JAVA项目中的应用/index.html">
+<meta property="og:site_name" content="jiemin's Blog">
+<meta property="og:description" content="ES环境配置
+ES版本:6.4.0
+ES集群服务器 3台
+
+
+
+
+IP
+备注
+
+
+
+
+10.80.5.6
+master节点
+
+
+10.80.5.7
+data节点
+
+
+10.80.5.8
+data节点
+
+
+
+ 配置文件示例
+ 123456789101112cluster.name: mic-ga-es # 集群名字node.name: node-001  # 当前节点名字node.master: t">
+<meta property="og:updated_time" content="2019-11-14T09:50:26.922Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="elasticsearch去重在JAVA项目中的应用">
+<meta name="twitter:description" content="ES环境配置
+ES版本:6.4.0
+ES集群服务器 3台
+
+
+
+
+IP
+备注
+
+
+
+
+10.80.5.6
+master节点
+
+
+10.80.5.7
+data节点
+
+
+10.80.5.8
+data节点
+
+
+
+ 配置文件示例
+ 123456789101112cluster.name: mic-ga-es # 集群名字node.name: node-001  # 当前节点名字node.master: t">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jieminblog.tk/2019/11/14/elasticsearch去重在JAVA项目中的应用/"/>
+
+
+
+
+
+  <title> elasticsearch去重在JAVA项目中的应用 | jiemin's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">jiemin's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">本来无一物，何处惹尘埃</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2019/11/14/elasticsearch去重在JAVA项目中的应用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                elasticsearch去重在JAVA项目中的应用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-14T04:46:17-05:00">
+                2019-11-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="ES环境配置"><a href="#ES环境配置" class="headerlink" title="ES环境配置"></a>ES环境配置</h1><ol>
+<li>ES版本:6.4.0</li>
+<li>ES集群服务器 3台</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>IP</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10.80.5.6</td>
+<td>master节点</td>
+</tr>
+<tr>
+<td>10.80.5.7</td>
+<td>data节点</td>
+</tr>
+<tr>
+<td>10.80.5.8</td>
+<td>data节点</td>
+</tr>
+</tbody>
+</table>
+<p> 配置文件示例</p>
+ <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">cluster.name: mic-ga-es <span class="comment"># 集群名字</span></div><div class="line"><span class="keyword">node</span>.name:<span class="title"> node-001</span>  <span class="comment"># 当前节点名字</span></div><div class="line"><span class="keyword">node</span>.master:<span class="title"> true</span>  <span class="comment"># 是否是主节点</span></div><div class="line">network.host: <span class="number">10.80</span>.<span class="number">5.9</span>  </div><div class="line"></div><div class="line"><span class="keyword">node</span>.data:<span class="title"> true</span> <span class="comment"># 是否是数据节点</span></div><div class="line">path.data: /opt/elasticsearch-<span class="number">6.4</span>.<span class="number">0</span>/data</div><div class="line">path.logs: /opt/elasticsearch-<span class="number">6.4</span>.<span class="number">0</span>/logs</div><div class="line">transport.tcp.port: <span class="number">9300</span></div><div class="line">http.port: <span class="number">9200</span></div><div class="line">discovery.zen.ping.unicast.hosts: [<span class="string">"10.80.5.6:9300"</span>,<span class="string">"10.80.5.7:9300"</span>,<span class="string">"10.80.5.8:9300"</span>]</div><div class="line">discovery.zen.minimum_master_nodes: <span class="number">1</span></div></pre></td></tr></table></figure>
+<ol>
+<li>启动命令</li>
+</ol>
+<p><code>/opt/elasticsearch-6.4.0/bin/elasticsearch -d</code><br><a id="more"></a></p>
+<h1 id="需求简介"><a href="#需求简介" class="headerlink" title="需求简介"></a>需求简介</h1><p>在导入es中时有许多url不同，但标题相同的文档，在查询时需要把这些相同的标题去重，并且支持分页和高亮显示</p>
+<h1 id="项目配置"><a href="#项目配置" class="headerlink" title="项目配置"></a>项目配置</h1><p>springboot框架项目</p>
+<h2 id="引入依赖-gradle"><a href="#引入依赖-gradle" class="headerlink" title="引入依赖(gradle)"></a>引入依赖(gradle)</h2><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'org.springframework.boot:spring-boot-starter-data-elasticsearch'</span></div></pre></td></tr></table></figure>
+<h2 id="yml配置"><a href="#yml配置" class="headerlink" title="yml配置"></a>yml配置</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">spring</span>:</div><div class="line">    <span class="selector-tag">data</span>:</div><div class="line">        <span class="selector-tag">elasticsearch</span>:</div><div class="line">          <span class="selector-tag">cluster-name</span>: <span class="selector-tag">mic-ga-es</span></div><div class="line">          <span class="selector-tag">cluster-nodes</span>: 10<span class="selector-class">.80</span><span class="selector-class">.5</span><span class="selector-class">.6</span><span class="selector-pseudo">:9300</span>,10<span class="selector-class">.80</span><span class="selector-class">.5</span><span class="selector-class">.7</span><span class="selector-pseudo">:9300</span>,10<span class="selector-class">.80</span><span class="selector-class">.5</span><span class="selector-class">.8</span><span class="selector-pseudo">:9300</span></div></pre></td></tr></table></figure>
+<h2 id="document结构"><a href="#document结构" class="headerlink" title="document结构"></a>document结构</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Document</span>(indexName = <span class="string">"onion_page"</span>,shards=<span class="number">15</span>,replicas=<span class="number">1</span>,indexStoreType=<span class="string">"fs"</span>,createIndex =<span class="literal">true</span>)</div><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">OnionPage</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Id</span></div><div class="line">    <span class="keyword">private</span> <span class="type">String</span>  id;</div><div class="line"></div><div class="line">    <span class="meta">@Field</span>(<span class="class"><span class="keyword">type</span> </span>= <span class="type">FieldType</span>.<span class="type">Keyword</span>)</div><div class="line">    <span class="keyword">private</span> <span class="type">String</span>  url;</div><div class="line"></div><div class="line">    <span class="meta">@Field</span>(<span class="class"><span class="keyword">type</span> </span>= <span class="type">FieldType</span>.<span class="type">Keyword</span>)</div><div class="line">    <span class="keyword">private</span> <span class="type">String</span>  title;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="meta">@Field</span>(index=<span class="literal">true</span>, <span class="class"><span class="keyword">type</span> </span>= <span class="type">FieldType</span>.<span class="type">Text</span>)</div><div class="line">    <span class="keyword">private</span> <span class="type">String</span>  snapshot;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="meta">@Field</span>(<span class="class"><span class="keyword">type</span> </span>= <span class="type">FieldType</span>.<span class="type">Keyword</span>)</div><div class="line">    <span class="keyword">private</span> <span class="type">String</span>  <span class="class"><span class="keyword">type</span></span>;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="meta">@Field</span>(<span class="class"><span class="keyword">type</span> </span>= <span class="type">FieldType</span>.<span class="type">Date</span>)</div><div class="line">    <span class="keyword">private</span> <span class="type">Date</span> createTime;</div><div class="line"></div><div class="line">    <span class="meta">@Field</span>(<span class="class"><span class="keyword">type</span> </span>= <span class="type">FieldType</span>.<span class="type">Date</span>)</div><div class="line">    <span class="keyword">private</span> <span class="type">Date</span> updateTime;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="业务代码"><a href="#业务代码" class="headerlink" title="业务代码"></a>业务代码</h2><figure class="highlight pony"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">@<span class="type">Service</span></div><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">OnionPageService</span> &#123;</span></div><div class="line"></div><div class="line">	@<span class="type">Autowired</span></div><div class="line">	private <span class="type">TransportClient</span> client;</div><div class="line"></div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 去重查询获取内容</div><div class="line">	 */</div><div class="line">	public <span class="type">List</span>&lt;<span class="type">OnionPage</span>&gt; searchPageAfterDistinct(<span class="type">String</span> content, <span class="type">Pageable</span> pageable) &#123;</div><div class="line">		<span class="type">BoolQueryBuilder</span> boolQueryBuilder = <span class="type">QueryBuilders</span>.boolQuery();</div><div class="line">		<span class="comment">// 单字段最高评分作为结果返回,</span></div><div class="line">		<span class="type">DisMaxQueryBuilder</span>  dis = <span class="function"><span class="keyword">new</span> <span class="title">DisMaxQueryBuilder</span>();</span></div><div class="line">		<span class="title">dis</span>.<span class="title">tieBreaker</span>(<span class="number">0.1</span>f);</div><div class="line">		<span class="comment">// boost相对权重</span></div><div class="line">		<span class="title">boolQueryBuilder</span>.<span class="title">should</span>(<span class="type">QueryBuilders</span>.matchPhraseQuery("snapshot", content).<span class="title">slop</span>(<span class="number">5</span>).<span class="title">boost</span>(<span class="number">1</span>f))</div><div class="line">				.<span class="title">should</span>(<span class="type">QueryBuilders</span>.matchPhraseQuery("title", content).<span class="title">slop</span>(<span class="number">5</span>).<span class="title">boost</span>(<span class="number">1.5</span>f)).<span class="title">should</span>(dis);</div><div class="line">		<span class="comment">// collapse折叠功能 ES5.3之后支持，且只针对keyword字段有效</span></div><div class="line">		<span class="title">CollapseBuilder</span> <span class="title">cb</span> = <span class="title">new</span> <span class="title">CollapseBuilder</span>("title");</div><div class="line">		<span class="title">SearchResponse</span> <span class="title">response</span> = <span class="title">client</span>.<span class="title">prepareSearch</span>("onion_page").<span class="title">setQuery</span>(boolQueryBuilder).<span class="title">setCollapse</span>(cb)</div><div class="line">				.<span class="title">highlighter</span>(new <span class="type">HighlightBuilder</span>().<span class="title">field</span>("snapshot")).<span class="title">setSize</span>(pageable.getPageSize())</div><div class="line">				.<span class="title">setFrom</span>(pageable.getPageNumber() - 1).<span class="title">get</span>();</div><div class="line"></div><div class="line">		<span class="title">List</span>&lt;<span class="title">OnionPage</span>&gt; <span class="title">list</span> = <span class="title">new</span> <span class="title">ArrayList</span>&lt;&gt;();</div><div class="line"></div><div class="line">		<span class="title">SearchHits</span> <span class="title">shList</span> = <span class="title">response</span>.<span class="title">getHits</span>();</div><div class="line">		<span class="title">for</span> (<span class="type">SearchHit</span> searchHit : shList) &#123;</div><div class="line">			<span class="title">OnionPage</span> <span class="title">bean</span> = <span class="title">JSONObject</span>.<span class="title">parseObject</span>(searchHit.getSourceAsString(), <span class="title">OnionPage</span>.<span class="title">class</span>);</div><div class="line">			<span class="title">Text</span>[] <span class="title">fragments</span> = <span class="title">searchHit</span>.<span class="title">getHighlightFields</span>().<span class="title">get</span>("snapshot").<span class="title">getFragments</span>();</div><div class="line">			<span class="title">bean</span>.<span class="title">setSnapshot</span>(fragments[<span class="number">0</span>].toString());</div><div class="line">			<span class="title">list</span>.<span class="title">add</span>(bean);</div><div class="line">		&#125;</div><div class="line">		<span class="title">return</span> <span class="title">list</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 去重后的总数(使用cardinality)</div><div class="line">	 */</div><div class="line">	<span class="title">public</span> <span class="title">Long</span> <span class="title">searchPageAfterDistinctCount</span>(<span class="type">String</span> content) &#123;</div><div class="line">		<span class="title">BoolQueryBuilder</span> <span class="title">boolQueryBuilder</span> = <span class="title">QueryBuilders</span>.<span class="title">boolQuery</span>();</div><div class="line">		<span class="title">boolQueryBuilder</span>.<span class="title">should</span>(<span class="type">QueryBuilders</span>.matchPhraseQuery("snapshot", content).<span class="title">slop</span>(<span class="number">5</span>))</div><div class="line">				.<span class="title">should</span>(<span class="type">QueryBuilders</span>.matchPhraseQuery("title", content).<span class="title">slop</span>(<span class="number">5</span>));</div><div class="line"></div><div class="line">		<span class="title">SearchResponse</span> <span class="title">response</span> = <span class="title">client</span>.<span class="title">prepareSearch</span>("onion_page").<span class="title">setQuery</span>(boolQueryBuilder)</div><div class="line">				.<span class="title">addAggregation</span>(<span class="type">AggregationBuilders</span>.cardinality("title_distinct").<span class="title">field</span>("title")).<span class="title">get</span>();</div><div class="line">		<span class="title">Cardinality</span> <span class="title">titleAgg</span> = <span class="title">response</span>.<span class="title">getAggregations</span>().<span class="title">get</span>("title_distinct");</div><div class="line"></div><div class="line">		<span class="title">return</span> <span class="title">titleAgg</span>.<span class="title">getValue</span>();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>ES去重在springboot-data中提供的ElasticsearchTemplate提供的api接口中暂时未被支持，所以需要使用TransportClient来对查询结果进行解析。我的思路是先使用ES的restful API进行一些测试，获取返回的数据结构，然后再在JAVA中使用TransportClient提供的相应方法进行接口调用和数据解析。ElasticsearchTemplate固然对我们使用ES的基本操作方便的很多，但还是需要去理解ES原生的方法，这样才能碰到复杂操作时能够解决问题。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/es/" rel="tag"># es</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/08/部署暗网站点/" rel="next" title="部署暗网站点">
+                <i class="fa fa-chevron-left"></i> 部署暗网站点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/touxiang.jpeg"
+               alt="我爱的乌托邦" />
+          <p class="site-author-name" itemprop="name">我爱的乌托邦</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ES环境配置"><span class="nav-number">1.</span> <span class="nav-text">ES环境配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#需求简介"><span class="nav-number">2.</span> <span class="nav-text">需求简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#项目配置"><span class="nav-number">3.</span> <span class="nav-text">项目配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引入依赖-gradle"><span class="nav-number">3.1.</span> <span class="nav-text">引入依赖(gradle)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yml配置"><span class="nav-number">3.2.</span> <span class="nav-text">yml配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#document结构"><span class="nav-number">3.3.</span> <span class="nav-text">document结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#业务代码"><span class="nav-number">3.4.</span> <span class="nav-text">业务代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">我爱的乌托邦</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

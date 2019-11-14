@@ -247,6 +247,132 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2018/09/21/java中多线程之Executor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/09/21/java中多线程之Executor/" itemprop="url">
+                  java中多线程之Executor
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-21T16:00:32-04:00">
+                2018-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="JAVA的Executor框架"><a href="#JAVA的Executor框架" class="headerlink" title="JAVA的Executor框架"></a>JAVA的Executor框架</h1><h2 id="Executor架构示意图"><a href="#Executor架构示意图" class="headerlink" title="Executor架构示意图"></a>Executor架构示意图</h2><p><img src="http://img.cdn.jmzhao.top/18-9-21/57820984.jpg" alt=""></p>
+<h2 id="Executor接口"><a href="#Executor接口" class="headerlink" title="Executor接口"></a>Executor接口</h2><p><img src="http://img.cdn.jmzhao.top/18-9-21/71901320.jpg" alt=""></p>
+<p>Executor接口是Executor框架中的最基础的部分，定义了一个用于执行Runnable的execute方法，他没有实现类，只有一个子接口ExecutorService</p>
+<h2 id="ExecutorService"><a href="#ExecutorService" class="headerlink" title="ExecutorService"></a>ExecutorService</h2><p><img src="http://img.cdn.jmzhao.top/18-9-21/95422548.jpg" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ExecutorService</span></div><div class="line">    <span class="keyword">extends</span> <span class="title">Executor</span></div><div class="line"></span>&#123;</div><div class="line">    <span class="comment">/** </div><div class="line">     * 关闭方法，调用后执行之前提交的任务，不再接受新的任务 </div><div class="line">     */</span>  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">shutdown</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</div><div class="line">    *  将暂停所有等待处理的任务并返回这些任务的列表</div><div class="line">    */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> List <span class="title">shutdownNow</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/** </div><div class="line">    * 判断执行器是否已经关闭 </div><div class="line">    */</span> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">boolean</span> <span class="title">isShutdown</span><span class="params">()</span></span>;</div><div class="line">    </div><div class="line">    <span class="comment">/** </div><div class="line">    * 关闭后所有任务是否都已完成 </div><div class="line">    */</span>  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">boolean</span> <span class="title">isTerminated</span><span class="params">()</span></span>;</div><div class="line">    </div><div class="line">    <span class="comment">/** </div><div class="line">    * 中断 </div><div class="line">    */</span>  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">boolean</span> <span class="title">awaitTermination</span><span class="params">(<span class="keyword">long</span> l, TimeUnit timeunit)</span></div><div class="line">        <span class="keyword">throws</span> InterruptedException</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** </div><div class="line">    * 提交一个Callable任务 </div><div class="line">    */</span>  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Future <span class="title">submit</span><span class="params">(Callable callable)</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Future <span class="title">submit</span><span class="params">(Runnable runnable, Object obj)</span></span>;</div><div class="line">    </div><div class="line">    <span class="comment">/** </div><div class="line">    * 提交一个Runable任务</div><div class="line">    */</span> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Future <span class="title">submit</span><span class="params">(Runnable runnable)</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> List <span class="title">invokeAll</span><span class="params">(Collection collection)</span></div><div class="line">        <span class="keyword">throws</span> InterruptedException</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> List <span class="title">invokeAll</span><span class="params">(Collection collection, <span class="keyword">long</span> l, TimeUnit timeunit)</span></div><div class="line">        <span class="keyword">throws</span> InterruptedException</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Object <span class="title">invokeAny</span><span class="params">(Collection collection)</span></div><div class="line">        <span class="keyword">throws</span> InterruptedException, ExecutionException</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Object <span class="title">invokeAny</span><span class="params">(Collection collection, <span class="keyword">long</span> l, TimeUnit timeunit)</span></div><div class="line">        <span class="keyword">throws</span> InterruptedException, ExecutionException, TimeoutException</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/21/java中多线程之Executor/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2018/09/12/ab压力测试/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1399,133 +1525,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2017/11/06/10月份学习小结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="我爱的乌托邦">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/touxiang.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jiemin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/06/10月份学习小结/" itemprop="url">
-                  10月份学习小结
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-06T15:25:55-05:00">
-                2017-11-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="学习小结"><a href="#学习小结" class="headerlink" title="学习小结"></a>学习小结</h1><p>国庆的时候在腾讯课堂报名了一门java全栈+大数据的课程，课程是周一到周六每天晚上8点半到10点半，到今天为止已经刚好一个月了，这一个月中，我主要重新温故了前端的html,css,javasript,jquery的内容，并根据课程做了相应的练习。由于在工作中用的是前后端分离，前端我已经很久没有接触了，这次重新学习感觉收获还是蛮大的，比如浮动和定位我更深程度上的理解了，还学习到了一些新的html5标签和css3的样式，js方面也系统的复习了一遍。</p>
-<p>读书百遍，其义自现。编程学习也是这样，我觉得我现在每天晚上听课虽然很多地方都学过，都知道，但听课中总能有新的理解和收获，接下来的一个月是学习javase和javaee方面的内容了，期待自己能有更大的收获和进步！</p>
-<h1 id="前端作业展示"><a href="#前端作业展示" class="headerlink" title="前端作业展示"></a>前端作业展示</h1><h2 id="入门作业"><a href="#入门作业" class="headerlink" title="入门作业"></a>入门作业</h2><p><a href="http://www.jmzhao.top/8.17/作业1.html">作业一</a></p>
-<p><a href="http://www.jmzhao.top/8.17/作业2.html">作业二</a></p>
-<p><a href="http://www.jmzhao.top/8.17/作业3.html">作业三</a></p>
-<p><a href="http://www.jmzhao.top/8.17/作业4.html">作业四</a></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/06/10月份学习小结/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1575,7 +1574,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-count">57</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1588,7 +1587,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

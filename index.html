@@ -247,6 +247,159 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2019/11/14/elasticsearch去重在JAVA项目中的应用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="我爱的乌托邦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jiemin's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/11/14/elasticsearch去重在JAVA项目中的应用/" itemprop="url">
+                  elasticsearch去重在JAVA项目中的应用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-14T04:46:17-05:00">
+                2019-11-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="ES环境配置"><a href="#ES环境配置" class="headerlink" title="ES环境配置"></a>ES环境配置</h1><ol>
+<li>ES版本:6.4.0</li>
+<li>ES集群服务器 3台</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>IP</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10.80.5.6</td>
+<td>master节点</td>
+</tr>
+<tr>
+<td>10.80.5.7</td>
+<td>data节点</td>
+</tr>
+<tr>
+<td>10.80.5.8</td>
+<td>data节点</td>
+</tr>
+</tbody>
+</table>
+<p> 配置文件示例</p>
+ <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">cluster.name: mic-ga-es <span class="comment"># 集群名字</span></div><div class="line"><span class="keyword">node</span>.name:<span class="title"> node-001</span>  <span class="comment"># 当前节点名字</span></div><div class="line"><span class="keyword">node</span>.master:<span class="title"> true</span>  <span class="comment"># 是否是主节点</span></div><div class="line">network.host: <span class="number">10.80</span>.<span class="number">5.9</span>  </div><div class="line"></div><div class="line"><span class="keyword">node</span>.data:<span class="title"> true</span> <span class="comment"># 是否是数据节点</span></div><div class="line">path.data: /opt/elasticsearch-<span class="number">6.4</span>.<span class="number">0</span>/data</div><div class="line">path.logs: /opt/elasticsearch-<span class="number">6.4</span>.<span class="number">0</span>/logs</div><div class="line">transport.tcp.port: <span class="number">9300</span></div><div class="line">http.port: <span class="number">9200</span></div><div class="line">discovery.zen.ping.unicast.hosts: [<span class="string">"10.80.5.6:9300"</span>,<span class="string">"10.80.5.7:9300"</span>,<span class="string">"10.80.5.8:9300"</span>]</div><div class="line">discovery.zen.minimum_master_nodes: <span class="number">1</span></div></pre></td></tr></table></figure>
+<ol>
+<li>启动命令</li>
+</ol>
+<p><code>/opt/elasticsearch-6.4.0/bin/elasticsearch -d</code><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/11/14/elasticsearch去重在JAVA项目中的应用/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2019/10/08/部署暗网站点/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1441,130 +1594,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2019/03/11/jconsole的小应用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="我爱的乌托邦">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/touxiang.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jiemin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/03/11/jconsole的小应用/" itemprop="url">
-                  jconsole的小应用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-11T22:43:31-04:00">
-                2019-03-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><p>当excel导出时发生了oom，优化代码后想查看下优化前和优化后导出excel时占用的内存差异，这个时候可以借助jconsole工具来进行查看。</p>
-<h1 id="调试步骤"><a href="#调试步骤" class="headerlink" title="调试步骤"></a>调试步骤</h1><p>测试类示例代码</p>
-<p>模拟50万条数据调用优化前和优化后excel工具类<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">@<span class="function">Test</div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testExport</span>(<span class="params"></span>) throws Exception </span>&#123;</div><div class="line">	<span class="keyword">long</span> startTime = System.currentTimeMillis();</div><div class="line">	ExcelData&lt;AiCallVO&gt; data = <span class="keyword">new</span> ExcelData&lt;&gt;();</div><div class="line">	List&lt;String&gt; titles = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">	titles.<span class="keyword">add</span>(<span class="string">"通话记录ID"</span>);</div><div class="line">	titles.<span class="keyword">add</span>(<span class="string">"客户姓名"</span>);</div><div class="line">	titles.<span class="keyword">add</span>(<span class="string">"客户手机"</span>);</div><div class="line">	titles.<span class="keyword">add</span>(<span class="string">"意向等级"</span>);</div><div class="line">	titles.<span class="keyword">add</span>(<span class="string">"通话时长"</span>);</div><div class="line">	titles.<span class="keyword">add</span>(<span class="string">"呼叫时间"</span>);</div><div class="line">	titles.<span class="keyword">add</span>(<span class="string">"通话状态"</span>);</div><div class="line">	titles.<span class="keyword">add</span>(<span class="string">"所属任务"</span>);</div><div class="line"></div><div class="line">	List&lt;AiCallVO&gt; volist = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">500000</span>; i++) &#123;</div><div class="line">		AiCallVO aiCallVO = <span class="keyword">new</span> AiCallVO();</div><div class="line">		aiCallVO.setCallDuration(i);</div><div class="line">		aiCallVO.setCallStartTime(<span class="string">"2019-03-07"</span>);</div><div class="line">		aiCallVO.setIntentionLevel(<span class="string">"A"</span>);</div><div class="line">		aiCallVO.setMobile(<span class="string">"13758270856"</span>);</div><div class="line">		aiCallVO.setName(<span class="string">"测试"</span>);</div><div class="line">		aiCallVO.setStatus(<span class="string">"已接通"</span>);</div><div class="line">		aiCallVO.setTaskName(<span class="string">"测试任务"</span> + i);</div><div class="line">		volist.<span class="keyword">add</span>(aiCallVO);</div><div class="line">	&#125;</div><div class="line">	data.setRows(volist);</div><div class="line">	data.setTitles(titles);</div><div class="line">	data.setName(<span class="string">"通话记录"</span>);</div><div class="line"></div><div class="line">	ExportExcel4BigDataUtil.exportExcel(data); <span class="meta">#优化后工具类</span></div><div class="line">	<span class="comment">//ExportExcelUtils.exportExcel(data); #优化前工具类</span></div><div class="line">	<span class="keyword">long</span> endTime = System.currentTimeMillis();</div><div class="line">	System.<span class="keyword">out</span>.println(endTime - startTime + <span class="string">"ms"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/03/11/jconsole的小应用/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1614,7 +1643,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-count">57</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1627,7 +1656,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
