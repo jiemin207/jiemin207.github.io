@@ -325,19 +325,13 @@
         
           
             <p>Mac版本: 10.11.6</p>
-<p>1.插入NTFS移动硬盘</p>
-<p>2.打开iterm2终端，输入以下命令<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">diskutil <span class="built_in">list</span></div></pre></td></tr></table></figure></p>
+<p>1、插入NTFS移动硬盘</p>
+<p>2、打开iterm2终端，输入以下命令<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">diskutil <span class="built_in">list</span></div></pre></td></tr></table></figure></p>
 <p><img src="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-12-14/diskutil.png" alt=""></p>
 <p>获取到移动硬盘磁盘名称</p>
-<ol>
-<li>编辑fstab文件</li>
-</ol>
+<p>3、编辑fstab文件</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">sudo vi /etc/fstab</div><div class="line"></div><div class="line"><span class="comment">## 输入以下内容</span></div><div class="line"><span class="keyword">LABEL</span><span class="bash">=photo none ntfs rw,auto,nobrowse</span></div><div class="line"><span class="keyword">LABEL</span><span class="bash">=music none ntfs rw,auto,nobrowse</span></div><div class="line"><span class="keyword">LABEL</span><span class="bash">=work none ntfs rw,auto,nobrowse</span></div></pre></td></tr></table></figure>
-<ol>
-<li>重启或者重新插拔移动硬盘</li>
-<li>进入Volumes目录并打开<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> /Volumes/</div><div class="line"><span class="keyword">open</span> ./</div></pre></td></tr></table></figure>
-</li>
-</ol>
+<p>4、重启或者重新插拔移动硬盘<br>5、进入Volumes目录并打开<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> /Volumes/</div><div class="line"><span class="keyword">open</span> ./</div></pre></td></tr></table></figure></p>
 <p>此时已经可以写入移动硬盘中的目录</p>
 <p><img src="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-12-14/file.png" alt=""></p>
 <p><strong>注意点</strong>: 移动硬盘的名称不要使用中文，否则会导致mac识别不了，这个问题暂时没找到解决办法</p>
