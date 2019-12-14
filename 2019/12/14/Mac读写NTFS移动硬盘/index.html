@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="其他," />
+  <meta name="keywords" content="mac," />
 
 
 
@@ -87,18 +87,43 @@
 
 
 
-<meta name="description" content="问题电脑强制关机后重新打开eclipse是在加载界面加载到”org.eclipse.mylyn.tasks.ui” 时卡住了，打不开eclipse了。之前我使用的解决方法是将工作空间下的.metadata目录整个删除，然后eclipse就能重新启动了。但这种解决方式会将eclipse所有的配置给删除了，需要重新设置，比较麻烦。经过网上搜索解决办法，尝试了几种后，确定了一种方法有效，在这里记录一下。">
+<meta name="description" content="Mac版本: 10.11.6
+1.插入NTFS移动硬盘
+2.打开iterm2终端，输入以下命令1diskutil list
+
+获取到移动硬盘磁盘名称
+
+编辑fstab文件
+
+123456sudo vi /etc/fstab## 输入以下内容LABEL=photo none ntfs rw,auto,nobrowseLABEL=music none ntfs rw,auto,nobrowseLABE">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Eclipse在Mac下启动时卡住问题">
-<meta property="og:url" content="http://jieminblog.tk/2018/04/02/Eclipse在Mac下启动时卡住问题/index.html">
+<meta property="og:title" content="Mac读写NTFS移动硬盘">
+<meta property="og:url" content="http://jieminblog.tk/2019/12/14/Mac读写NTFS移动硬盘/index.html">
 <meta property="og:site_name" content="jiemin's Blog">
-<meta property="og:description" content="问题电脑强制关机后重新打开eclipse是在加载界面加载到”org.eclipse.mylyn.tasks.ui” 时卡住了，打不开eclipse了。之前我使用的解决方法是将工作空间下的.metadata目录整个删除，然后eclipse就能重新启动了。但这种解决方式会将eclipse所有的配置给删除了，需要重新设置，比较麻烦。经过网上搜索解决办法，尝试了几种后，确定了一种方法有效，在这里记录一下。">
-<meta property="og:image" content="http://img.cdn.jmzhao.top/18-4-2/25397383.jpg">
-<meta property="og:updated_time" content="2019-02-14T09:08:00.720Z">
+<meta property="og:description" content="Mac版本: 10.11.6
+1.插入NTFS移动硬盘
+2.打开iterm2终端，输入以下命令1diskutil list
+
+获取到移动硬盘磁盘名称
+
+编辑fstab文件
+
+123456sudo vi /etc/fstab## 输入以下内容LABEL=photo none ntfs rw,auto,nobrowseLABEL=music none ntfs rw,auto,nobrowseLABE">
+<meta property="og:image" content="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-12-14/diskutil.png">
+<meta property="og:image" content="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-12-14/file.png">
+<meta property="og:updated_time" content="2019-12-14T07:07:21.768Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eclipse在Mac下启动时卡住问题">
-<meta name="twitter:description" content="问题电脑强制关机后重新打开eclipse是在加载界面加载到”org.eclipse.mylyn.tasks.ui” 时卡住了，打不开eclipse了。之前我使用的解决方法是将工作空间下的.metadata目录整个删除，然后eclipse就能重新启动了。但这种解决方式会将eclipse所有的配置给删除了，需要重新设置，比较麻烦。经过网上搜索解决办法，尝试了几种后，确定了一种方法有效，在这里记录一下。">
-<meta name="twitter:image" content="http://img.cdn.jmzhao.top/18-4-2/25397383.jpg">
+<meta name="twitter:title" content="Mac读写NTFS移动硬盘">
+<meta name="twitter:description" content="Mac版本: 10.11.6
+1.插入NTFS移动硬盘
+2.打开iterm2终端，输入以下命令1diskutil list
+
+获取到移动硬盘磁盘名称
+
+编辑fstab文件
+
+123456sudo vi /etc/fstab## 输入以下内容LABEL=photo none ntfs rw,auto,nobrowseLABEL=music none ntfs rw,auto,nobrowseLABE">
+<meta name="twitter:image" content="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-12-14/diskutil.png">
 
 
 
@@ -126,13 +151,13 @@
 
 
 
-  <link rel="canonical" href="http://jieminblog.tk/2018/04/02/Eclipse在Mac下启动时卡住问题/"/>
+  <link rel="canonical" href="http://jieminblog.tk/2019/12/14/Mac读写NTFS移动硬盘/"/>
 
 
 
 
 
-  <title> Eclipse在Mac下启动时卡住问题 | jiemin's Blog </title>
+  <title> Mac读写NTFS移动硬盘 | jiemin's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -251,7 +276,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2018/04/02/Eclipse在Mac下启动时卡住问题/">
+    <link itemprop="mainEntityOfPage" href="http://jieminblog.tk/2019/12/14/Mac读写NTFS移动硬盘/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="我爱的乌托邦">
@@ -272,7 +297,7 @@
             
             
               
-                Eclipse在Mac下启动时卡住问题
+                Mac读写NTFS移动硬盘
               
             
           </h1>
@@ -287,8 +312,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-02T15:40:56-04:00">
-                2018-04-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-14T02:06:29-05:00">
+                2019-12-14
               </time>
             
 
@@ -323,15 +348,23 @@
       
 
       
-        <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>电脑强制关机后重新打开eclipse是在加载界面加载到”org.eclipse.mylyn.tasks.ui” 时卡住了，打不开eclipse了。之前我使用的解决方法是将工作空间下的<code>.metadata</code>目录整个删除，然后eclipse就能重新启动了。但这种解决方式会将eclipse所有的配置给删除了，需要重新设置，比较麻烦。经过网上搜索解决办法，尝试了几种后，确定了一种方法有效，在这里记录一下。</p>
-<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><ol>
-<li><p>使用命令行窗口进入工作空间目录下，输入<code>cd .metadata/.plugins/org.eclipse.core.resources</code></p>
-</li>
-<li><p>使用rm命令或者手动删除含有snap的文件，例如“7.snap”<br><img src="http://img.cdn.jmzhao.top/18-4-2/25397383.jpg" alt=""></p>
-</li>
-<li><p>重启Eclipse</p>
+        <p>Mac版本: 10.11.6</p>
+<p>1.插入NTFS移动硬盘</p>
+<p>2.打开iterm2终端，输入以下命令<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">diskutil <span class="built_in">list</span></div></pre></td></tr></table></figure></p>
+<p><img src="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-12-14/diskutil.png" alt=""></p>
+<p>获取到移动硬盘磁盘名称</p>
+<ol>
+<li>编辑fstab文件</li>
+</ol>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">sudo vi /etc/fstab</div><div class="line"></div><div class="line"><span class="comment">## 输入以下内容</span></div><div class="line"><span class="keyword">LABEL</span><span class="bash">=photo none ntfs rw,auto,nobrowse</span></div><div class="line"><span class="keyword">LABEL</span><span class="bash">=music none ntfs rw,auto,nobrowse</span></div><div class="line"><span class="keyword">LABEL</span><span class="bash">=work none ntfs rw,auto,nobrowse</span></div></pre></td></tr></table></figure>
+<ol>
+<li>重启或者重新插拔移动硬盘</li>
+<li>进入Volumes目录并打开<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> /Volumes/</div><div class="line"><span class="keyword">open</span> ./</div></pre></td></tr></table></figure>
 </li>
 </ol>
+<p>此时已经可以写入移动硬盘中的目录</p>
+<p><img src="https://zjmoss.oss-cn-beijing.aliyuncs.com/19-12-14/file.png" alt=""></p>
+<p><strong>注意点</strong>: 移动硬盘的名称不要使用中文，否则会导致mac识别不了，这个问题暂时没找到解决办法</p>
 
       
     </div>
@@ -355,7 +388,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/其他/" rel="tag"># 其他</a>
+            <a href="/tags/mac/" rel="tag"># mac</a>
           
         </div>
       
@@ -368,8 +401,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/01/近三个月的那些事及2018年展望/" rel="next" title="近三个月的那些事及2018年展望">
-                <i class="fa fa-chevron-left"></i> 近三个月的那些事及2018年展望
+              <a href="/2019/11/14/elasticsearch去重在JAVA项目中的应用/" rel="next" title="elasticsearch去重在JAVA项目中的应用">
+                <i class="fa fa-chevron-left"></i> elasticsearch去重在JAVA项目中的应用
               </a>
             
           </div>
@@ -377,10 +410,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/02/postgresql安装及主从部署/" rel="prev" title="postgresql安装及主从部署">
-                postgresql安装及主从部署 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -427,17 +456,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/touxiang.jpeg"
@@ -490,22 +510,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决办法"><span class="nav-number">2.</span> <span class="nav-text">解决办法</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
